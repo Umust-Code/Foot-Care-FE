@@ -1,7 +1,8 @@
 import { css } from '@emotion/react';
-import { Button } from 'antd';
+import { Button, Input } from 'antd';
 import { requestSignin } from 'api/requests/requestAuth';
 import { useNavigate } from 'react-router-dom';
+
 
 const containerCss = css`
   width: 100%;
@@ -25,6 +26,8 @@ function SigninPanel() {
     <div css={containerCss}>
       <span>로그인 페이지</span>
       <div>
+        <Input placeholder="아이디" />
+        <Input placeholder="비밀번호" />
         <Button onClick={handleSignin}>로그인</Button>
       </div>
     </div>
