@@ -47,8 +47,9 @@ function SignupPanel() {
   });
 
   const onFinish = (values: any) => {
-    console.log(values);
-    signupMutation.mutate(values);
+    const { pwdConfirm, ...signupData } = values;
+    console.log(signupData);
+    signupMutation.mutate(signupData);
   };
 
   return (
