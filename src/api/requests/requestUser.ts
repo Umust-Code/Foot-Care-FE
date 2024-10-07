@@ -13,7 +13,7 @@ async function postSignup(data: Signup) {
   }
 }
 
-async function postSignin(data: Signup) {
+async function postSignin(data: Signin) {
   try {
     const res = await clientApi.post(API_SIGNIN, data);
     if (res.status !== 200) throw new Error(`Unexpected status code: ${res.status}`);
