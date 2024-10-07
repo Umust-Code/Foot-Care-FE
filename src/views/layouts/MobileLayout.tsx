@@ -5,7 +5,7 @@ const globalWrapperCss = css`
   height: calc(var(--vh, 1vh) * 100);
   border-radius: 0px;
   overflow: hidden;
-  background-color: #e05353;
+  background-color: #d1fdd3;
 `;
 
 function MobileLayout({ children }: { children: React.ReactNode }) {

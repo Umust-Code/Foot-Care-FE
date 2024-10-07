@@ -3,7 +3,6 @@ import { Button, Input } from 'antd';
 import { requestSignin } from 'api/requests/requestAuth';
 import { useNavigate } from 'react-router-dom';
 
-
 const containerCss = css`
   width: 100%;
   height: 100%;
@@ -22,6 +21,10 @@ function SigninPanel() {
     navigate('/');
   };
 
+  const handleSignup = () => {
+    navigate('/signup');
+  };
+
   return (
     <div css={containerCss}>
       <span>로그인 페이지</span>
@@ -29,6 +32,7 @@ function SigninPanel() {
         <Input placeholder="아이디" />
         <Input placeholder="비밀번호" />
         <Button onClick={handleSignin}>로그인</Button>
+        <Button onClick={handleSignup}>회원가입</Button>
       </div>
     </div>
   );
