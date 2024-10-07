@@ -22,7 +22,7 @@ const formCss = css`
 
 type FieldType = {
   id: string;
-  pwd: string;
+  password: string;
 };
 
 function SigninPanel() {
@@ -81,7 +81,7 @@ function SigninPanel() {
           <Input placeholder="아이디" />
         </Form.Item>
         <Form.Item<FieldType>
-          name="pwd"
+          name="password"
           label="비밀번호"
           rules={[{ required: true, message: '비밀번호를 입력해주세요.' }]}
         >

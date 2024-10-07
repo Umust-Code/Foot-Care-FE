@@ -1,9 +1,9 @@
 import { css } from '@emotion/react';
 import { Button, Input, Form, message } from 'antd';
-import { requestSignin } from 'api/requests/requestAuth';
 import { useNavigate } from 'react-router-dom';
 import { postSignup } from 'api/requests/requestUser';
 import { useMutation } from '@tanstack/react-query';
+import { Signup } from 'api/models/request';
 
 const containerCss = css`
   width: 100%;
@@ -48,7 +48,6 @@ function SignupPanel() {
 
   const onFinish = (values: any) => {
     const { pwdConfirm, ...signupData } = values;
-    console.log(signupData);
     signupMutation.mutate(signupData);
   };
 
