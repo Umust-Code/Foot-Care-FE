@@ -5,3 +5,8 @@ export interface Signup {
   phone: string;
   address: string;
 }
+
+export interface Signin {
+  id: string;
+  password: string;
+}
