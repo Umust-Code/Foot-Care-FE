@@ -5,6 +5,7 @@ import { MainPanel } from 'views/layouts/MainPanel';
 import { ErrorPage } from 'views/pages/ErrorPage';
 import { Home } from 'views/pages/Home';
 import { Signup } from 'views/pages/Signup';
+
 const AppRouter = createBrowserRouter([
   {
     path: '/signin',

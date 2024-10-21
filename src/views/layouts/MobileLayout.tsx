@@ -1,11 +1,11 @@
 import { css } from '@emotion/react';
-
+import { colorLight } from 'styles/colors';
 const globalWrapperCss = css`
   width: 100vw;
-  height: calc(var(--vh, 1vh) * 100);
+  height: 100dvh;
   border-radius: 0px;
   overflow: hidden;
-  background-color: #d1fdd3;
+  background-color: ${colorLight.primaryBgColor};
 `;
 
 function MobileLayout({ children }: { children: React.ReactNode }) {

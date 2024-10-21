@@ -2,30 +2,36 @@ import { css } from '@emotion/react';
 
 const globalCss = css`
   @font-face {
-    font-family: 'Pretendard-Light';
+    font-family: 'Lexend-Light';
     font-style: normal;
-    src: url('/assets/Pretendard-Light.woff2') format('woff2');
+    src: url('/assets/Lexend-Light.ttf') format('truetype');
   }
   @font-face {
-    font-family: 'Pretendard-Regular';
+    font-family: 'Lexend-Regular';
     font-style: normal;
-    src: url('/assets/Pretendard-Regular.woff2') format('woff2');
+    src: url('/assets/Lexend-Regular.ttf') format('truetype');
   }
   @font-face {
-    font-family: 'Pretendard-Medium';
+    font-family: 'Lexend-Medium';
     font-style: normal;
-    src: url('/assets/Pretendard-Medium.woff2') format('woff2');
+    src: url('/assets/Lexend-Medium.ttf') format('truetype');
   }
   @font-face {
-    font-family: 'Pretendard-Bold';
+    font-family: 'Lexend-Bold';
     font-style: normal;
-    src: url('/assets/Pretendard-Bold.woff2') format('woff2');
+    src: url('/assets/Lexend-Bold.ttf') format('truetype');
   }
   * {
     box-sizing: border-box; // padding 사이즈 포함하여 width, height 계산
     margin: 0;
     padding: 0;
-    font-family: 'Pretendard-Regular';
+    font-family: 'Lexend-Regular';
+  }
+  html,
+  body,
+  #root {
+    height: 100%;
+    min-height: -webkit-fill-available;
   }
 `;
 
