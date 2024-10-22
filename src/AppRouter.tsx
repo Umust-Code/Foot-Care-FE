@@ -5,6 +5,7 @@ import { MainPanel } from 'views/layouts/MainPanel';
 import { ErrorPage } from 'views/pages/ErrorPage';
 import { Home } from 'views/pages/Home';
 import { Signup } from 'views/pages/Signup';
+import { Survey } from 'views/pages/Survey';
 
 const AppRouter = createBrowserRouter([
   {
@@ -28,6 +29,10 @@ const AppRouter = createBrowserRouter([
       {
         path: '/',
         element: <Home />,
+      },
+      {
+        path: '/survey',
+        element: <Survey />,
       },
     ],
     errorElement: <ErrorPage />,

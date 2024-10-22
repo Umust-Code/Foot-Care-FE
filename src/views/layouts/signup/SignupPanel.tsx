@@ -6,13 +6,7 @@ import { postSignup } from 'api/requests/requestUser';
 import { useMutation } from '@tanstack/react-query';
 import { Signup } from 'api/models/request';
 import { colorLight } from 'styles/colors';
-
-const backButtonCss = css`
-  font-size: 24px;
-  position: absolute;
-  top: 40px;
-  left: 20px;
-`;
+import { BackButton } from 'views/components/BackButton';
 
 const containerCss = css`
   position: relative;
@@ -117,9 +111,7 @@ function SignupPanel() {
       autoComplete="off"
     >
       {contextHolder}
-      <div onClick={() => navigate('/signin')}>
-        <ArrowLeftOutlined css={backButtonCss} />
-      </div>
+      <BackButton />
       <span css={titleCss}>회원가입 페이지</span>
       <Form.Item<FieldType>
         name="id"

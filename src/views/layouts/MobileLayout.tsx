@@ -6,6 +6,7 @@ const globalWrapperCss = css`
   border-radius: 0px;
   overflow: hidden;
   background-color: ${colorLight.primaryBgColor};
+  color: ${colorLight.txtColor};
 `;
 
 function MobileLayout({ children }: { children: React.ReactNode }) {
