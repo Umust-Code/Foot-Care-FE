@@ -11,8 +11,21 @@ const antdLightTheme: ThemeConfig = {
     colorPrimary: colorLight.primaryColor,
     colorBgContainer: colorLight.primaryBgColor,
     colorBorder: colorLight.primaryBorderColor,
+    borderRadius: 6,
   },
   algorithm: theme.defaultAlgorithm,
 };
 
-export { antdLightTheme };
+const antdRadioTheme: ThemeConfig = {
+  cssVar: true,
+  token: {
+    fontSize: 16,
+    colorPrimary: colorLight.pointColor,
+    colorBgContainer: colorLight.primaryBgColor,
+    colorBorder: colorLight.primaryBorderColor,
+    borderRadius: 12,
+  },
+  algorithm: theme.defaultAlgorithm,
+};
+
+export { antdLightTheme, antdRadioTheme };

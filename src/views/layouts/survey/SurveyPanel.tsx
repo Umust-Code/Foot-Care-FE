@@ -1,7 +1,10 @@
-import { Progress, Radio } from 'antd';
+import { Button, Progress, Radio } from 'antd';
 import { css } from '@emotion/react';
-import { BackButton } from 'views/components/BackButton';
+import { BackButton } from 'views/components/Button/BackButton';
 import { colorLight } from 'styles/colors';
+import { ConfigProvider } from 'antd';
+import { antdRadioTheme } from 'styles/antdTheme';
+import { DefaultButton } from 'views/components/Button/DefaultButton';
 
 const progressCss = css`
   margin-top: 50px;
@@ -42,56 +45,65 @@ const questionTextCss = css`
 const radioGroupCss = css`
   width: 100%;
   margin-top: 20px;
+  && .ant-radio-button-wrapper::before {
+    display: none;
+  }
 `;
 
 const radioButtonCss = css`
   height: 50px;
   margin-bottom: 10px;
   border-radius: 12px;
-  border: 1px solid ${colorLight.pointColor};
   display: flex;
   align-items: center;
   padding: 0 15px;
-  /* &.ant-radio-button-wrapper:first-child {
-    border: 1px solid ${colorLight.pointColor};
-  }
-  &.ant-radio-button-wrapper::before {
-    display: none;
-  }
+  border: 1px solid ${colorLight.primaryBorderColor};
+  color: ${colorLight.txtColor};
+`;
 
-  &.ant-radio-button-wrapper-checked {
-    background-color: #e6f7ff;
-    border-color: #1890ff;
-  } */
+const buttonContainerCss = css`
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
 `;
 
 function SurveyPanel() {
   return (
-    <div css={containerCss}>
-      <BackButton />
-      <Progress
-        showInfo={false}
-        percent={25}
-        strokeColor={colorLight.pointColor}
-        css={progressCss}
-      />
-      <div css={questionNumberCss}>1번문항(전체 4문항)</div>
-      <div css={questionTextCss}>불편함을 겪으신지 얼마나 되셨나요?</div>
-      <Radio.Group css={radioGroupCss}>
-        <Radio.Button value="1" css={radioButtonCss}>
-          한 주 이내
-        </Radio.Button>
-        <Radio.Button value="2" css={radioButtonCss}>
-          1-2 주
-        </Radio.Button>
-        <Radio.Button value="3" css={radioButtonCss}>
-          3-4 주
-        </Radio.Button>
-        <Radio.Button value="4" css={radioButtonCss}>
-          한 달 이상 지남
-        </Radio.Button>
-      </Radio.Group>
-    </div>
+    <ConfigProvider theme={antdRadioTheme}>
+      <div css={containerCss}>
+        <BackButton />
+        <Progress
+          showInfo={false}
+          percent={25}
+          strokeColor={colorLight.pointColor}
+          css={progressCss}
+        />
+        <div css={questionNumberCss}>1번문항(전체 4문항)</div>
+        <div css={questionTextCss}>불편함을 겪으신지 얼마나 되셨나요?</div>
+        <Radio.Group css={radioGroupCss}>
+          <Radio.Button value="1" css={radioButtonCss}>
+            한 주 이내
+          </Radio.Button>
+          <Radio.Button value="2" css={radioButtonCss}>
+            1-2 주
+          </Radio.Button>
+          <Radio.Button value="3" css={radioButtonCss}>
+            3-4 주
+          </Radio.Button>
+          <Radio.Button value="4" css={radioButtonCss}>
+            한 달 이상 지남
+          </Radio.Button>
+        </Radio.Group>
+        <div css={buttonContainerCss}>
+          <DefaultButton isMain={false} width="75px">
+            이전
+          </DefaultButton>
+          <DefaultButton isMain={true} width="75px">
+            다음
+          </DefaultButton>
+        </div>
+      </div>
+    </ConfigProvider>
   );
 }
 

@@ -6,13 +6,8 @@ import { useNavigate } from 'react-router-dom';
 import { useMutation } from '@tanstack/react-query';
 import { postSignin } from 'api/requests/requestUser';
 import { colorLight } from 'styles/colors';
-
-const backButtonCss = css`
-  font-size: 24px;
-  position: absolute;
-  top: 40px;
-  left: 20px;
-`;
+import { DefaultButton } from 'views/components/Button/DefaultButton';
+import { BackButton } from 'views/components/Button/BackButton';
 
 const containerCss = css`
   position: relative;
@@ -54,38 +49,9 @@ const forgotPasswordCss = css`
   color: ${colorLight.primaryColor};
 `;
 
-const loginButtonCss = css`
-  width: 100%;
-  height: 40px;
-  background-color: ${colorLight.pointColor};
-  border-radius: 12px;
-
-  outline: none;
-  &:focus {
-    outline: none;
-  }
-`;
-
-const signupButtonCss = css`
-  width: 100%;
-  height: 40px;
-  background-color: ${colorLight.subBtnColor};
-  border-radius: 12px;
-
-  outline: none;
-  &:focus {
-    outline: none;
-  }
-`;
-
 const authTextCss = css`
   font-size: 16px;
   color: ${colorLight.txtColor};
-`;
-
-const buttonTextCss = css`
-  color: ${colorLight.txtColor};
-  font-family: 'Lexend-Bold';
 `;
 
 type FieldType = {
@@ -130,44 +96,35 @@ function SigninPanel() {
   };
 
   return (
-    <>
-      <Form
-        css={containerCss}
-        colon={false}
-        labelAlign="left"
-        labelCol={{ span: 8 }}
-        wrapperCol={{ span: 16 }}
-        onFinish={onFinish}
+    <Form css={containerCss} colon={false} labelAlign="left" onFinish={onFinish}>
+      <BackButton />
+      {contextHolder}
+      <span css={titleCss}>로그인</span>
+      <Form.Item<FieldType>
+        css={formItemCss}
+        name="id"
+        rules={[{ required: true, message: '이메일을 입력해주세요.' }]}
       >
-        <ArrowLeftOutlined css={backButtonCss} />
-        {contextHolder}
-        <span css={titleCss}>로그인</span>
-        <Form.Item<FieldType>
-          css={formItemCss}
-          name="id"
-          rules={[{ required: true, message: '이메일을 입력해주세요.' }]}
-        >
-          <Input placeholder="이메일 주소" css={inputCss} />
-        </Form.Item>
-        <Form.Item<FieldType>
-          css={formItemCss}
-          name="password"
-          rules={[{ required: true, message: '비밀번호를 입력해주세요.' }]}
-        >
-          <Input.Password placeholder="비밀번호" css={inputCss} />
-        </Form.Item>
-        <div css={forgotPasswordCss}>비밀번호를 잊으셨나요?</div>
-        <Button htmlType="submit" loading={signinMutation.isPending} css={loginButtonCss}>
-          <span css={buttonTextCss}>로그인</span>
-        </Button>
-        <Button onClick={handleSignup} css={signupButtonCss}>
-          <span css={buttonTextCss}>회원가입</span>
-        </Button>
-        <span css={authTextCss} onClick={handleAuth}>
-          또는, 간편 로그인 하기
-        </span>
-      </Form>
-    </>
+        <Input placeholder="이메일 주소" css={inputCss} />
+      </Form.Item>
+      <Form.Item<FieldType>
+        css={formItemCss}
+        name="password"
+        rules={[{ required: true, message: '비밀번호를 입력해주세요.' }]}
+      >
+        <Input.Password placeholder="비밀번호" css={inputCss} />
+      </Form.Item>
+      <div css={forgotPasswordCss}>비밀번호를 잊으셨나요?</div>
+      <DefaultButton htmlType="submit" loading={signinMutation.isPending} isMain={true}>
+        로그인
+      </DefaultButton>
+      <DefaultButton onClick={handleSignup} isMain={false}>
+        회원가입
+      </DefaultButton>
+      <span css={authTextCss} onClick={handleAuth}>
+        또는, 간편 로그인 하기
+      </span>
+    </Form>
   );
 }
 

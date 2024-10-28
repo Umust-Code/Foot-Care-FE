@@ -6,7 +6,7 @@ import { postSignup } from 'api/requests/requestUser';
 import { useMutation } from '@tanstack/react-query';
 import { Signup } from 'api/models/request';
 import { colorLight } from 'styles/colors';
-import { BackButton } from 'views/components/BackButton';
+import { BackButton } from 'views/components/Button/BackButton';
 
 const containerCss = css`
   position: relative;
