@@ -64,7 +64,8 @@ const radioButtonCss = css`
 const buttonContainerCss = css`
   width: 100%;
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
+  gap: 10px;
 `;
 
 function SurveyPanel() {

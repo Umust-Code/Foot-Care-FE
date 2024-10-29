@@ -1,5 +1,6 @@
 import { css } from '@emotion/react';
 import { Outlet } from 'react-router-dom';
+import { Footer } from './Footer';
 
 const containerCss = css`
   display: flex;
@@ -20,6 +21,7 @@ function MainPanel() {
       <div css={contentCss}>
         <Outlet />
       </div>
+      <Footer />
     </div>
   );
 }
