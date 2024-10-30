@@ -122,7 +122,7 @@ function SigninPanel() {
         회원가입
       </DefaultButton>
       <span css={authTextCss} onClick={handleAuth}>
-        또는, 간편 로그인 하기
+        또는, 간편 로그인 하기(임시 로그인 버튼)
       </span>
     </Form>
   );

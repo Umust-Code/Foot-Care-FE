@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 import { colorLight } from 'styles/colors';
 import { NavBar, TabBar } from 'antd-mobile';
 import { AppOutline, MessageOutline, UnorderedListOutline, UserOutline } from 'antd-mobile-icons';
-
+import { IoHome, IoSearch, IoCart, IoPersonCircleSharp } from 'react-icons/io5';
 const menuCss = css`
   width: 100%;
   height: 48px;
@@ -25,22 +25,22 @@ const tabs = [
   {
     key: '/',
     title: '홈',
-    icon: <AppOutline />,
+    icon: <IoHome />,
   },
   {
     key: '/content',
     title: '콘텐츠',
-    icon: <UnorderedListOutline />,
+    icon: <IoSearch />,
   },
   {
     key: '/shopping',
     title: '쇼핑',
-    icon: <MessageOutline />,
+    icon: <IoCart />,
   },
   {
     key: '/my-page',
     title: '마이페이지',
-    icon: <UserOutline />,
+    icon: <IoPersonCircleSharp />,
   },
 ];
 function Footer() {

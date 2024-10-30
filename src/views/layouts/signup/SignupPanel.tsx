@@ -7,6 +7,7 @@ import { useMutation } from '@tanstack/react-query';
 import { Signup } from 'api/models/request';
 import { colorLight } from 'styles/colors';
 import { BackButton } from 'views/components/Button/BackButton';
+import { DefaultButton } from 'views/components/Button/DefaultButton';
 
 const containerCss = css`
   position: relative;
@@ -40,18 +41,6 @@ const inputCss = css`
   height: 56px;
   font-size: 16px;
   border-radius: 12px;
-`;
-
-const signupButtonCss = css`
-  width: 100%;
-  height: 40px;
-  background-color: ${colorLight.pointColor};
-  border-radius: 12px;
-
-  outline: none;
-  &:focus {
-    outline: none;
-  }
 `;
 
 const CustomCheckbox = css`
@@ -101,15 +90,7 @@ function SignupPanel() {
   };
 
   return (
-    <Form
-      css={containerCss}
-      colon={false}
-      labelAlign="left"
-      labelCol={{ span: 8 }}
-      wrapperCol={{ span: 16 }}
-      onFinish={onFinish}
-      autoComplete="off"
-    >
+    <Form css={containerCss} colon={false} onFinish={onFinish} autoComplete="off">
       {contextHolder}
       <BackButton />
       <span css={titleCss}>회원가입 페이지</span>
@@ -180,9 +161,9 @@ function SignupPanel() {
         회원가입을 위해 이용약관 및 개인정보보호정책에 동의합니다
         <Checkbox css={CustomCheckbox} />
       </div>
-      <Button htmlType="submit" css={signupButtonCss}>
+      <DefaultButton htmlType="submit" isMain={true}>
         회원가입
-      </Button>
+      </DefaultButton>
     </Form>
   );
 }
