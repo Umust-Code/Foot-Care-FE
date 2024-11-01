@@ -13,6 +13,11 @@ const antdLightTheme: ThemeConfig = {
     colorBorder: colorLight.primaryBorderColor,
     borderRadius: 6,
   },
+  components: {
+    Input: {
+      activeShadow: 'none',
+    },
+  },
   algorithm: theme.defaultAlgorithm,
 };
 

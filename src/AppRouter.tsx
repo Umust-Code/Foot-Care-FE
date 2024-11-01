@@ -6,6 +6,7 @@ import { ErrorPage } from 'views/pages/ErrorPage';
 import { Home } from 'views/pages/Home';
 import { Signup } from 'views/pages/Signup';
 import { Survey } from 'views/pages/Survey';
+import { Content } from 'views/pages/Content';
 
 const AppRouter = createBrowserRouter([
   {
@@ -33,6 +34,10 @@ const AppRouter = createBrowserRouter([
       {
         path: '/survey',
         element: <Survey />,
+      },
+      {
+        path: '/content',
+        element: <Content />,
       },
     ],
     errorElement: <ErrorPage />,

@@ -4,7 +4,7 @@ const colorLight = {
   primaryBorderColor: '#DBE5E3',
   txtColor: '#121717',
   pointColor: '#1FE0BA',
-
+  borderColor: '#7e7e7e7c',
   subBtnColor: '#F0F5F2',
   subBtnColor2: '#E8F2F0',
 };

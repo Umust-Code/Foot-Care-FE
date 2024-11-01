@@ -3,23 +3,20 @@ import { css } from '@emotion/react';
 import { Button, Menu, MenuProps } from 'antd';
 import { requestSignout } from 'api/requests/requestAuth';
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { colorLight } from 'styles/colors';
 import { NavBar, TabBar } from 'antd-mobile';
 import { AppOutline, MessageOutline, UnorderedListOutline, UserOutline } from 'antd-mobile-icons';
 import { IoHome, IoSearch, IoCart, IoPersonCircleSharp } from 'react-icons/io5';
-const menuCss = css`
+
+const tabBarCss = css`
+  border-top: 1px solid ${colorLight.borderColor};
+  padding: 6px 0;
+  position: fixed;
+  bottom: 0;
   width: 100%;
-  height: 48px;
-  font-size: 14px;
+  background-color: ${colorLight.primaryBgColor};
 `;
-
-const sideButtonWrapperCss = css`
-  display: flex;
-  gap: 10px;
-`;
-
-type MenuItem = Required<MenuProps>['items'][number];
 
 const tabs = [
   {
@@ -45,6 +42,7 @@ const tabs = [
 ];
 function Footer() {
   const [curPath, setCurPath] = useState(window.location.pathname); // key
+  const navigate = useNavigate();
 
   const handleMenuItemClick = (e: any) => {
     setCurPath(e.key);
@@ -64,7 +62,14 @@ function Footer() {
   }, []);
 
   return (
-    <TabBar>
+    <TabBar
+      css={tabBarCss}
+      activeKey={curPath}
+      onChange={(key) => {
+        setCurPath(key as string);
+        navigate(key as string);
+      }}
+    >
       {tabs.map((item) => (
         <TabBar.Item key={item.key} icon={item.icon} title={item.title} />
       ))}
