@@ -131,7 +131,7 @@ function ContentPanel() {
         <JumboTabs.Tab title="제품 추천" description={null} key="9" />
       </JumboTabs>
       <div css={cardContainerCss}>
-        {categoryPost.data?.posts.map((item, index) => (
+        {categoryPost.data?.post.map((item, index) => (
           <ContentCard title={item.postName} like={item.likeCount} key={item.categoryId} />
         ))}
       </div>
