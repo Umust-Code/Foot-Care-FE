@@ -1,11 +1,11 @@
 import { useSearchParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import { Post } from 'api/models/response';
-import { getPosts } from 'api/requests/requestPost';
+import { Post, Comment } from 'api/models/response';
+import { getPosts, getComment, postComment } from 'api/requests/requestPost';
 import { useQuery, useMutation } from '@tanstack/react-query';
 import { css } from '@emotion/react';
 import { colorLight } from 'styles/colors';
-import { Input } from 'antd';
+import { Button, Input } from 'antd';
 
 const containerCss = css`
   width: 100%;
@@ -27,11 +27,21 @@ function PostPanel() {
     queryFn: () => getPosts(Number(postId)),
   });
 
-  const [comment, setComment] = useState('');
+  const comment = useQuery<Comment[]>({
+    queryKey: ['comment', postId],
+    queryFn: () => getComment(Number(postId)),
+  });
 
-  //   const postComment = useMutation({
-  //     mutationFn: () => postComment(Number(postId), comment),
-  //   });
+  const [addComment, setAddComment] = useState('');
+  const sendComment = useMutation({
+    mutationFn: () => postComment(Number(postId), { commentContent: addComment }),
+    onSuccess: () => {
+      comment.refetch();
+      setAddComment('');
+    },
+    onError: () => {},
+    onMutate: () => {},
+  });
 
   return (
     <div css={containerCss}>
@@ -45,9 +55,11 @@ function PostPanel() {
         <p>조회수: {post.data?.postView}</p>
         <Input
           placeholder="댓글을 입력하세요"
-          value={comment}
-          onChange={(e) => setComment(e.target.value)}
+          value={addComment}
+          onChange={(e) => setAddComment(e.target.value)}
         />
+        <Button onClick={() => sendComment.mutate()}>댓글 보내기</Button>
+        {comment.data?.map((comment) => <p key={comment.commentId}>{comment.commentContent}</p>)}
       </div>
     </div>
   );

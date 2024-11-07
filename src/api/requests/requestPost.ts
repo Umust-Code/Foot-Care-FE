@@ -1,6 +1,7 @@
 import { clientApi } from 'api/clientApi';
-import { API_POSTS, API_POSTS_CATEGORY } from 'api/constant';
-import { Post } from 'api/models/response';
+import { API_POSTS, API_POSTS_CATEGORY, API_POSTS_COMMENT } from 'api/constant';
+import { Post, Comment } from 'api/models/response';
+import { AddComment } from 'api/models/request';
 
 async function getPosts(postId: number) {
   try {
@@ -22,4 +23,22 @@ async function getPostsByCategory(categoryId: number) {
   }
 }
 
-export { getPosts, getPostsByCategory };
+async function getComment(postId: number) {
+  try {
+    const res = await clientApi.get<Comment[]>(`${API_POSTS_COMMENT}/${postId}`);
+    return res.data;
+  } catch (error) {
+    throw new Error(error instanceof Error ? error.message : '문제 발생');
+  }
+}
+
+async function postComment(postId: number, comment: AddComment) {
+  try {
+    const res = await clientApi.post(`${API_POSTS_COMMENT}/${postId}`, comment);
+    return res.data;
+  } catch (error) {
+    throw new Error(error instanceof Error ? error.message : '문제 발생');
+  }
+}
+
+export { getPosts, getPostsByCategory, getComment, postComment };

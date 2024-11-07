@@ -11,3 +11,10 @@ export interface Post {
   postView: number;
   likeCount: number;
 }
+
+export interface Comment {
+  commentId: number;
+  postId: number;
+  commentContent: string;
+  commentDate: string;
+}

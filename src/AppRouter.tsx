@@ -39,12 +39,10 @@ const AppRouter = createBrowserRouter([
       {
         path: '/content',
         element: <Content />,
-        children: [
-          {
-            path: '/content/post',
-            element: <Post />,
-          },
-        ],
+      },
+      {
+        path: '/post',
+        element: <Post />,
       },
     ],
     errorElement: <ErrorPage />,
