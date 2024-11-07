@@ -55,6 +55,12 @@ function PostPanel() {
     },
   });
 
+  useEffect(() => {
+    if (post.data?.likeCount !== undefined) {
+      setLikeCount(post.data.likeCount);
+    }
+  }, [post.data]);
+
   return (
     <div css={containerCss}>
       <h1>게시물 #{postId}</h1>
