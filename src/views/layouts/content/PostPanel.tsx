@@ -9,13 +9,13 @@ import { Button, Input } from 'antd';
 
 const containerCss = css`
   width: 100%;
-  height: 130px;
-  border: 1px solid ${colorLight.borderColor};
-  border-radius: 12px;
+  height: calc(100% - 52px);
   display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  overflow-y: auto;
   align-items: center;
-  justify-content: space-between;
-  padding: 10px;
+  gap: 10px;
 `;
 
 function PostPanel() {
