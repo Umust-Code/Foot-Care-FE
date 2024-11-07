@@ -1,7 +1,7 @@
 import { useSearchParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { Post, Comment } from 'api/models/response';
-import { getPosts, getComment, postComment } from 'api/requests/requestPost';
+import { getPosts, getComment, postComment, likePost, unlikePost } from 'api/requests/requestPost';
 import { useQuery, useMutation } from '@tanstack/react-query';
 import { css } from '@emotion/react';
 import { colorLight } from 'styles/colors';
@@ -43,6 +43,17 @@ function PostPanel() {
     onMutate: () => {},
   });
 
+  const [isLiked, setIsLiked] = useState(false);
+  const [likeCount, setLikeCount] = useState(0);
+
+  const likeMutation = useMutation({
+    mutationFn: () => (isLiked ? unlikePost(Number(postId)) : likePost(Number(postId))),
+    onSuccess: () => {
+      setIsLiked(!isLiked);
+      setLikeCount((prev) => (isLiked ? prev - 1 : prev + 1));
+    },
+  });
+
   return (
     <div css={containerCss}>
       <h1>게시물 #{postId}</h1>
@@ -59,6 +70,13 @@ function PostPanel() {
           onChange={(e) => setAddComment(e.target.value)}
         />
         <Button onClick={() => sendComment.mutate()}>댓글 보내기</Button>
+        <Button
+          onClick={() => likeMutation.mutate()}
+          type={isLiked ? 'primary' : 'default'}
+          loading={likeMutation.isPending}
+        >
+          좋아요 {likeCount}
+        </Button>
         {comment.data?.map((comment) => <p key={comment.commentId}>{comment.commentContent}</p>)}
       </div>
     </div>

@@ -41,4 +41,22 @@ async function postComment(postId: number, comment: AddComment) {
   }
 }
 
-export { getPosts, getPostsByCategory, getComment, postComment };
+async function likePost(postId: number) {
+  try {
+    const res = await clientApi.put(`${API_POSTS}/${postId}/like`);
+    return res.data;
+  } catch (error) {
+    throw new Error(error instanceof Error ? error.message : '문제 발생');
+  }
+}
+
+async function unlikePost(postId: number) {
+  try {
+    const res = await clientApi.put(`${API_POSTS}/${postId}/unlike`);
+    return res.data;
+  } catch (error) {
+    throw new Error(error instanceof Error ? error.message : '문제 발생');
+  }
+}
+
+export { getPosts, getPostsByCategory, getComment, postComment, likePost, unlikePost };

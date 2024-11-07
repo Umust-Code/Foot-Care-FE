@@ -7,6 +7,7 @@ import { getPosts, getPostsByCategory } from 'api/requests/requestPost';
 import { useQuery } from '@tanstack/react-query';
 import { Skeleton } from 'antd';
 import { Post } from 'api/models/response';
+
 const containerCss = css`
   width: 100%;
   height: calc(100% - 52px);
