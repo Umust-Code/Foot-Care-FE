@@ -58,7 +58,7 @@ function ContentCard(props: ContentCardProps) {
   };
 
   return (
-    <div css={containerCss} onClick={() => navigate(`/content/post?postId=${props.postId}`)}>
+    <div css={containerCss} onClick={() => navigate(`/post?postId=${props.postId}`)}>
       <div css={contentContainerCss}>
         <div css={titleCss}>
           {props.title}
