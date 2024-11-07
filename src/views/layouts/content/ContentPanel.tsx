@@ -32,6 +32,9 @@ function ContentPanel() {
     queryKey: ['category', categoryId],
     queryFn: () => getPostsByCategory(categoryId),
   });
+  if (categoryPost.data) {
+    console.log(categoryPost.data);
+  }
   // const sampleData = [
   //   {
   //     postId: 6,
@@ -131,7 +134,7 @@ function ContentPanel() {
         <JumboTabs.Tab title="제품 추천" description={null} key="9" />
       </JumboTabs>
       <div css={cardContainerCss}>
-        {categoryPost.data?.post.map((item, index) => (
+        {categoryPost.data?.data.map((item, index) => (
           <ContentCard title={item.postName} like={item.likeCount} key={item.categoryId} />
         ))}
       </div>

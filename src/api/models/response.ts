@@ -13,5 +13,5 @@ export interface Post {
 }
 
 export interface Posts {
-  post: Post[];
+  data: Post[];
 }
