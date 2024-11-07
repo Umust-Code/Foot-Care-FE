@@ -6,7 +6,7 @@ import { ContentCard } from './ContentCard';
 import { getPosts, getPostsByCategory } from 'api/requests/requestPost';
 import { useQuery } from '@tanstack/react-query';
 import { Skeleton } from 'antd';
-import { Post, Posts } from 'api/models/response';
+import { Post } from 'api/models/response';
 const containerCss = css`
   width: 100%;
   height: calc(100% - 52px);
@@ -33,9 +33,7 @@ function ContentPanel() {
     queryKey: ['category', categoryId],
     queryFn: () => getPostsByCategory(categoryId),
   });
-  if (categoryPost.data) {
-    console.log(categoryPost.data);
-  }
+
   // const sampleData = [
   //   {
   //     postId: 6,
@@ -139,7 +137,7 @@ function ContentPanel() {
           <Skeleton active />
         ) : (
           categoryPost.data?.map((item, index) => (
-            <ContentCard title={item.postName} like={item.likeCount} key={item.categoryId} />
+            <ContentCard title={item.postName} like={item.likeCount} key={item.postId} />
           ))
         )}
       </div>

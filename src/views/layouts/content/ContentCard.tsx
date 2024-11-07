@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
 import { colorLight } from 'styles/colors';
-
+import { useNavigate } from 'react-router-dom';
 const containerCss = css`
   width: 100%;
   height: 130px;
@@ -47,15 +47,17 @@ const moreCss = css`
 interface ContentCardProps {
   title: string;
   like: number;
+  key: number;
 }
 
 function ContentCard(props: ContentCardProps) {
+  const navigate = useNavigate();
   const formatNumber = (num: number): string => {
     return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
   };
 
   return (
-    <div css={containerCss}>
+    <div css={containerCss} onClick={() => navigate(`/content/post?postId=${props.key}`)}>
       <div css={contentContainerCss}>
         <div css={titleCss}>
           {props.title}

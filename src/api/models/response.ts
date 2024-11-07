@@ -11,7 +11,3 @@ export interface Post {
   postView: number;
   likeCount: number;
 }
-
-export interface Posts {
-  data: Post[];
-}

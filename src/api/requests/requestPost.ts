@@ -1,10 +1,10 @@
 import { clientApi } from 'api/clientApi';
 import { API_POSTS, API_POSTS_CATEGORY } from 'api/constant';
-import { Posts, Post } from 'api/models/response';
+import { Post } from 'api/models/response';
 
-async function getPosts() {
+async function getPosts(postId: number) {
   try {
-    const res = await clientApi.get<Posts>(API_POSTS);
+    const res = await clientApi.get<Post>(`${API_POSTS}/${postId}`);
     if (res.status !== 200) throw new Error(`Unexpected status code: ${res.status}`);
     return res.data;
   } catch (error) {
