@@ -51,6 +51,7 @@ function PostPanel() {
     onSuccess: () => {
       setIsLiked(!isLiked);
       setLikeCount((prev) => (isLiked ? prev - 1 : prev + 1));
+      comment.refetch();
     },
   });
 
@@ -63,6 +64,7 @@ function PostPanel() {
         <p>게시물 제목: {post.data?.postName}</p>
         <p>게시물 내용: {post.data?.postContentName}</p>
         <p>게시물 날짜: {post.data?.postDate}</p>
+        <p>좋아요 수: {post.data?.likeCount}</p>
         <p>조회수: {post.data?.postView}</p>
         <Input
           placeholder="댓글을 입력하세요"
