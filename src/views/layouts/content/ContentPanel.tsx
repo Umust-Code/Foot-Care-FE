@@ -5,7 +5,8 @@ import { JumboTabs } from 'antd-mobile';
 import { ContentCard } from './ContentCard';
 import { getPosts, getPostsByCategory } from 'api/requests/requestPost';
 import { useQuery } from '@tanstack/react-query';
-
+import { Skeleton } from 'antd';
+import { Post, Posts } from 'api/models/response';
 const containerCss = css`
   width: 100%;
   height: calc(100% - 52px);
@@ -28,7 +29,7 @@ const cardContainerCss = css`
 function ContentPanel() {
   const [categoryId, setCategoryId] = useState(0);
   // const allPost = useQuery({ queryKey: ['posts'], queryFn: getPosts });
-  const categoryPost = useQuery({
+  const categoryPost = useQuery<Post[], Error>({
     queryKey: ['category', categoryId],
     queryFn: () => getPostsByCategory(categoryId),
   });
@@ -134,9 +135,13 @@ function ContentPanel() {
         <JumboTabs.Tab title="제품 추천" description={null} key="9" />
       </JumboTabs>
       <div css={cardContainerCss}>
-        {categoryPost.data?.data.map((item, index) => (
-          <ContentCard title={item.postName} like={item.likeCount} key={item.categoryId} />
-        ))}
+        {categoryPost.isLoading ? (
+          <Skeleton active />
+        ) : (
+          categoryPost.data?.map((item, index) => (
+            <ContentCard title={item.postName} like={item.likeCount} key={item.categoryId} />
+          ))
+        )}
       </div>
     </div>
   );

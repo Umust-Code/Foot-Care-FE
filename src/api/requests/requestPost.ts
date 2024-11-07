@@ -1,6 +1,6 @@
 import { clientApi } from 'api/clientApi';
 import { API_POSTS, API_POSTS_CATEGORY } from 'api/constant';
-import { Posts } from 'api/models/response';
+import { Posts, Post } from 'api/models/response';
 
 async function getPosts() {
   try {
@@ -14,7 +14,7 @@ async function getPosts() {
 
 async function getPostsByCategory(categoryId: number) {
   try {
-    const res = await clientApi.get<Posts>(`${API_POSTS_CATEGORY}/${categoryId}`);
+    const res = await clientApi.get<Post[]>(`${API_POSTS_CATEGORY}/${categoryId}`);
     if (res.status !== 200) throw new Error(`Unexpected status code: ${res.status}`);
     return res.data;
   } catch (error) {
