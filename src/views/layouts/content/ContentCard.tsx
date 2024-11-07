@@ -48,6 +48,7 @@ interface ContentCardProps {
   title: string;
   like: number;
   key: number;
+  postId: number;
 }
 
 function ContentCard(props: ContentCardProps) {
@@ -57,7 +58,7 @@ function ContentCard(props: ContentCardProps) {
   };
 
   return (
-    <div css={containerCss} onClick={() => navigate(`/content/post?postId=${props.key}`)}>
+    <div css={containerCss} onClick={() => navigate(`/content/post?postId=${props.postId}`)}>
       <div css={contentContainerCss}>
         <div css={titleCss}>
           {props.title}
