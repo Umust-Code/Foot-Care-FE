@@ -18,6 +18,12 @@ const containerCss = css`
   gap: 10px;
 `;
 
+const likeCss = css`
+  width: 50px;
+  height: 24px;
+  font-size: 12px;
+`;
+
 function PostPanel() {
   const [searchParams] = useSearchParams();
   const postId = searchParams.get('postId');
@@ -63,28 +69,54 @@ function PostPanel() {
 
   return (
     <div css={containerCss}>
-      <h1>게시물 #{postId}</h1>
+      <h1>{post.data?.postName}</h1>
       <div>
-        <p>게시물 ID: {postId}</p>
-        <p>카테고리 ID: {post.data?.categoryId}</p>
-        <p>게시물 제목: {post.data?.postName}</p>
+        <div
+          css={css`
+            width: 100%;
+            height: 400px;
+            background-color: ${colorLight.primaryColor};
+          `}
+        ></div>
+        {/* <p>게시물 ID: {postId}</p> */}
+        {/* <p>카테고리 ID: {post.data?.categoryId}</p> */}
         <p>게시물 내용: {post.data?.postContentName}</p>
-        <p>게시물 날짜: {post.data?.postDate}</p>
-        <p>좋아요 수: {post.data?.likeCount}</p>
-        <p>조회수: {post.data?.postView}</p>
-        <Input
-          placeholder="댓글을 입력하세요"
-          value={addComment}
-          onChange={(e) => setAddComment(e.target.value)}
-        />
-        <Button onClick={() => sendComment.mutate()}>댓글 보내기</Button>
+        <div
+          css={css`
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            color: grey;
+          `}
+        >
+          <span> {post.data?.postDate}</span>
+          <span> {post.data?.postView}</span>
+        </div>
         <Button
+          css={likeCss}
           onClick={() => likeMutation.mutate()}
           type={isLiked ? 'primary' : 'default'}
           loading={likeMutation.isPending}
         >
           좋아요 {likeCount}
         </Button>
+        <div
+          css={css`
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+          `}
+        >
+          <Input
+            css={css`
+              width: 80%;
+            `}
+            placeholder="댓글을 입력하세요"
+            value={addComment}
+            onChange={(e) => setAddComment(e.target.value)}
+          />
+          <Button onClick={() => sendComment.mutate()}>전송</Button>
+        </div>
         {comment.data?.map((comment) => <p key={comment.commentId}>{comment.commentContent}</p>)}
       </div>
     </div>
