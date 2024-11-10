@@ -7,10 +7,9 @@ import { ConfigProvider } from 'antd';
 import { antdRadioTheme } from 'styles/antdTheme';
 import { DefaultButton } from 'views/components/Button/DefaultButton';
 import { useMutation } from '@tanstack/react-query';
-import { submitSurvey } from 'api/requests/requestSurvey';
+import { submitSurvey, completeSurvey } from 'api/requests/requestSurvey';
 import { calculateScores } from './surveyConverter';
-import { useSearchParams } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
+import { useSearchParams, useNavigate } from 'react-router-dom';
 const progressCss = css`
   margin-top: 50px;
   width: 100%;
@@ -83,6 +82,14 @@ function SurveyPanel() {
   const submitSurveyMutation = useMutation({
     mutationFn: () =>
       submitSurvey({ memberId: Number(memberId), scores: calculateScores(answers) }),
+
+    onSuccess: () => {
+      completeSurveyMutation.mutate();
+    },
+  });
+
+  const completeSurveyMutation = useMutation({
+    mutationFn: () => completeSurvey(Number(memberId)),
     onSuccess: () => {
       navigate('/');
     },
