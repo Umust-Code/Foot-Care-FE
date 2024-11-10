@@ -28,6 +28,19 @@ class Api {
         return Promise.reject(error);
       },
     );
+
+    this.client.interceptors.response.use(
+      (response) => response,
+      async (error) => {
+        if (error.response?.status === 401 || error.response?.status === 403) {
+          localStorage.removeItem('accessToken');
+          if (window.location.pathname !== '/signin') {
+            window.location.href = '/signin';
+          }
+        }
+        return Promise.reject(error);
+      },
+    );
   }
 
   public get<T>(path: string, config?: AxiosRequestConfig): Promise<AxiosResponse<T>> {
