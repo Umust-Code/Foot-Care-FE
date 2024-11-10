@@ -56,9 +56,15 @@ class Api {
             const refreshToken = localStorage.getItem('refreshToken');
             if (!refreshToken) throw new Error('No refresh token');
 
-            const response = await axios.post(`${BASE_URL}${API_REFRESH}`, {
-              refreshToken,
-            });
+            const response = await axios.post(
+              `${BASE_URL}${API_REFRESH}`,
+              {},
+              {
+                headers: {
+                  Authorization: `Bearer ${refreshToken}`,
+                },
+              },
+            );
 
             const { accessToken: newAccessToken } = response.data;
             localStorage.setItem('accessToken', newAccessToken);
