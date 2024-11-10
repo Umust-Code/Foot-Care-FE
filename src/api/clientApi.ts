@@ -4,10 +4,12 @@ import axios, {
   AxiosResponse,
   CreateAxiosDefaults,
 } from 'axios';
-import { BASE_URL, PUBLIC_PATHS } from './constant';
+import { BASE_URL, PUBLIC_PATHS, API_REFRESH } from './constant';
 
 class Api {
   private client: AxiosInstance;
+  private isRefreshing = false;
+  private refreshSubscribers: ((token: string) => void)[] = [];
 
   constructor(config?: CreateAxiosDefaults) {
     this.client = axios.create(config);
@@ -29,18 +31,68 @@ class Api {
       },
     );
 
-    // this.client.interceptors.response.use(
-    //   (response) => response,
-    //   async (error) => {
-    //     if (error.response?.status === 401 || error.response?.status === 403) {
-    //       localStorage.removeItem('accessToken');
-    //       if (window.location.pathname !== '/signin') {
-    //         window.location.href = '/signin';
-    //       }
-    //     }
-    //     return Promise.reject(error);
-    //   }
-    // );
+    this.client.interceptors.response.use(
+      (response) => response,
+      async (error) => {
+        const originalRequest = error.config;
+
+        if (error.response?.status === 401 && !originalRequest._retry) {
+          if (this.isRefreshing) {
+            try {
+              const token = await new Promise<string>((resolve) => {
+                this.refreshSubscribers.push(resolve);
+              });
+              originalRequest.headers.Authorization = `Bearer ${token}`;
+              return this.client(originalRequest);
+            } catch (err) {
+              return Promise.reject(err);
+            }
+          }
+
+          originalRequest._retry = true;
+          this.isRefreshing = true;
+
+          try {
+            const refreshToken = localStorage.getItem('refreshToken');
+            if (!refreshToken) throw new Error('No refresh token');
+
+            const response = await axios.post(`${BASE_URL}${API_REFRESH}`, {
+              refreshToken,
+            });
+
+            const { accessToken: newAccessToken } = response.data;
+            localStorage.setItem('accessToken', newAccessToken);
+
+            this.refreshSubscribers.forEach((callback) => callback(newAccessToken));
+            this.refreshSubscribers = [];
+
+            originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
+            return this.client(originalRequest);
+          } catch (refreshError) {
+            localStorage.removeItem('accessToken');
+            localStorage.removeItem('refreshToken');
+            if (window.location.pathname !== '/signin') {
+              // window.location.href = '/signin';
+              console.log('로그인으로 리다이렉트 할 예정');
+            }
+            return Promise.reject(refreshError);
+          } finally {
+            this.isRefreshing = false;
+          }
+        }
+
+        if (error.response?.status === 403) {
+          localStorage.removeItem('accessToken');
+          localStorage.removeItem('refreshToken');
+          if (window.location.pathname !== '/signin') {
+            // window.location.href = '/signin';
+            console.log('로그인으로 리다이렉트 할 예정');
+          }
+        }
+
+        return Promise.reject(error);
+      },
+    );
   }
 
   public get<T>(path: string, config?: AxiosRequestConfig): Promise<AxiosResponse<T>> {
