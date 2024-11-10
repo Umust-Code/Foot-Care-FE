@@ -7,6 +7,9 @@ const API_POSTS_CATEGORY = '/posts/category';
 const API_POSTS_COMMENT = '/comments/post';
 const API_SURVEY_SUBMIT = '/disease-survey/submit-scores';
 
+// 토큰이 필요없는 API 경로들
+export const PUBLIC_PATHS = [API_SIGNUP, API_SIGNIN];
+
 export {
   BASE_URL,
   API_SIGNUP,

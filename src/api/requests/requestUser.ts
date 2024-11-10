@@ -1,7 +1,7 @@
 import { clientApi } from 'api/clientApi';
 import { API_SIGNUP, API_SIGNIN } from 'api/constant';
 import { Signup, Signin } from 'api/models/request';
-import { SignupResponse } from 'api/models/response';
+import { SigninResponse } from 'api/models/response';
 
 async function postSignup(data: Signup) {
   try {
@@ -13,9 +13,9 @@ async function postSignup(data: Signup) {
   }
 }
 
-async function postSignin(data: Signin) {
+async function postSignin(data: Signin): Promise<SigninResponse> {
   try {
-    const res = await clientApi.post(API_SIGNIN, data);
+    const res = await clientApi.post<SigninResponse>(API_SIGNIN, data);
     if (res.status !== 200) throw new Error(`Unexpected status code: ${res.status}`);
     return res.data;
   } catch (error) {

@@ -65,7 +65,10 @@ function SigninPanel() {
 
   const signinMutation = useMutation({
     mutationFn: postSignin,
-    onSuccess: () => {
+    onSuccess: (data) => {
+      localStorage.setItem('accessToken', data.accessToken);
+      localStorage.setItem('refreshToken', data.refreshToken);
+
       requestSignin();
       messageApi.open({
         type: 'success',
