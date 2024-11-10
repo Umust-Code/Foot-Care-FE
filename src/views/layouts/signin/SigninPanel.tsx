@@ -74,7 +74,11 @@ function SigninPanel() {
         type: 'success',
         content: '로그인 성공',
       });
-      navigate('/');
+      if (data.isSurveyCompleted === 'N') {
+        navigate(`/survey?memberId=${data.memberId}`);
+      } else {
+        navigate('/');
+      }
     },
     onError: (error) => {
       messageApi.open({

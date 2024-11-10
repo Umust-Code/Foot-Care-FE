@@ -6,6 +6,7 @@ import { useQuery, useMutation } from '@tanstack/react-query';
 import { css } from '@emotion/react';
 import { colorLight } from 'styles/colors';
 import { Button, Input } from 'antd';
+import { BackButton } from 'views/components/Button/BackButton';
 
 const containerCss = css`
   width: 100%;
@@ -69,6 +70,7 @@ function PostPanel() {
 
   return (
     <div css={containerCss}>
+      <BackButton />
       <h1>{post.data?.postName}</h1>
       <div>
         <div

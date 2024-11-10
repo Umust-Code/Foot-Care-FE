@@ -21,4 +21,6 @@ export interface Comment {
 export interface SigninResponse {
   accessToken: string;
   refreshToken: string;
+  isSurveyCompleted: 'N' | 'Y';
+  memberId: number;
 }

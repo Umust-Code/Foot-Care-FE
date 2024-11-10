@@ -9,7 +9,8 @@ import { DefaultButton } from 'views/components/Button/DefaultButton';
 import { useMutation } from '@tanstack/react-query';
 import { submitSurvey } from 'api/requests/requestSurvey';
 import { calculateScores } from './surveyConverter';
-
+import { useSearchParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 const progressCss = css`
   margin-top: 50px;
   width: 100%;
@@ -75,11 +76,15 @@ const buttonContainerCss = css`
 function SurveyPanel() {
   const [surveyPercent, setSurveyPercent] = useState(1);
   const [answers, setAnswers] = useState<number[]>(new Array(24).fill(0));
+  const [userParams] = useSearchParams();
+  const navigate = useNavigate();
+  const memberId = userParams.get('memberId');
 
   const submitSurveyMutation = useMutation({
-    mutationFn: () => submitSurvey({ memberId: 1, scores: calculateScores(answers) }),
+    mutationFn: () =>
+      submitSurvey({ memberId: Number(memberId), scores: calculateScores(answers) }),
     onSuccess: () => {
-      console.log('성공');
+      navigate('/');
     },
   });
 
