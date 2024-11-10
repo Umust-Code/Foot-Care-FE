@@ -80,7 +80,7 @@ function PostPanel() {
         ></div>
         {/* <p>게시물 ID: {postId}</p> */}
         {/* <p>카테고리 ID: {post.data?.categoryId}</p> */}
-        <p>게시물 내용: {post.data?.postContentName}</p>
+        <p>{post.data?.postContentName}</p>
         <div
           css={css`
             display: flex;
@@ -90,7 +90,7 @@ function PostPanel() {
           `}
         >
           <span> {post.data?.postDate}</span>
-          <span> {post.data?.postView}</span>
+          <span> 조회수 {post.data?.postView}</span>
         </div>
         <Button
           css={likeCss}

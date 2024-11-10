@@ -38,13 +38,20 @@ const searchInputCss = css`
 
 interface SearchInputProps {
   placeholder: string;
+  value: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 function SearchInput(props: SearchInputProps) {
   return (
     <div css={searchContainerCss}>
       <IoSearch size={24} css={searchIconCss} />
-      <Input css={searchInputCss} placeholder={props.placeholder} />
+      <Input
+        css={searchInputCss}
+        placeholder={props.placeholder}
+        value={props.value}
+        onChange={props.onChange}
+      />
     </div>
   );
 }

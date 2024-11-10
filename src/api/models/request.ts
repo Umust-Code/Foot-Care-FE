@@ -17,3 +17,8 @@ export interface Category {
 export interface AddComment {
   commentContent: string;
 }
+
+export interface Survey {
+  memberId: number;
+  scores: { categoryId: number; score: number }[];
+}

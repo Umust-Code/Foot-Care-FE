@@ -35,9 +35,15 @@ function ContentPanel() {
     queryFn: () => getPostsByCategory(categoryId),
   });
 
+  const [search, setSearch] = useState('');
+
   return (
     <div css={containerCss}>
-      <SearchInput placeholder="게시물 검색" />
+      <SearchInput
+        placeholder="게시물 검색"
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
+      />
       <JumboTabs style={{ width: '100%' }} onChange={(key) => setCategoryId(Number(key))}>
         <JumboTabs.Tab title="모든 카테고리" description={null} key="0" />
         <JumboTabs.Tab title="족저근막염" description={null} key="1" />
