@@ -37,6 +37,15 @@ function ContentPanel() {
 
   const [search, setSearch] = useState('');
 
+  const filteredPosts = categoryPost.data?.filter((post) => {
+    if (!search) return true; // 검색어가 없으면 모든 게시물 표시
+
+    return (
+      post.postName.toLowerCase().includes(search.toLowerCase()) ||
+      post.postContentName?.toLowerCase().includes(search.toLowerCase())
+    );
+  });
+
   return (
     <div css={containerCss}>
       <SearchInput
@@ -60,7 +69,7 @@ function ContentPanel() {
         {categoryPost.isLoading ? (
           <Skeleton active />
         ) : (
-          categoryPost.data?.map((item, index) => (
+          filteredPosts?.map((item) => (
             <ContentCard
               title={item.postName}
               like={item.likeCount}
