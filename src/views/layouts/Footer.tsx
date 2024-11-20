@@ -35,7 +35,7 @@ const tabs = [
     icon: <IoCart />,
   },
   {
-    key: '/my-page',
+    key: '/mypage',
     title: '마이페이지',
     icon: <IoPersonCircleSharp />,
   },

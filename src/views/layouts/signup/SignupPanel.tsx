@@ -27,7 +27,7 @@ const containerCss = css`
 
 const titleCss = css`
   font-size: 26px;
-  font-family: 'Lexend-Bold';
+  font-family: 'Pretendard-Bold';
   margin-bottom: 20px;
 `;
 
@@ -96,7 +96,7 @@ function SignupPanel() {
       <span css={titleCss}>회원가입 페이지</span>
       <Form.Item<FieldType>
         name="id"
-        rules={[{ required: true, message: '아이디를 입력해주세요.' }]}
+        rules={[{ required: true, message: '이메일을 입력해주세요.' }]}
         css={formItemCss}
       >
         <Input placeholder="이메일 주소" css={inputCss} />

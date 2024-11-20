@@ -39,7 +39,7 @@ const inputCss = css`
 
 const titleCss = css`
   font-size: 26px;
-  font-family: 'Lexend-Bold';
+  font-family: 'Pretendard-Bold';
   margin-bottom: 20px;
 `;
 

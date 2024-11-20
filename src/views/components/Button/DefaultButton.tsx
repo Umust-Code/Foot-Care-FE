@@ -23,7 +23,7 @@ const buttonCss = (width: string, isMain: boolean) => css`
 
 const buttonTextCss = css`
   color: ${colorLight.txtColor};
-  font-family: 'Lexend-Bold';
+  font-family: 'Pretendard-Bold';
 `;
 
 function DefaultButton({ width = '100%', isMain = false, children, ...props }: CustomButtonProps) {

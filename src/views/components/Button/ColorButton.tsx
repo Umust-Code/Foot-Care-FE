@@ -24,7 +24,7 @@ const buttonCss = (width: string) => css`
 
 const buttonTextCss = css`
   color: ${colorLight.primaryColor};
-  font-family: 'Lexend-Bold';
+  font-family: 'Pretendard-Bold';
 `;
 
 function ColorButton({ width = '100%', children, ...props }: CustomButtonProps) {

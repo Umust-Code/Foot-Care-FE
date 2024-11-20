@@ -8,6 +8,8 @@ import { Signup } from 'views/pages/Signup';
 import { Survey } from 'views/pages/Survey';
 import { Content } from 'views/pages/Content';
 import { Post } from 'views/pages/Post';
+import { Mypage } from 'views/pages/Mypage';
+import { ChangeInfo } from 'views/pages/ChangeInfo';
 
 const AppRouter = createBrowserRouter([
   {
@@ -43,6 +45,14 @@ const AppRouter = createBrowserRouter([
       {
         path: '/post',
         element: <Post />,
+      },
+      {
+        path: '/mypage',
+        element: <Mypage />,
+      },
+      {
+        path: '/change-info',
+        element: <ChangeInfo />,
       },
     ],
     errorElement: <ErrorPage />,

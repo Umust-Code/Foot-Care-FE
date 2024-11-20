@@ -43,7 +43,7 @@ const questionTextCss = css`
   margin-top: 30px;
   font-size: 24px;
   width: 100%;
-  font-family: 'Lexend-Bold';
+  font-family: 'Pretendard-Bold';
 `;
 
 const radioGroupCss = css`

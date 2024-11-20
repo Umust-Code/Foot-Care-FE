@@ -43,7 +43,7 @@ const hotContentCss = css`
 `;
 
 const titleCss = css`
-  font-family: 'Lexend-Bold';
+  font-family: 'Pretendard-Bold';
   font-size: 22px;
 `;
 
