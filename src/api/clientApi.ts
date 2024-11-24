@@ -78,8 +78,8 @@ class Api {
             localStorage.removeItem('accessToken');
             localStorage.removeItem('refreshToken');
             if (window.location.pathname !== '/signin') {
-              window.location.href = '/signin';
-              // console.log('로그인으로 리다이렉트 할 예정');
+              // window.location.href = '/signin';
+              console.log('로그인으로 리다이렉트 할 예정');
             }
             return Promise.reject(refreshError);
           } finally {
@@ -91,8 +91,8 @@ class Api {
           localStorage.removeItem('accessToken');
           localStorage.removeItem('refreshToken');
           if (window.location.pathname !== '/signin') {
-            window.location.href = '/signin';
-            // console.log('로그인으로 리다이렉트 할 예정');
+            // window.location.href = '/signin';
+            console.log('로그인으로 리다이렉트 할 예정');
           }
         }
 
