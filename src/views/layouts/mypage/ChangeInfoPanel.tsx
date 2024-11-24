@@ -83,6 +83,7 @@ function ChangeInfoPanel() {
   });
 
   const onFinish = (values: any) => {
+    console.log(values);
     changeInfoMutation.mutate(values);
   };
 
@@ -90,23 +91,30 @@ function ChangeInfoPanel() {
     <div css={containerCss}>
       <BackButton />
       <div css={titleCss}>내 정보 수정</div>
-      <Form layout="vertical" css={formCss} colon={false} onFinish={onFinish} autoComplete="off">
+      <Form
+        layout="vertical"
+        css={formCss}
+        colon={false}
+        onFinish={onFinish}
+        autoComplete="off"
+        initialValues={{
+          id: userData.data?.id,
+          name: userData.data?.name,
+          address: userData.data?.address,
+          phone: userData.data?.phone,
+        }}
+      >
         <Form.Item<FieldType> label="이메일" name="id" css={formItemCss}>
-          <Input
-            placeholder="이메일 주소"
-            css={inputCss}
-            defaultValue={userData.data?.id}
-            disabled
-          />
+          <Input placeholder="이메일 주소" css={inputCss} disabled />
         </Form.Item>
         <Form.Item<FieldType> label="닉네임" name="name" css={formItemCss}>
-          <Input placeholder="닉네임" css={inputCss} defaultValue={userData.data?.name} />
+          <Input placeholder="닉네임" css={inputCss} />
         </Form.Item>
         <Form.Item<FieldType> label="주소" name="address" css={formItemCss}>
-          <Input placeholder="주소" css={inputCss} defaultValue={userData.data?.address} />
+          <Input placeholder="주소" css={inputCss} />
         </Form.Item>
         <Form.Item<FieldType> label="전화번호" name="phone" css={formItemCss}>
-          <Input placeholder="전화번호" css={inputCss} defaultValue={userData.data?.phone} />
+          <Input placeholder="전화번호" css={inputCss} />
         </Form.Item>
         <div css={buttonContainerCss}>
           <DefaultButton isMain={true} width="75px" htmlType="submit">
