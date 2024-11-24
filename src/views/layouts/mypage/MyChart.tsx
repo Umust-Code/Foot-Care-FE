@@ -42,8 +42,10 @@ function MyChart() {
     },
   ];
   const convertData = transformChartData(surveyData.data);
+  // const convertData = transformChartData(sampleData);
 
   return <>{surveyData.isLoading ? <div>Loading...</div> : <LineChart data={convertData} />}</>;
+  // return <LineChart data={convertData} />;
 }
 
 export { MyChart };
