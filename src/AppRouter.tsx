@@ -11,7 +11,7 @@ import { Post } from 'views/pages/Post';
 import { Mypage } from 'views/pages/Mypage';
 import { ChangeInfo } from 'views/pages/ChangeInfo';
 import { LikePanel } from 'views/layouts/mypage/LikePanel';
-import { MyChart123 } from 'views/layouts/mypage/MyChart123';
+import { MyChart } from 'views/layouts/mypage/MyChart';
 
 const AppRouter = createBrowserRouter([
   {
@@ -62,7 +62,7 @@ const AppRouter = createBrowserRouter([
       },
       {
         path: '/line-chart',
-        element: <MyChart123 />,
+        element: <MyChart />,
       },
     ],
     errorElement: <ErrorPage />,

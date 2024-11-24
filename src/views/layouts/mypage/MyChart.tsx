@@ -5,7 +5,7 @@ import { LineChart } from 'views/components/Chart/LineChart';
 import { transformChartData } from './converter';
 import { useUserInfoStore } from 'stores/userStore';
 
-function MyChart123() {
+function MyChart() {
   const { userInfo } = useUserInfoStore();
   const surveyData = useQuery({
     queryKey: ['surveyData', userInfo.memberId],
@@ -54,4 +54,4 @@ function MyChart123() {
   );
 }
 
-export { MyChart123 };
+export { MyChart };
