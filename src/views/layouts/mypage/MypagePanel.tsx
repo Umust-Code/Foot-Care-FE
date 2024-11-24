@@ -1,9 +1,12 @@
 import { css } from '@emotion/react';
 import { IoPersonCircleSharp } from 'react-icons/io5';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useMutation } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import { useUserInfoStore } from 'stores/userStore';
 import { getUserData } from 'api/requests/requestUser';
+import { ConfirmModal } from 'views/components/Modal/confirmModal';
+import { useState } from 'react';
+import { deleteUser } from 'api/requests/requestUser';
 
 const containerCss = css`
   width: 100%;
@@ -84,6 +87,32 @@ function MypagePanel() {
     queryFn: () => getUserData(userInfo.memberId),
   });
 
+  const [logoutModalOpen, setLogoutModalOpen] = useState(false);
+  const [withdrawalModalOpen, setWithdrawalModalOpen] = useState(false);
+
+  const deleteUserMutation = useMutation({
+    mutationFn: () => deleteUser(userInfo.memberId),
+    onSuccess: () => {
+      setWithdrawalModalOpen(true);
+    },
+  });
+
+  const logoutHandler = () => {
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('refreshToken');
+    setLogoutModalOpen(true);
+  };
+
+  const closeLogoutModal = () => {
+    setLogoutModalOpen(false);
+    navigate('/signin');
+  };
+
+  const closeWithdrawalModal = () => {
+    setWithdrawalModalOpen(false);
+    navigate('/signin');
+  };
+
   return (
     <div css={containerCss}>
       <div css={myInfoCardCss}>
@@ -123,11 +152,33 @@ function MypagePanel() {
           회원 정보 수정
         </div>
         <div css={hrCss} />
-        <div css={menuListCss}>로그아웃</div>
+        <div css={menuListCss} onClick={logoutHandler}>
+          로그아웃
+        </div>
         <div css={hrCss} />
-        <div css={menuListCss}>회원 탈퇴</div>
+        <div css={menuListCss} onClick={() => deleteUserMutation.mutate()}>
+          회원 탈퇴
+        </div>
         <div css={hrCss} />
       </div>
+
+      <ConfirmModal
+        open={withdrawalModalOpen}
+        close={closeWithdrawalModal}
+        title="회원 탈퇴"
+        confirmText="회원 탈퇴가 완료되었습니다."
+        okText="확인"
+        cancelText="취소"
+      />
+
+      <ConfirmModal
+        open={logoutModalOpen}
+        close={closeLogoutModal}
+        title="로그아웃"
+        confirmText="로그아웃이 완료되었습니다."
+        okText="확인"
+        cancelText="취소"
+      />
     </div>
   );
 }

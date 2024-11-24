@@ -41,4 +41,13 @@ async function putChangeInfo(memberId: number, data: ChangeInfo) {
   }
 }
 
-export { postSignup, postSignin, getUserData, putChangeInfo };
+async function deleteUser(memberId: number) {
+  try {
+    const res = await clientApi.delete(`${API_USERS}/${memberId}/delete`);
+    return res.data;
+  } catch (error) {
+    throw new Error(error instanceof Error ? error.message : '문제 발생');
+  }
+}
+
+export { postSignup, postSignin, getUserData, putChangeInfo, deleteUser };
