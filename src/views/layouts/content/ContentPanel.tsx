@@ -108,7 +108,7 @@ function ContentPanel() {
         {categoryPost.isLoading ? (
           <Skeleton active />
         ) : (
-          samplePost?.map((item) => (
+          filteredPosts?.map((item) => (
             <ContentCard
               title={item.postName}
               like={item.likeCount}

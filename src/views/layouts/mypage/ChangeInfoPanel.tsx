@@ -1,4 +1,5 @@
 import { css } from '@emotion/react';
+import { useState } from 'react';
 import { BackButton } from 'views/components/Button/BackButton';
 import { Form, Input } from 'antd';
 import { DefaultButton } from 'views/components/Button/DefaultButton';
@@ -6,7 +7,8 @@ import { useUserInfoStore } from 'stores/userStore';
 import { useQuery, useMutation } from '@tanstack/react-query';
 import { getUserData, putChangeInfo } from 'api/requests/requestUser';
 import { ChangeInfo } from 'api/models/request';
-
+import { ConfirmModal } from 'views/components/Modal/confirmModal';
+import { useNavigate } from 'react-router-dom';
 const containerCss = css`
   width: 100%;
   height: calc(100% - 52px);
@@ -60,6 +62,12 @@ type FieldType = {
 };
 
 function ChangeInfoPanel() {
+  const navigate = useNavigate();
+  const [confirmModalOpen, setConfirmModalOpen] = useState(false);
+  const closeConfirmModal = () => {
+    setConfirmModalOpen(false);
+    navigate('/mypage');
+  };
   const { userInfo } = useUserInfoStore();
 
   const userData = useQuery({
@@ -69,6 +77,9 @@ function ChangeInfoPanel() {
 
   const changeInfoMutation = useMutation({
     mutationFn: (data: ChangeInfo) => putChangeInfo(userInfo.memberId, data),
+    onSuccess: () => {
+      setConfirmModalOpen(true);
+    },
   });
 
   const onFinish = (values: any) => {
@@ -103,6 +114,14 @@ function ChangeInfoPanel() {
           </DefaultButton>
         </div>
       </Form>
+      <ConfirmModal
+        open={confirmModalOpen}
+        close={closeConfirmModal}
+        title="성공"
+        okText="확인"
+        cancelText="취소"
+        confirmText="수정이 완료되었습니다."
+      />
     </div>
   );
 }
