@@ -12,7 +12,6 @@ function MyChart() {
     queryFn: () => getSurveyData(userInfo.memberId),
   });
 
-  const convertData = transformChartData(surveyData.data);
   const sampleData = [
     {
       date: '2024-11-10',
@@ -42,16 +41,9 @@ function MyChart() {
       d3: 1,
     },
   ];
+  const convertData = transformChartData(surveyData.data);
 
-  return (
-    <>
-      {surveyData.isLoading ? (
-        <div>Loading...</div>
-      ) : (
-        <LineChart data={transformChartData(convertData)} />
-      )}
-    </>
-  );
+  return <>{surveyData.isLoading ? <div>Loading...</div> : <LineChart data={convertData} />}</>;
 }
 
 export { MyChart };
