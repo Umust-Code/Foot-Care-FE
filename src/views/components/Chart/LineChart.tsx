@@ -21,7 +21,7 @@ function LineChart(props: LineChartProps) {
         xScale={{ type: 'point' }}
         yScale={{
           type: 'linear',
-          min: 'auto',
+          min: 0,
           max: 'auto',
           reverse: false,
         }}
