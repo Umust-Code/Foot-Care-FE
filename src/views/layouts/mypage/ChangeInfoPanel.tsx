@@ -2,6 +2,10 @@ import { css } from '@emotion/react';
 import { BackButton } from 'views/components/Button/BackButton';
 import { Form, Input } from 'antd';
 import { DefaultButton } from 'views/components/Button/DefaultButton';
+import { useUserInfoStore } from 'stores/userStore';
+import { useQuery, useMutation } from '@tanstack/react-query';
+import { getUserData, putChangeInfo } from 'api/requests/requestUser';
+import { ChangeInfo } from 'api/models/request';
 
 const containerCss = css`
   width: 100%;
@@ -56,8 +60,19 @@ type FieldType = {
 };
 
 function ChangeInfoPanel() {
+  const { userInfo } = useUserInfoStore();
+
+  const userData = useQuery({
+    queryKey: ['userData'],
+    queryFn: () => getUserData(userInfo.memberId),
+  });
+
+  const changeInfoMutation = useMutation({
+    mutationFn: (data: ChangeInfo) => putChangeInfo(userInfo.memberId, data),
+  });
+
   const onFinish = (values: any) => {
-    console.log(values);
+    changeInfoMutation.mutate(values);
   };
 
   return (
@@ -66,16 +81,21 @@ function ChangeInfoPanel() {
       <div css={titleCss}>내 정보 수정</div>
       <Form layout="vertical" css={formCss} colon={false} onFinish={onFinish} autoComplete="off">
         <Form.Item<FieldType> label="이메일" name="id" css={formItemCss}>
-          <Input placeholder="이메일 주소" css={inputCss} />
+          <Input
+            placeholder="이메일 주소"
+            css={inputCss}
+            defaultValue={userData.data?.id}
+            disabled
+          />
         </Form.Item>
         <Form.Item<FieldType> label="닉네임" name="name" css={formItemCss}>
-          <Input placeholder="닉네임" css={inputCss} />
+          <Input placeholder="닉네임" css={inputCss} defaultValue={userData.data?.name} />
         </Form.Item>
         <Form.Item<FieldType> label="주소" name="address" css={formItemCss}>
-          <Input placeholder="주소" css={inputCss} />
+          <Input placeholder="주소" css={inputCss} defaultValue={userData.data?.address} />
         </Form.Item>
         <Form.Item<FieldType> label="전화번호" name="phone" css={formItemCss}>
-          <Input placeholder="전화번호" css={inputCss} />
+          <Input placeholder="전화번호" css={inputCss} defaultValue={userData.data?.phone} />
         </Form.Item>
         <div css={buttonContainerCss}>
           <DefaultButton isMain={true} width="75px" htmlType="submit">

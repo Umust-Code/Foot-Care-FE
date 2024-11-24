@@ -105,7 +105,7 @@ function ContentPanel() {
         <JumboTabs.Tab title="제품 추천" description={null} key="9" />
       </JumboTabs>
       <div css={cardContainerCss}>
-        {/* {categoryPost.isLoading ? (
+        {categoryPost.isLoading ? (
           <Skeleton active />
         ) : (
           samplePost?.map((item) => (
@@ -116,15 +116,15 @@ function ContentPanel() {
               postId={item.postId}
             />
           ))
-        )} */}
-        {samplePost?.map((item) => (
+        )}
+        {/* {samplePost?.map((item) => (
           <ContentCard
             title={item.postName}
             like={item.likeCount}
             key={item.postId}
             postId={item.postId}
           />
-        ))}
+        ))} */}
       </div>
     </div>
   );

@@ -22,3 +22,9 @@ export interface Survey {
   memberId: number;
   scores: { categoryId: number; score: number }[];
 }
+
+export interface ChangeInfo {
+  name: string;
+  phone: string;
+  address: string;
+}

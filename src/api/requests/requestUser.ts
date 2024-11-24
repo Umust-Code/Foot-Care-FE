@@ -1,6 +1,6 @@
 import { clientApi } from 'api/clientApi';
 import { API_SIGNUP, API_SIGNIN, API_USERS } from 'api/constant';
-import { Signup, Signin } from 'api/models/request';
+import { Signup, Signin, ChangeInfo } from 'api/models/request';
 import { SigninResponse, UserDataResponse } from 'api/models/response';
 
 async function postSignup(data: Signup) {
@@ -32,4 +32,13 @@ async function getUserData(memberId: number) {
   }
 }
 
-export { postSignup, postSignin, getUserData };
+async function putChangeInfo(memberId: number, data: ChangeInfo) {
+  try {
+    const res = await clientApi.put(`${API_USERS}/${memberId}/update`, data);
+    return res.data;
+  } catch (error) {
+    throw new Error(error instanceof Error ? error.message : '문제 발생');
+  }
+}
+
+export { postSignup, postSignin, getUserData, putChangeInfo };
