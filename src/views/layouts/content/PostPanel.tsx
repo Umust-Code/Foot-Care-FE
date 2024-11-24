@@ -7,6 +7,7 @@ import { css } from '@emotion/react';
 import { colorLight } from 'styles/colors';
 import { Button, Input } from 'antd';
 import { BackButton } from 'views/components/Button/BackButton';
+import { useUserInfoStore } from 'stores/userStore';
 
 const containerCss = css`
   width: 100%;
@@ -32,6 +33,7 @@ const likeCss = css`
 `;
 
 function PostPanel() {
+  const { userInfo } = useUserInfoStore();
   const [searchParams] = useSearchParams();
   const postId = searchParams.get('postId');
 
@@ -60,7 +62,10 @@ function PostPanel() {
   const [likeCount, setLikeCount] = useState(0);
 
   const likeMutation = useMutation({
-    mutationFn: () => (isLiked ? unlikePost(Number(postId)) : likePost(Number(postId))),
+    mutationFn: () =>
+      isLiked
+        ? unlikePost(Number(postId), userInfo.memberId)
+        : likePost(Number(postId), userInfo.memberId),
     onSuccess: () => {
       setIsLiked(!isLiked);
       setLikeCount((prev) => (isLiked ? prev - 1 : prev + 1));

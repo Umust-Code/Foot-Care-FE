@@ -10,7 +10,7 @@ import { Content } from 'views/pages/Content';
 import { Post } from 'views/pages/Post';
 import { Mypage } from 'views/pages/Mypage';
 import { ChangeInfo } from 'views/pages/ChangeInfo';
-
+import { LikePanel } from 'views/layouts/mypage/LikePanel';
 const AppRouter = createBrowserRouter([
   {
     path: '/signin',
@@ -53,6 +53,10 @@ const AppRouter = createBrowserRouter([
       {
         path: '/change-info',
         element: <ChangeInfo />,
+      },
+      {
+        path: '/like',
+        element: <LikePanel />,
       },
     ],
     errorElement: <ErrorPage />,

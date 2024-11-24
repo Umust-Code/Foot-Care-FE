@@ -1,5 +1,5 @@
 import { clientApi } from 'api/clientApi';
-import { API_POSTS, API_POSTS_CATEGORY, API_POSTS_COMMENT } from 'api/constant';
+import { API_POSTS, API_POSTS_CATEGORY, API_POSTS_COMMENT, API_USERS_LIKE } from 'api/constant';
 import { Post, Comment } from 'api/models/response';
 import { AddComment } from 'api/models/request';
 
@@ -41,22 +41,31 @@ async function postComment(postId: number, comment: AddComment) {
   }
 }
 
-async function likePost(postId: number) {
+async function likePost(postId: number, memberId: number) {
   try {
-    const res = await clientApi.put(`${API_POSTS}/${postId}/like`);
+    const res = await clientApi.post(`${API_POSTS}/${postId}/like/${memberId}`);
     return res.data;
   } catch (error) {
     throw new Error(error instanceof Error ? error.message : '문제 발생');
   }
 }
 
-async function unlikePost(postId: number) {
+async function unlikePost(postId: number, memberId: number) {
   try {
-    const res = await clientApi.put(`${API_POSTS}/${postId}/unlike`);
+    const res = await clientApi.delete(`${API_POSTS}/${postId}/unlike/${memberId}`);
     return res.data;
   } catch (error) {
     throw new Error(error instanceof Error ? error.message : '문제 발생');
   }
 }
 
-export { getPosts, getPostsByCategory, getComment, postComment, likePost, unlikePost };
+async function getLikePost(memberId: number) {
+  try {
+    const res = await clientApi.get<Post[]>(`${API_USERS_LIKE}/${memberId}`);
+    return res.data;
+  } catch (error) {
+    throw new Error(error instanceof Error ? error.message : '문제 발생');
+  }
+}
+
+export { getPosts, getPostsByCategory, getComment, postComment, likePost, unlikePost, getLikePost };
