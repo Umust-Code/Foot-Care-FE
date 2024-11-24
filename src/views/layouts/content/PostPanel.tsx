@@ -69,7 +69,10 @@ function PostPanel() {
     onMutate: () => {},
   });
 
-  const [isLiked, setIsLiked] = useState(false);
+  const [isLiked, setIsLiked] = useState(() => {
+    return isLikedQuery.data?.isLiked === 'Y';
+  });
+
   const [likeCount, setLikeCount] = useState(0);
 
   const likeMutation = useMutation({
@@ -85,10 +88,8 @@ function PostPanel() {
   });
 
   useEffect(() => {
-    if (isLikedQuery.data?.isLiked === 'Y') {
-      setIsLiked(true);
-    } else if (isLikedQuery.data?.isLiked === 'N') {
-      setIsLiked(false);
+    if (isLikedQuery.data) {
+      setIsLiked(isLikedQuery.data.isLiked === 'Y');
     }
   }, [isLikedQuery.data]);
 
