@@ -9,6 +9,7 @@ const API_SURVEY_SUBMIT = '/disease-survey/submit-scores';
 const API_REFRESH = '/refresh-token';
 const API_USERS = '/users';
 const API_USERS_LIKE = '/posts/liked-by-user';
+const API_SURVEYS = '/disease-survey/all-surveys';
 
 // 토큰이 필요없는 API 경로들
 export const PUBLIC_PATHS = [API_SIGNUP, API_SIGNIN];
@@ -24,4 +25,5 @@ export {
   API_REFRESH,
   API_USERS,
   API_USERS_LIKE,
+  API_SURVEYS,
 };

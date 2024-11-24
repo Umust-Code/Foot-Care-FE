@@ -8,6 +8,8 @@ import { colorLight } from 'styles/colors';
 import { Button, Input } from 'antd';
 import { BackButton } from 'views/components/Button/BackButton';
 import { useUserInfoStore } from 'stores/userStore';
+import { IsLikedResponse } from 'api/models/response';
+import { getIsLiked } from 'api/requests/requestPost';
 
 const containerCss = css`
   width: 100%;
@@ -24,6 +26,10 @@ const titleCss = css`
   font-size: 24px;
   font-family: 'Pretendard-Bold';
   margin-top: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 5px;
 `;
 
 const likeCss = css`
@@ -40,6 +46,11 @@ function PostPanel() {
   const post = useQuery<Post>({
     queryKey: ['post', postId],
     queryFn: () => getPosts(Number(postId)),
+  });
+
+  const isLikedQuery = useQuery<IsLikedResponse>({
+    queryKey: ['isLiked', postId],
+    queryFn: () => getIsLiked(Number(postId), userInfo.memberId),
   });
 
   const comment = useQuery<Comment[]>({
@@ -72,6 +83,14 @@ function PostPanel() {
       comment.refetch();
     },
   });
+
+  useEffect(() => {
+    if (isLikedQuery.data?.isLiked === 'Y') {
+      setIsLiked(true);
+    } else if (isLikedQuery.data?.isLiked === 'N') {
+      setIsLiked(false);
+    }
+  }, [isLikedQuery.data]);
 
   useEffect(() => {
     if (post.data?.likeCount !== undefined) {

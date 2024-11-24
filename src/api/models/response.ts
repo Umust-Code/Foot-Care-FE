@@ -32,3 +32,19 @@ export interface UserDataResponse {
   address: string;
   phone: string;
 }
+
+export interface SurveyScore {
+  scores: {
+    date: string;
+    d1: number;
+    d2: number;
+    d3: number;
+    d4: number;
+    d5: number;
+    d6: number;
+  }[];
+}
+
+export interface IsLikedResponse {
+  isLiked: 'Y' | 'N';
+}

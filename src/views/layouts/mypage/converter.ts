@@ -1,14 +1,31 @@
-function transformData(data: any[]) {
-  // Record<string, any[]>는 문자열 키와 배열 값을 가진 객체 타입입니다
-  const result: Record<string, any[]> = {};
+interface ChartData {
+  id: string;
+  data: { x: string; y: number }[];
+}
 
-  for (let i = 1; i <= 6; i++) {
-    const key = `d${i}`;
-    result[key] = data.map((item) => ({
-      x: item[key],
-      y: item.date,
-    }));
-  }
+function transformChartData(inputData: any): ChartData[] {
+  if (!inputData) return [];
+  const keys = ['d1', 'd2', 'd3', 'd4', 'd5', 'd6'];
 
+  const result: ChartData[] = keys.map((key) => ({
+    id: key,
+    data: [],
+  }));
+
+  inputData.forEach((entry: any) => {
+    keys.forEach((key) => {
+      const matchingEntry = result.find((item) => item.id === key);
+      if (matchingEntry) {
+        matchingEntry.data.push({
+          x: entry.date,
+          y: entry[key],
+        });
+      }
+    });
+  });
+
+  console.log('차트 데이터: ', result);
   return result;
 }
+
+export { transformChartData };

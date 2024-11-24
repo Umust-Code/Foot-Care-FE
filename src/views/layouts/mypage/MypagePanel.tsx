@@ -126,7 +126,9 @@ function MypagePanel() {
       <div css={menuContainerCss}>
         <div css={menuTitleCss}>풋케어 관리</div>
         <div css={hrCss} />
-        <div css={menuListCss}>오늘의 풋케어 기록하기</div>
+        <div css={menuListCss} onClick={() => navigate('/line-chart')}>
+          나의 풋케어
+        </div>
         <div css={hrCss} />
         <div css={menuListCss} onClick={() => navigate('/like')}>
           '좋아요'한 게시물

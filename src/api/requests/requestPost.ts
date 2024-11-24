@@ -1,6 +1,6 @@
 import { clientApi } from 'api/clientApi';
 import { API_POSTS, API_POSTS_CATEGORY, API_POSTS_COMMENT, API_USERS_LIKE } from 'api/constant';
-import { Post, Comment } from 'api/models/response';
+import { Post, Comment, IsLikedResponse } from 'api/models/response';
 import { AddComment } from 'api/models/request';
 
 async function getPosts(postId: number) {
@@ -68,4 +68,22 @@ async function getLikePost(memberId: number) {
   }
 }
 
-export { getPosts, getPostsByCategory, getComment, postComment, likePost, unlikePost, getLikePost };
+async function getIsLiked(postId: number, memberId: number) {
+  try {
+    const res = await clientApi.get<IsLikedResponse>(`${API_POSTS}/${postId}/is-liked/${memberId}`);
+    return res.data;
+  } catch (error) {
+    throw new Error(error instanceof Error ? error.message : '문제 발생');
+  }
+}
+
+export {
+  getPosts,
+  getPostsByCategory,
+  getComment,
+  postComment,
+  likePost,
+  unlikePost,
+  getLikePost,
+  getIsLiked,
+};
