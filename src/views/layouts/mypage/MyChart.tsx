@@ -5,6 +5,17 @@ import { LineChart } from 'views/components/Chart/LineChart';
 import { transformChartData } from './converter';
 import { useUserInfoStore } from 'stores/userStore';
 
+const containerCss = css`
+  width: 100%;
+  height: calc(100% - 52px);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  overflow-y: auto;
+  align-items: center;
+  gap: 10px;
+`;
+
 function MyChart() {
   const { userInfo } = useUserInfoStore();
   const surveyData = useQuery({
@@ -44,7 +55,11 @@ function MyChart() {
   const convertData = transformChartData(surveyData.data);
   // const convertData = transformChartData(sampleData);
 
-  return <>{surveyData.isLoading ? <div>Loading...</div> : <LineChart data={convertData} />}</>;
+  return (
+    <div css={containerCss}>
+      {surveyData.isLoading ? <div>Loading...</div> : <LineChart data={convertData} />}
+    </div>
+  );
   // return <LineChart data={convertData} />;
 }
 

@@ -1,7 +1,14 @@
 import { useSearchParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { Post, Comment } from 'api/models/response';
-import { getPosts, getComment, postComment, likePost, unlikePost } from 'api/requests/requestPost';
+import {
+  getPosts,
+  getComment,
+  postComment,
+  likePost,
+  unlikePost,
+  getIsLiked,
+} from 'api/requests/requestPost';
 import { useQuery, useMutation } from '@tanstack/react-query';
 import { css } from '@emotion/react';
 import { colorLight } from 'styles/colors';
@@ -9,7 +16,6 @@ import { Button, Input } from 'antd';
 import { BackButton } from 'views/components/Button/BackButton';
 import { useUserInfoStore } from 'stores/userStore';
 import { IsLikedResponse } from 'api/models/response';
-import { getIsLiked } from 'api/requests/requestPost';
 
 const containerCss = css`
   width: 100%;
@@ -59,21 +65,16 @@ function PostPanel() {
   });
 
   const [addComment, setAddComment] = useState('');
+  const [isLiked, setIsLiked] = useState<boolean | null>(null);
+  const [likeCount, setLikeCount] = useState<number>(0);
+
   const sendComment = useMutation({
     mutationFn: () => postComment(Number(postId), { commentContent: addComment }),
     onSuccess: () => {
       comment.refetch();
       setAddComment('');
     },
-    onError: () => {},
-    onMutate: () => {},
   });
-
-  const [isLiked, setIsLiked] = useState(() => {
-    return isLikedQuery.data?.isLiked === 'Y';
-  });
-
-  const [likeCount, setLikeCount] = useState(0);
 
   const likeMutation = useMutation({
     mutationFn: () =>
@@ -81,23 +82,23 @@ function PostPanel() {
         ? unlikePost(Number(postId), userInfo.memberId)
         : likePost(Number(postId), userInfo.memberId),
     onSuccess: () => {
-      setIsLiked(!isLiked);
+      setIsLiked((prev) => !prev);
       setLikeCount((prev) => (isLiked ? prev - 1 : prev + 1));
       comment.refetch();
     },
   });
 
   useEffect(() => {
-    if (isLikedQuery.data) {
+    if (isLikedQuery.isSuccess && isLikedQuery.data) {
       setIsLiked(isLikedQuery.data.isLiked === 'Y');
     }
-  }, [isLikedQuery.data]);
+  }, [isLikedQuery.isSuccess, isLikedQuery.data]);
 
   useEffect(() => {
-    if (post.data?.likeCount !== undefined) {
+    if (post.isSuccess && post.data?.likeCount !== undefined) {
       setLikeCount(post.data.likeCount);
     }
-  }, [post.data]);
+  }, [post.isSuccess, post.data]);
 
   return (
     <div css={containerCss}>
@@ -120,8 +121,6 @@ function PostPanel() {
               background-color: ${colorLight.primaryColor};
             `}
           ></div>
-          {/* <p>게시물 ID: {postId}</p> */}
-          {/* <p>카테고리 ID: {post.data?.categoryId}</p> */}
           <p>{post.data?.postContentName}</p>
           <div
             css={css`
@@ -138,7 +137,8 @@ function PostPanel() {
             css={likeCss}
             onClick={() => likeMutation.mutate()}
             type={isLiked ? 'primary' : 'default'}
-            loading={likeMutation.isPending}
+            loading={isLikedQuery.isLoading}
+            disabled={isLiked === null} // 로딩 중일 때 버튼을 비활성화
           >
             좋아요 {likeCount}
           </Button>
