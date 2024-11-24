@@ -23,4 +23,12 @@ export interface SigninResponse {
   refreshToken: string;
   isSurveyCompleted: 'N' | 'Y';
   memberId: number;
+  fg: string;
+}
+
+export interface UserDataResponse {
+  id: string;
+  name: string;
+  address: string;
+  phone: string;
 }

@@ -2,6 +2,8 @@ import { css } from '@emotion/react';
 import { IoPersonCircleSharp } from 'react-icons/io5';
 import { useQuery } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
+import { useUserInfoStore } from 'stores/userStore';
+import { getUserData } from 'api/requests/requestUser';
 
 const containerCss = css`
   width: 100%;
@@ -74,14 +76,21 @@ const hrCss = css`
 `;
 
 function MypagePanel() {
+  const { userInfo } = useUserInfoStore();
   const navigate = useNavigate();
+
+  const userData = useQuery({
+    queryKey: ['userData'],
+    queryFn: () => getUserData(userInfo.memberId),
+  });
+
   return (
     <div css={containerCss}>
       <div css={myInfoCardCss}>
         <IoPersonCircleSharp size={50} />
         <div>
-          <div css={nameCss}>임시훈님</div>
-          <div css={emailCss}>dlatlgns000@gmail.com</div>
+          <div css={nameCss}>{userData.data?.name}님</div>
+          <div css={emailCss}>{userData.data?.id}</div>
         </div>
       </div>
 

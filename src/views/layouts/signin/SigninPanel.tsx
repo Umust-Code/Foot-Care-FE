@@ -8,6 +8,7 @@ import { postSignin } from 'api/requests/requestUser';
 import { colorLight } from 'styles/colors';
 import { DefaultButton } from 'views/components/Button/DefaultButton';
 import { BackButton } from 'views/components/Button/BackButton';
+import { useUserInfoStore } from 'stores/userStore';
 
 const containerCss = css`
   position: relative;
@@ -62,13 +63,14 @@ type FieldType = {
 function SigninPanel() {
   const [messageApi, contextHolder] = message.useMessage();
   const navigate = useNavigate();
+  const { changeUserInfo } = useUserInfoStore();
 
   const signinMutation = useMutation({
     mutationFn: postSignin,
     onSuccess: (data) => {
       localStorage.setItem('accessToken', data.accessToken);
       localStorage.setItem('refreshToken', data.refreshToken);
-
+      changeUserInfo({ memberId: data.memberId, fg: data.fg });
       requestSignin();
       messageApi.open({
         type: 'success',

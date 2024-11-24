@@ -1,7 +1,7 @@
 import { clientApi } from 'api/clientApi';
-import { API_SIGNUP, API_SIGNIN } from 'api/constant';
+import { API_SIGNUP, API_SIGNIN, API_USERS } from 'api/constant';
 import { Signup, Signin } from 'api/models/request';
-import { SigninResponse } from 'api/models/response';
+import { SigninResponse, UserDataResponse } from 'api/models/response';
 
 async function postSignup(data: Signup) {
   try {
@@ -23,4 +23,13 @@ async function postSignin(data: Signin): Promise<SigninResponse> {
   }
 }
 
-export { postSignup, postSignin };
+async function getUserData(memberId: number) {
+  try {
+    const res = await clientApi.get<UserDataResponse>(`${API_USERS}/${memberId}`);
+    return res.data;
+  } catch (error) {
+    throw new Error(error instanceof Error ? error.message : '문제 발생');
+  }
+}
+
+export { postSignup, postSignin, getUserData };

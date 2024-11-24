@@ -19,6 +19,12 @@ const containerCss = css`
   gap: 10px;
 `;
 
+const titleCss = css`
+  font-size: 24px;
+  font-family: 'Pretendard-Bold';
+  margin-top: 15px;
+`;
+
 const likeCss = css`
   width: 50px;
   height: 24px;
@@ -71,55 +77,65 @@ function PostPanel() {
   return (
     <div css={containerCss}>
       <BackButton />
-      <h1>{post.data?.postName}</h1>
-      <div>
+      <div
+        css={css`
+          width: 100%;
+        `}
+      >
+        <div css={titleCss}>{post.data?.postName}</div>
         <div
           css={css`
             width: 100%;
-            height: 400px;
-            background-color: ${colorLight.primaryColor};
-          `}
-        ></div>
-        {/* <p>게시물 ID: {postId}</p> */}
-        {/* <p>카테고리 ID: {post.data?.categoryId}</p> */}
-        <p>{post.data?.postContentName}</p>
-        <div
-          css={css`
-            display: flex;
-            justify-content: space-between;
-            font-size: 12px;
-            color: grey;
           `}
         >
-          <span> {post.data?.postDate}</span>
-          <span> 조회수 {post.data?.postView}</span>
-        </div>
-        <Button
-          css={likeCss}
-          onClick={() => likeMutation.mutate()}
-          type={isLiked ? 'primary' : 'default'}
-          loading={likeMutation.isPending}
-        >
-          좋아요 {likeCount}
-        </Button>
-        <div
-          css={css`
-            display: flex;
-            justify-content: space-between;
-            gap: 10px;
-          `}
-        >
-          <Input
+          <div
             css={css`
-              width: 80%;
+              width: 100%;
+              height: 400px;
+              background-color: ${colorLight.primaryColor};
             `}
-            placeholder="댓글을 입력하세요"
-            value={addComment}
-            onChange={(e) => setAddComment(e.target.value)}
-          />
-          <Button onClick={() => sendComment.mutate()}>전송</Button>
+          ></div>
+          {/* <p>게시물 ID: {postId}</p> */}
+          {/* <p>카테고리 ID: {post.data?.categoryId}</p> */}
+          <p>{post.data?.postContentName}</p>
+          <div
+            css={css`
+              display: flex;
+              justify-content: space-between;
+              font-size: 12px;
+              color: grey;
+            `}
+          >
+            <span> {post.data?.postDate}</span>
+            <span> 조회수 {post.data?.postView}</span>
+          </div>
+          <Button
+            css={likeCss}
+            onClick={() => likeMutation.mutate()}
+            type={isLiked ? 'primary' : 'default'}
+            loading={likeMutation.isPending}
+          >
+            좋아요 {likeCount}
+          </Button>
+          <div
+            css={css`
+              display: flex;
+              justify-content: space-between;
+              gap: 10px;
+            `}
+          >
+            <Input
+              css={css`
+                width: 80%;
+              `}
+              placeholder="댓글을 입력하세요"
+              value={addComment}
+              onChange={(e) => setAddComment(e.target.value)}
+            />
+            <Button onClick={() => sendComment.mutate()}>전송</Button>
+          </div>
+          {comment.data?.map((comment) => <p key={comment.commentId}>{comment.commentContent}</p>)}
         </div>
-        {comment.data?.map((comment) => <p key={comment.commentId}>{comment.commentContent}</p>)}
       </div>
     </div>
   );
