@@ -44,7 +44,3 @@ export interface SurveyScore {
     d6: number;
   }[];
 }
-
-export interface IsLikedResponse {
-  isLiked: 'Y' | 'N';
-}

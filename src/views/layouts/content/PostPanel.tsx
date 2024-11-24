@@ -15,7 +15,6 @@ import { colorLight } from 'styles/colors';
 import { Button, Input } from 'antd';
 import { BackButton } from 'views/components/Button/BackButton';
 import { useUserInfoStore } from 'stores/userStore';
-import { IsLikedResponse } from 'api/models/response';
 
 const containerCss = css`
   width: 100%;
@@ -54,7 +53,7 @@ function PostPanel() {
     queryFn: () => getPosts(Number(postId)),
   });
 
-  const isLikedQuery = useQuery<IsLikedResponse>({
+  const isLikedQuery = useQuery({
     queryKey: ['isLiked', postId],
     queryFn: () => getIsLiked(Number(postId), userInfo.memberId),
   });
@@ -65,7 +64,6 @@ function PostPanel() {
   });
 
   const [addComment, setAddComment] = useState('');
-  const [isLiked, setIsLiked] = useState<boolean | null>(null);
   const [likeCount, setLikeCount] = useState<number>(0);
 
   const sendComment = useMutation({
@@ -78,21 +76,15 @@ function PostPanel() {
 
   const likeMutation = useMutation({
     mutationFn: () =>
-      isLiked
+      isLikedQuery.data === 'Y'
         ? unlikePost(Number(postId), userInfo.memberId)
         : likePost(Number(postId), userInfo.memberId),
     onSuccess: () => {
-      setIsLiked((prev) => !prev);
-      setLikeCount((prev) => (isLiked ? prev - 1 : prev + 1));
+      setLikeCount((prev) => (isLikedQuery.data === 'Y' ? prev - 1 : prev + 1));
+      isLikedQuery.refetch();
       comment.refetch();
     },
   });
-
-  useEffect(() => {
-    if (isLikedQuery.isSuccess && isLikedQuery.data) {
-      setIsLiked(isLikedQuery.data.isLiked === 'Y');
-    }
-  }, [isLikedQuery.isSuccess, isLikedQuery.data]);
 
   useEffect(() => {
     if (post.isSuccess && post.data?.likeCount !== undefined) {
@@ -136,9 +128,7 @@ function PostPanel() {
           <Button
             css={likeCss}
             onClick={() => likeMutation.mutate()}
-            type={isLiked ? 'primary' : 'default'}
-            loading={isLikedQuery.isLoading}
-            disabled={isLiked === null} // 로딩 중일 때 버튼을 비활성화
+            type={isLikedQuery.data === 'Y' ? 'primary' : 'default'}
           >
             좋아요 {likeCount}
           </Button>
