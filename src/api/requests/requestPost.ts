@@ -1,5 +1,11 @@
 import { clientApi } from 'api/clientApi';
-import { API_POSTS, API_POSTS_CATEGORY, API_POSTS_COMMENT, API_USERS_LIKE } from 'api/constant';
+import {
+  API_POSTS,
+  API_POSTS_CATEGORY,
+  API_POSTS_COMMENT,
+  API_USERS_LIKE,
+  API_POSTS_TOP,
+} from 'api/constant';
 import { Post, Comment } from 'api/models/response';
 import { AddComment } from 'api/models/request';
 
@@ -77,6 +83,15 @@ async function getIsLiked(postId: number, memberId: number) {
   }
 }
 
+async function getTopPosts() {
+  try {
+    const res = await clientApi.get<Post[]>(API_POSTS_TOP);
+    return res.data;
+  } catch (error) {
+    throw new Error(error instanceof Error ? error.message : '문제 발생');
+  }
+}
+
 export {
   getPosts,
   getPostsByCategory,
@@ -86,4 +101,5 @@ export {
   unlikePost,
   getLikePost,
   getIsLiked,
+  getTopPosts,
 };

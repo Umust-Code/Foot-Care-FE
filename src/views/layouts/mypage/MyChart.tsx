@@ -44,12 +44,30 @@ function MyChart() {
     },
     {
       date: '2024-11-12',
-      d4: 4,
-      d5: 3,
-      d6: 3,
-      d1: 2,
-      d2: 1,
-      d3: 1,
+      d4: 8,
+      d5: 7,
+      d6: 10,
+      d1: 7,
+      d2: 6,
+      d3: 3,
+    },
+    {
+      date: '2024-11-13',
+      d4: 6,
+      d5: 5,
+      d6: 7,
+      d1: 5,
+      d2: 4,
+      d3: 2,
+    },
+    {
+      date: '2024-11-14',
+      d4: 8,
+      d5: 7,
+      d6: 10,
+      d1: 7,
+      d2: 6,
+      d3: 3,
     },
   ];
   const convertData = transformChartData(surveyData.data);
@@ -58,9 +76,9 @@ function MyChart() {
   return (
     <div css={containerCss}>
       {surveyData.isLoading ? <div>Loading...</div> : <LineChart data={convertData} />}
+      {/* <LineChart data={convertData} /> */}
     </div>
   );
-  // return <LineChart data={convertData} />;
 }
 
 export { MyChart };

@@ -25,14 +25,12 @@ function LineChart(props: LineChartProps) {
           max: 'auto',
           reverse: false,
         }}
-        yFormat=" >-.2f"
         axisTop={null}
         axisRight={null}
         axisBottom={{
           tickSize: 5,
           tickPadding: 5,
           tickRotation: 0,
-          legend: 'transportation',
           legendOffset: 36,
           legendPosition: 'middle',
           truncateTickAt: 0,
@@ -41,7 +39,6 @@ function LineChart(props: LineChartProps) {
           tickSize: 5,
           tickPadding: 5,
           tickRotation: 0,
-          legend: 'count',
           legendOffset: -40,
           legendPosition: 'middle',
           truncateTickAt: 0,
@@ -69,15 +66,6 @@ function LineChart(props: LineChartProps) {
             symbolSize: 12,
             symbolShape: 'circle',
             symbolBorderColor: 'rgba(0, 0, 0, .5)',
-            effects: [
-              {
-                on: 'hover',
-                style: {
-                  itemBackground: 'rgba(0, 0, 0, .03)',
-                  itemOpacity: 1,
-                },
-              },
-            ],
           },
         ]}
       />

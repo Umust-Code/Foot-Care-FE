@@ -6,6 +6,8 @@ import { colorLight } from 'styles/colors';
 import { Carousel } from 'antd';
 import { HotContentCard } from './HotContentCard';
 import { ColorButton } from 'views/components/Button/ColorButton';
+import { getTopPosts } from 'api/requests/requestPost';
+import { useQuery } from '@tanstack/react-query';
 
 const containerCss = css`
   width: 100%;
@@ -78,6 +80,10 @@ const recordTextCss = css`
 `;
 
 function HomePanel() {
+  const topPosts = useQuery({
+    queryKey: ['topPosts'],
+    queryFn: getTopPosts,
+  });
   const sampleContents = [
     {
       id: 1,
@@ -120,8 +126,8 @@ function HomePanel() {
           인기 게시물(임시 로그아웃 버튼)
         </span>
         <div css={hotContentListCss}>
-          {sampleContents.map((content) => (
-            <HotContentCard key={content.id} title={content.title} />
+          {topPosts.data?.map((content) => (
+            <HotContentCard key={content.postId} title={content.postName} />
           ))}
         </div>
       </div>
