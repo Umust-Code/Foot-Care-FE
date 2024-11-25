@@ -1,6 +1,6 @@
 import { Navigate } from 'react-router-dom';
 import { useAuthStore } from 'stores/authStore';
-
+import { useAdminStore } from 'stores/authStore';
 interface PrivateRouteProps {
   children: JSX.Element;
 }
@@ -11,4 +11,10 @@ function PrivateRoute({ children }: PrivateRouteProps) {
   return auth ? children : <Navigate to="/signin" />;
 }
 
-export { PrivateRoute };
+function AdminRoute({ children }: PrivateRouteProps) {
+  const isAdmin = useAdminStore((state) => state.isAdmin);
+
+  return isAdmin ? children : <Navigate to="/" />;
+}
+
+export { PrivateRoute, AdminRoute };

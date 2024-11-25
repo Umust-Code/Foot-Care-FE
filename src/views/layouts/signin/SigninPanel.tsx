@@ -1,7 +1,7 @@
 import { css } from '@emotion/react';
 import { ArrowLeftOutlined } from '@ant-design/icons';
 import { Button, Input, message, Form } from 'antd';
-import { requestSignin } from 'api/requests/requestAuth';
+import { requestSignin, requestAdmin } from 'api/requests/requestAuth';
 import { useNavigate } from 'react-router-dom';
 import { useMutation } from '@tanstack/react-query';
 import { postSignin } from 'api/requests/requestUser';
@@ -9,7 +9,7 @@ import { colorLight } from 'styles/colors';
 import { DefaultButton } from 'views/components/Button/DefaultButton';
 import { BackButton } from 'views/components/Button/BackButton';
 import { useUserInfoStore } from 'stores/userStore';
-
+import { useAdminStore } from 'stores/authStore';
 const containerCss = css`
   position: relative;
   width: 100%;
@@ -64,13 +64,15 @@ function SigninPanel() {
   const [messageApi, contextHolder] = message.useMessage();
   const navigate = useNavigate();
   const { changeUserInfo } = useUserInfoStore();
-
   const signinMutation = useMutation({
     mutationFn: postSignin,
     onSuccess: (data) => {
       localStorage.setItem('accessToken', data.accessToken);
       localStorage.setItem('refreshToken', data.refreshToken);
       changeUserInfo({ memberId: data.memberId, fg: data.fg });
+      if (data.fg === 'Y') {
+        requestAdmin();
+      }
       requestSignin();
       messageApi.open({
         type: 'success',
@@ -97,6 +99,7 @@ function SigninPanel() {
 
   const handleAuth = () => {
     requestSignin();
+    requestAdmin();
     navigate('/');
   };
 

@@ -1,4 +1,4 @@
-import { useAuthStore } from 'stores/authStore';
+import { useAuthStore, useAdminStore } from 'stores/authStore';
 
 // react component 외부에서 zustand 사용
 function requestSignin() {
@@ -7,9 +7,14 @@ function requestSignin() {
   setAuth(true);
 }
 
+function requestAdmin() {
+  const setAdmin = useAdminStore.getState().setIsAdmin;
+  setAdmin(true);
+}
+
 function requestSignout() {
   const setAuth = useAuthStore.getState().setIsAuth;
   setAuth(false);
 }
 
-export { requestSignin, requestSignout };
+export { requestSignin, requestSignout, requestAdmin };

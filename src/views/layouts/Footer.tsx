@@ -6,8 +6,9 @@ import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { colorLight } from 'styles/colors';
 import { NavBar, TabBar } from 'antd-mobile';
-import { AppOutline, MessageOutline, UnorderedListOutline, UserOutline } from 'antd-mobile-icons';
-import { IoHome, IoSearch, IoCart, IoPersonCircleSharp } from 'react-icons/io5';
+import { IoHome, IoSearch, IoCart, IoPersonCircleSharp, IoAccessibility } from 'react-icons/io5';
+import { useUserInfoStore } from 'stores/userStore';
+import { useAdminStore } from 'stores/authStore';
 
 const tabBarCss = css`
   border-top: 1px solid ${colorLight.borderColor};
@@ -40,14 +41,19 @@ const tabs = [
     icon: <IoPersonCircleSharp />,
   },
 ];
+
+const adminTabs = [
+  {
+    key: '/admin',
+    title: '관리자페이지',
+    icon: <IoAccessibility />,
+  },
+];
+
 function Footer() {
   const [curPath, setCurPath] = useState(window.location.pathname); // key
   const navigate = useNavigate();
-
-  const handleMenuItemClick = (e: any) => {
-    setCurPath(e.key);
-  };
-
+  const isAdmin = useAdminStore((state) => state.isAdmin);
   const handleLocationChange = () => {
     setCurPath(window.location.pathname);
   };
@@ -70,9 +76,11 @@ function Footer() {
         navigate(key as string);
       }}
     >
-      {tabs.map((item) => (
-        <TabBar.Item key={item.key} icon={item.icon} title={item.title} />
-      ))}
+      {isAdmin
+        ? [...tabs, ...adminTabs].map((item) => (
+            <TabBar.Item key={item.key} icon={item.icon} title={item.title} />
+          ))
+        : tabs.map((item) => <TabBar.Item key={item.key} icon={item.icon} title={item.title} />)}
     </TabBar>
   );
 }

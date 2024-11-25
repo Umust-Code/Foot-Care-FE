@@ -12,6 +12,8 @@ import { Mypage } from 'views/pages/Mypage';
 import { ChangeInfo } from 'views/pages/ChangeInfo';
 import { LikePanel } from 'views/layouts/mypage/LikePanel';
 import { MyChart } from 'views/layouts/mypage/MyChart';
+import { AdminPage } from 'views/pages/AdminPage';
+import { AdminRoute } from 'views/components/PrivateRoute';
 
 const AppRouter = createBrowserRouter([
   {
@@ -23,6 +25,20 @@ const AppRouter = createBrowserRouter([
     path: '/signup',
     element: <Signup />,
     errorElement: <ErrorPage />,
+  },
+  {
+    path: '/admin',
+    element: (
+      <AdminRoute>
+        <MainPanel />
+      </AdminRoute>
+    ),
+    children: [
+      {
+        path: '/admin',
+        element: <AdminPage />,
+      },
+    ],
   },
   {
     path: '/',
@@ -63,6 +79,10 @@ const AppRouter = createBrowserRouter([
       {
         path: '/line-chart',
         element: <MyChart />,
+      },
+      {
+        path: '/admin',
+        element: <AdminPage />,
       },
     ],
     errorElement: <ErrorPage />,
