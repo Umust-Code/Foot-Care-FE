@@ -7,7 +7,7 @@ import {
   API_POSTS_TOP,
 } from 'api/constant';
 import { Post, Comment } from 'api/models/response';
-import { AddComment } from 'api/models/request';
+import { AddComment, PutPost, AddPost } from 'api/models/request';
 
 async function getPosts(postId: number) {
   try {
@@ -92,6 +92,33 @@ async function getTopPosts() {
   }
 }
 
+async function addPost(data: AddPost) {
+  try {
+    const res = await clientApi.post(API_POSTS, data);
+    return res.data;
+  } catch (error) {
+    throw new Error(error instanceof Error ? error.message : '문제 발생');
+  }
+}
+
+async function putPost(postId: number, data: PutPost) {
+  try {
+    const res = await clientApi.put(`${API_POSTS}/${postId}`, data);
+    return res.data;
+  } catch (error) {
+    throw new Error(error instanceof Error ? error.message : '문제 발생');
+  }
+}
+
+async function deletePost(postId: number) {
+  try {
+    const res = await clientApi.delete(`${API_POSTS}/${postId}`);
+    return res.data;
+  } catch (error) {
+    throw new Error(error instanceof Error ? error.message : '문제 발생');
+  }
+}
+
 export {
   getPosts,
   getPostsByCategory,
@@ -102,4 +129,7 @@ export {
   getLikePost,
   getIsLiked,
   getTopPosts,
+  addPost,
+  putPost,
+  deletePost,
 };

@@ -28,3 +28,21 @@ export interface ChangeInfo {
   phone: string;
   address: string;
 }
+
+export interface PutPost {
+  categoryId: number;
+  postName: string;
+  postContentName: string;
+  postDate: string;
+  postView: number;
+}
+
+export interface AddPost {
+  postId: number;
+  categoryId: number;
+  postName: string;
+  postContentName: string;
+  postDate: string;
+  postView: number;
+  likeCount: number;
+}
