@@ -7,7 +7,7 @@ import { getUserData } from 'api/requests/requestUser';
 import { ConfirmModal } from 'views/components/Modal/confirmModal';
 import { useState } from 'react';
 import { deleteUser } from 'api/requests/requestUser';
-
+import { requestSignout } from 'api/requests/requestAuth';
 const containerCss = css`
   width: 100%;
   height: calc(100% - 52px);
@@ -100,6 +100,7 @@ function MypagePanel() {
   const logoutHandler = () => {
     localStorage.removeItem('accessToken');
     localStorage.removeItem('refreshToken');
+    requestSignout();
     setLogoutModalOpen(true);
   };
 

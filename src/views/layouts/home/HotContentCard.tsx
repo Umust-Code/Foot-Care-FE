@@ -4,7 +4,7 @@ import { IoArrowForward } from 'react-icons/io5';
 import { useNavigate } from 'react-router-dom';
 interface HotContentCardProps {
   title: string;
-  key: number;
+  postId: number;
 }
 
 const containerCss = css`
@@ -33,7 +33,13 @@ const contentTitleCss = css`
 function HotContentCard(props: HotContentCardProps) {
   const navigate = useNavigate();
   return (
-    <div css={containerCss} onClick={() => navigate(`/post?postId=${props.key}`)}>
+    <div
+      css={containerCss}
+      onClick={() => {
+        navigate(`/post?postId=${props.postId}`);
+        console.log('postId는? ', props.postId);
+      }}
+    >
       <div css={contentImgCss} />
       <div css={contentTitleCss}>{props.title}</div>
       <IoArrowForward size={20} />

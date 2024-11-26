@@ -14,7 +14,9 @@ function requestAdmin() {
 
 function requestSignout() {
   const setAuth = useAuthStore.getState().setIsAuth;
+  const setAdmin = useAdminStore.getState().setIsAdmin;
   setAuth(false);
+  setAdmin(false);
 }
 
 export { requestSignin, requestSignout, requestAdmin };
