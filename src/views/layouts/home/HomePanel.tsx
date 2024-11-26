@@ -127,7 +127,7 @@ function HomePanel() {
         </span>
         <div css={hotContentListCss}>
           {topPosts.data?.map((content) => (
-            <HotContentCard key={content.postId} title={content.postName} />
+            <HotContentCard key={content.postId} title={content.postName} postId={content.postId} />
           ))}
         </div>
       </div>
