@@ -135,7 +135,9 @@ function MypagePanel() {
           '좋아요'한 게시물
         </div>
         <div css={hrCss} />
-        <div css={menuListCss}>족부질환 자가진단 설문조사</div>
+        <div css={menuListCss} onClick={() => navigate('/survey')}>
+          족부질환 자가진단 설문조사
+        </div>
         <div css={hrCss} />
       </div>
       {/* 
