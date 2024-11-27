@@ -20,6 +20,19 @@ interface FormModalProps {
   close: () => void;
 }
 
+// Select 옵션 상수 추가
+const CATEGORY_OPTIONS = [
+  { value: 1, label: '족저근막염' },
+  { value: 2, label: '발부종' },
+  { value: 3, label: '당뇨병성 발' },
+  { value: 4, label: '발 뒤꿈치 통증' },
+  { value: 5, label: '무좀(발냄새)' },
+  { value: 6, label: '발목 염좌' },
+  { value: 7, label: '생활 습관' },
+  { value: 8, label: '건강 정보' },
+  { value: 9, label: '제품 추천' },
+];
+
 function AddPostForm(props: FormModalProps) {
   function getCurrentDate(): string {
     const today = new Date();
@@ -64,11 +77,11 @@ function AddPostForm(props: FormModalProps) {
       autoComplete="off"
     >
       <Form.Item<FieldType>
-        label="카테고리 ID"
+        label="카테고리"
         name="categoryId"
-        rules={[{ required: true, message: '카테고리 ID를 입력해주세요.' }]}
+        rules={[{ required: true, message: '카테고리를 선택해주세요.' }]}
       >
-        <Input type="number" />
+        <Select placeholder="카테고리를 선택해주세요" options={CATEGORY_OPTIONS} />
       </Form.Item>
       <Form.Item<FieldType>
         label="게시글 제목"
