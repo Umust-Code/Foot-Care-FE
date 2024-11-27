@@ -7,7 +7,7 @@ import { useUserInfoStore } from 'stores/userStore';
 import { useQuery, useMutation } from '@tanstack/react-query';
 import { getUserData, putChangeInfo } from 'api/requests/requestUser';
 import { ChangeInfo } from 'api/models/request';
-import { ConfirmModal } from 'views/components/Modal/confirmModal';
+import { ConfirmModal } from 'views/components/Modal/ConfirmModal';
 import { useNavigate } from 'react-router-dom';
 const containerCss = css`
   width: 100%;

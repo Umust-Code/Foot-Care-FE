@@ -1,6 +1,5 @@
 import { Modal, Button } from 'antd';
 import { css } from '@emotion/react';
-import React, { useState } from 'react';
 
 const containerCss = css`
   display: flex;

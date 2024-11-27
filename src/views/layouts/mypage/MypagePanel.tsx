@@ -4,7 +4,7 @@ import { useQuery, useMutation } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import { useUserInfoStore } from 'stores/userStore';
 import { getUserData } from 'api/requests/requestUser';
-import { ConfirmModal } from 'views/components/Modal/confirmModal';
+import { ConfirmModal } from 'views/components/Modal/ConfirmModal';
 import { useState } from 'react';
 import { deleteUser } from 'api/requests/requestUser';
 import { requestSignout } from 'api/requests/requestAuth';

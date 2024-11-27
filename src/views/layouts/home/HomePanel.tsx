@@ -8,6 +8,11 @@ import { HotContentCard } from './HotContentCard';
 import { ColorButton } from 'views/components/Button/ColorButton';
 import { getTopPosts } from 'api/requests/requestPost';
 import { useQuery } from '@tanstack/react-query';
+import { getUserAlreadySurvey } from 'api/requests/requestSurvey';
+import { useNavigate } from 'react-router-dom';
+import { useUserInfoStore } from 'stores/userStore';
+import { useState } from 'react';
+import { ConfirmModal } from 'views/components/Modal/ConfirmModal';
 
 const containerCss = css`
   width: 100%;
@@ -80,10 +85,21 @@ const recordTextCss = css`
 `;
 
 function HomePanel() {
+  const { userInfo } = useUserInfoStore();
+  const navigate = useNavigate();
+
   const topPosts = useQuery({
     queryKey: ['topPosts'],
     queryFn: getTopPosts,
   });
+
+  const alreadySurvey = useQuery({
+    queryKey: ['alreadySurvey'],
+    queryFn: () => getUserAlreadySurvey(userInfo.memberId),
+  });
+
+  const [surveyCancelModalOpen, setSurveyCancelModalOpen] = useState(false);
+
   const sampleContents = [
     {
       id: 1,
@@ -102,9 +118,20 @@ function HomePanel() {
       title: '족저근막염, 이런 경우 의심해봐야합니다입니다입니다입니다입니다.',
     },
   ];
-  const handleLogout = () => {
-    requestSignout();
+
+  const handleSurveyClick = () => {
+    if (alreadySurvey.data) {
+      const today = new Date().toISOString().split('T')[0];
+      const hasTodaySurvey = alreadySurvey.data.includes(today);
+
+      if (!hasTodaySurvey) {
+        navigate('/survey');
+      } else {
+        setSurveyCancelModalOpen(true);
+      }
+    }
   };
+
   return (
     <div css={containerCss}>
       <Carousel draggable css={carouselCss}>
@@ -122,9 +149,7 @@ function HomePanel() {
         </div>
       </Carousel>
       <div css={hotContentCss}>
-        <span css={titleCss} onClick={handleLogout}>
-          인기 게시물(임시 로그아웃 버튼)
-        </span>
+        <span css={titleCss}>인기 게시물</span>
         <div css={hotContentListCss}>
           {topPosts.data?.map((content) => (
             <HotContentCard key={content.postId} title={content.postName} postId={content.postId} />
@@ -133,11 +158,18 @@ function HomePanel() {
       </div>
       <div css={recordCss}>
         <span css={titleCss}>기록 하기</span>
-        <ColorButton>오늘의 풋케어 기록하기</ColorButton>
+        <ColorButton onClick={handleSurveyClick}>오늘의 풋케어 기록하기</ColorButton>
         <div css={recordTextContainerCss}>
           <span css={recordTextCss}>오늘의 발 컨디션은 어떠신가요? 관리 활동을 기록하세요.</span>
         </div>
       </div>
+      <ConfirmModal
+        open={surveyCancelModalOpen}
+        onOk={() => setSurveyCancelModalOpen(false)}
+        title="설문조사"
+        confirmText="오늘 이미 설문조사를 완료하였습니다."
+        okText="확인"
+      />
     </div>
   );
 }

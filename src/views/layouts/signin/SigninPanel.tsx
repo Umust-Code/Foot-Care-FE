@@ -97,6 +97,7 @@ function SigninPanel() {
     signinMutation.mutate(values);
   };
 
+  // 임시 로그인
   const handleAuth = () => {
     requestSignin();
     requestAdmin();
@@ -133,9 +134,7 @@ function SigninPanel() {
       <DefaultButton onClick={handleSignup} isMain={false}>
         회원가입
       </DefaultButton>
-      <span css={authTextCss} onClick={handleAuth}>
-        또는, 간편 로그인 하기(임시 로그인 버튼)
-      </span>
+      <span css={authTextCss}>또는, 간편 로그인 하기</span>
     </Form>
   );
 }
