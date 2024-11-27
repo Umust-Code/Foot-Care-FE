@@ -1,5 +1,5 @@
 import { clientApi } from 'api/clientApi';
-import { API_SURVEY_SUBMIT, API_USERS, API_SURVEYS } from 'api/constant';
+import { API_SURVEY_SUBMIT, API_USERS, API_SURVEYS, API_ALREADY_SURVEY } from 'api/constant';
 import { Survey } from 'api/models/request';
 import { SurveyScore } from 'api/models/response';
 
@@ -30,4 +30,13 @@ async function getSurveyData(memberId: number) {
   }
 }
 
-export { submitSurvey, completeSurvey, getSurveyData };
+async function getUserAlreadySurvey(memberId: number) {
+  try {
+    const res = await clientApi.get<string[]>(`${API_ALREADY_SURVEY}/${memberId}`);
+    return res.data;
+  } catch (error) {
+    throw new Error(error instanceof Error ? error.message : '문제 발생');
+  }
+}
+
+export { submitSurvey, completeSurvey, getSurveyData, getUserAlreadySurvey };

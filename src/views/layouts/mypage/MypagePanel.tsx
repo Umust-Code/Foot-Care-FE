@@ -8,6 +8,8 @@ import { ConfirmModal } from 'views/components/Modal/confirmModal';
 import { useState } from 'react';
 import { deleteUser } from 'api/requests/requestUser';
 import { requestSignout } from 'api/requests/requestAuth';
+import { getUserAlreadySurvey } from 'api/requests/requestSurvey';
+
 const containerCss = css`
   width: 100%;
   height: calc(100% - 52px);
@@ -87,6 +89,12 @@ function MypagePanel() {
     queryFn: () => getUserData(userInfo.memberId),
   });
 
+  const alreadySurvey = useQuery({
+    queryKey: ['alreadySurvey'],
+    queryFn: () => getUserAlreadySurvey(userInfo.memberId),
+  });
+
+  const [surveyCancelModalOpen, setSurveyCancelModalOpen] = useState(false);
   const [logoutModalOpen, setLogoutModalOpen] = useState(false);
   const [withdrawalModalOpen, setWithdrawalModalOpen] = useState(false);
 
@@ -114,6 +122,19 @@ function MypagePanel() {
     navigate('/signin');
   };
 
+  const handleSurveyClick = () => {
+    if (alreadySurvey.data) {
+      const today = new Date().toISOString().split('T')[0];
+      const hasTodaySurvey = alreadySurvey.data.includes(today);
+
+      if (!hasTodaySurvey) {
+        navigate('/survey');
+      } else {
+        setSurveyCancelModalOpen(true);
+      }
+    }
+  };
+
   return (
     <div css={containerCss}>
       <div css={myInfoCardCss}>
@@ -135,7 +156,7 @@ function MypagePanel() {
           '좋아요'한 게시물
         </div>
         <div css={hrCss} />
-        <div css={menuListCss} onClick={() => navigate('/survey')}>
+        <div css={menuListCss} onClick={handleSurveyClick}>
           족부질환 자가진단 설문조사
         </div>
         <div css={hrCss} />
@@ -182,6 +203,14 @@ function MypagePanel() {
         onOk={closeLogoutModal}
         title="로그아웃"
         confirmText="로그아웃이 완료되었습니다."
+        okText="확인"
+      />
+
+      <ConfirmModal
+        open={surveyCancelModalOpen}
+        onOk={() => setSurveyCancelModalOpen(false)}
+        title="설문조사"
+        confirmText="오늘 이미 설문조사를 완료하였습니다."
         okText="확인"
       />
     </div>
