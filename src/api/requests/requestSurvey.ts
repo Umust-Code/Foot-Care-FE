@@ -32,7 +32,7 @@ async function getSurveyData(memberId: number) {
 
 async function getUserAlreadySurvey(memberId: number) {
   try {
-    const res = await clientApi.get<string[]>(`${API_ALREADY_SURVEY}/${memberId}`);
+    const res = await clientApi.get<string[]>(`${API_ALREADY_SURVEY}/${memberId}/dates`);
     return res.data;
   } catch (error) {
     throw new Error(error instanceof Error ? error.message : '문제 발생');

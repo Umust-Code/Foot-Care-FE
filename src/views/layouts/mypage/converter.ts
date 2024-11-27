@@ -14,6 +14,10 @@ const diseaseMap: { [key: string]: string } = {
 
 function transformChartData(inputData: any): ChartData[] {
   if (!inputData) return [];
+
+  const sortedInputData = [...inputData].sort(
+    (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime(),
+  );
   const keys = ['d1', 'd2', 'd3', 'd4', 'd5', 'd6'];
 
   const result: ChartData[] = keys.map((key) => ({
@@ -21,7 +25,7 @@ function transformChartData(inputData: any): ChartData[] {
     data: [],
   }));
 
-  inputData.forEach((entry: any) => {
+  sortedInputData.forEach((entry: any) => {
     keys.forEach((key) => {
       const matchingEntry = result.find((item) => item.id === diseaseMap[key]);
       if (matchingEntry) {

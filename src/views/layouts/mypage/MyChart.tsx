@@ -65,81 +65,81 @@ function MyChart() {
     queryFn: () => getSurveyData(userInfo.memberId),
   });
 
-  // const sampleData = [
-  //   {
-  //     date: '2024-11-10',
-  //     d4: 12,
-  //     d5: 11,
-  //     d6: 15,
-  //     d1: 15,
-  //     d2: 13,
-  //     d3: 4,
-  //   },
-  //   {
-  //     date: '2024-11-11',
-  //     d4: 10,
-  //     d5: 9,
-  //     d6: 8,
-  //     d1: 8,
-  //     d2: 7,
-  //     d3: 6,
-  //   },
-  //   {
-  //     date: '2024-11-12',
-  //     d4: 8,
-  //     d5: 7,
-  //     d6: 10,
-  //     d1: 7,
-  //     d2: 6,
-  //     d3: 3,
-  //   },
-  //   {
-  //     date: '2024-11-13',
-  //     d4: 6,
-  //     d5: 5,
-  //     d6: 7,
-  //     d1: 5,
-  //     d2: 4,
-  //     d3: 2,
-  //   },
-  //   {
-  //     date: '2024-11-14',
-  //     d4: 8,
-  //     d5: 7,
-  //     d6: 10,
-  //     d1: 7,
-  //     d2: 6,
-  //     d3: 3,
-  //   },
-  // ];
-  const convertData = transformChartData(surveyData.data);
-  const averages = calculateDiseaseAverages(surveyData.data);
+  const sampleData = [
+    {
+      date: '2024-11-10',
+      d4: 12,
+      d5: 11,
+      d6: 15,
+      d1: 15,
+      d2: 13,
+      d3: 4,
+    },
+    {
+      date: '2024-11-11',
+      d4: 10,
+      d5: 9,
+      d6: 8,
+      d1: 8,
+      d2: 7,
+      d3: 6,
+    },
+    {
+      date: '2024-11-12',
+      d4: 8,
+      d5: 7,
+      d6: 10,
+      d1: 7,
+      d2: 6,
+      d3: 3,
+    },
+    {
+      date: '2024-11-14',
+      d4: 8,
+      d5: 7,
+      d6: 10,
+      d1: 7,
+      d2: 6,
+      d3: 3,
+    },
+    {
+      date: '2024-11-13',
+      d4: 6,
+      d5: 5,
+      d6: 7,
+      d1: 5,
+      d2: 4,
+      d3: 2,
+    },
+  ];
+  // const convertData = transformChartData(surveyData.data);
+  // const averages = calculateDiseaseAverages(surveyData.data);
 
-  // const convertData = transformChartData(sampleData);
-  // const averages = calculateDiseaseAverages(sampleData);
+  const convertData = transformChartData(sampleData);
+  const averages = calculateDiseaseAverages(sampleData);
 
   return (
     <div css={containerCss}>
       <BackButton />
       <div css={titleCss}>나의 풋케어</div>
 
-      {surveyData.isLoading ? (
+      {/* {surveyData.isLoading ? (
         <div>Loading...</div>
       ) : (
-        <>
-          <LineChart data={convertData} chartColors={CHART_COLORS} />
-          <div css={legendContainerCss}>
-            {averages.map((item, index) => (
-              <div key={index} css={legendItemCss}>
-                <div css={colorBoxCss(CHART_COLORS[index])} />
-                <span>
-                  {item.name} - {item.status}
-                </span>
-              </div>
-            ))}
+        <> */}
+      <LineChart data={convertData} chartColors={CHART_COLORS} />
+      <div css={legendContainerCss}>
+        {averages.map((item, index) => (
+          <div key={index} css={legendItemCss}>
+            <div css={colorBoxCss(CHART_COLORS[index])} />
+            <span>
+              {item.name} - {item.status}
+            </span>
           </div>
-        </>
-      )}
+        ))}
+      </div>
+      {/* </>
+      )} */}
     </div>
   );
 }
