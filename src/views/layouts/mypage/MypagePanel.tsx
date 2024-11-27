@@ -97,19 +97,19 @@ function MypagePanel() {
     },
   });
 
-  const logoutHandler = () => {
+  const closeLogoutModal = () => {
     localStorage.removeItem('accessToken');
     localStorage.removeItem('refreshToken');
     requestSignout();
-    setLogoutModalOpen(true);
-  };
-
-  const closeLogoutModal = () => {
     setLogoutModalOpen(false);
     navigate('/signin');
   };
 
-  const closeWithdrawalModal = () => {
+  const handleWithdrawalConfirm = () => {
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('refreshToken');
+    deleteUserMutation.mutate();
+    requestSignout();
     setWithdrawalModalOpen(false);
     navigate('/signin');
   };
@@ -138,7 +138,7 @@ function MypagePanel() {
         <div css={menuListCss}>족부질환 자가진단 설문조사</div>
         <div css={hrCss} />
       </div>
-
+      {/* 
       <div css={menuContainerCss}>
         <div css={menuTitleCss}>쇼핑 관리</div>
         <div css={hrCss} />
@@ -148,7 +148,7 @@ function MypagePanel() {
         <div css={hrCss} />
         <div css={menuListCss}>쿠폰 조회</div>
         <div css={hrCss} />
-      </div>
+      </div> */}
 
       <div css={menuContainerCss}>
         <div css={menuTitleCss}>계정 관리</div>
@@ -157,11 +157,11 @@ function MypagePanel() {
           회원 정보 수정
         </div>
         <div css={hrCss} />
-        <div css={menuListCss} onClick={logoutHandler}>
+        <div css={menuListCss} onClick={() => setLogoutModalOpen(true)}>
           로그아웃
         </div>
         <div css={hrCss} />
-        <div css={menuListCss} onClick={() => deleteUserMutation.mutate()}>
+        <div css={menuListCss} onClick={() => setWithdrawalModalOpen(true)}>
           회원 탈퇴
         </div>
         <div css={hrCss} />
@@ -169,20 +169,18 @@ function MypagePanel() {
 
       <ConfirmModal
         open={withdrawalModalOpen}
-        close={closeWithdrawalModal}
+        onOk={handleWithdrawalConfirm}
         title="회원 탈퇴"
         confirmText="회원 탈퇴가 완료되었습니다."
         okText="확인"
-        cancelText="취소"
       />
 
       <ConfirmModal
         open={logoutModalOpen}
-        close={closeLogoutModal}
+        onOk={closeLogoutModal}
         title="로그아웃"
         confirmText="로그아웃이 완료되었습니다."
         okText="확인"
-        cancelText="취소"
       />
     </div>
   );

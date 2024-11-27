@@ -13,11 +13,10 @@ const containerCss = css`
 
 interface ConfirmModalProps {
   open: boolean;
-  close: any;
   title: string;
   okText: string;
-  cancelText: string;
   confirmText: string;
+  onOk: () => void;
 }
 
 function ConfirmModal(props: ConfirmModalProps) {
@@ -29,7 +28,7 @@ function ConfirmModal(props: ConfirmModalProps) {
         width={400}
         centered={true}
         footer={[
-          <Button key="ok" type="primary" onClick={props.close}>
+          <Button key="ok" type="primary" onClick={props.onOk}>
             {props.okText}
           </Button>,
         ]}

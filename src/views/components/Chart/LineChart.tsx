@@ -3,21 +3,23 @@ import { ResponsiveLine } from '@nivo/line';
 
 const containerCss = css`
   width: 100%;
-  height: 100%;
+  height: 45%;
 `;
 
 interface LineChartProps {
   data: any;
+  chartColors: string[];
 }
 
 function LineChart(props: LineChartProps) {
-  const { data } = props;
+  const { data, chartColors } = props;
 
   return (
     <div css={containerCss}>
       <ResponsiveLine
         data={data}
-        margin={{ top: 50, right: 110, bottom: 50, left: 60 }}
+        colors={chartColors}
+        margin={{ top: 30, right: 30, bottom: 30, left: 30 }}
         xScale={{ type: 'point' }}
         yScale={{
           type: 'linear',
@@ -51,23 +53,6 @@ function LineChart(props: LineChartProps) {
         pointLabelYOffset={-12}
         enableTouchCrosshair={true}
         useMesh={true}
-        legends={[
-          {
-            anchor: 'bottom-right',
-            direction: 'column',
-            justify: false,
-            translateX: 100,
-            translateY: 0,
-            itemsSpacing: 0,
-            itemDirection: 'left-to-right',
-            itemWidth: 80,
-            itemHeight: 20,
-            itemOpacity: 0.75,
-            symbolSize: 12,
-            symbolShape: 'circle',
-            symbolBorderColor: 'rgba(0, 0, 0, .5)',
-          },
-        ]}
       />
     </div>
   );

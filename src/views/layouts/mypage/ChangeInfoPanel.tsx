@@ -124,11 +124,10 @@ function ChangeInfoPanel() {
       </Form>
       <ConfirmModal
         open={confirmModalOpen}
-        close={closeConfirmModal}
         title="성공"
         okText="확인"
-        cancelText="취소"
         confirmText="수정이 완료되었습니다."
+        onOk={closeConfirmModal}
       />
     </div>
   );

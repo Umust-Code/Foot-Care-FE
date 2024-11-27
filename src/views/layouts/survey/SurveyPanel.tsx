@@ -73,7 +73,7 @@ const buttonContainerCss = css`
 `;
 
 function SurveyPanel() {
-  const [surveyPercent, setSurveyPercent] = useState(1);
+  const [surveyPercent, setSurveyPercent] = useState(0); // 0부터 시작
   const [answers, setAnswers] = useState<number[]>(new Array(24).fill(0));
   const [userParams] = useSearchParams();
   const navigate = useNavigate();
@@ -82,7 +82,6 @@ function SurveyPanel() {
   const submitSurveyMutation = useMutation({
     mutationFn: () =>
       submitSurvey({ memberId: Number(memberId), scores: calculateScores(answers) }),
-
     onSuccess: () => {
       completeSurveyMutation.mutate();
     },
@@ -122,18 +121,12 @@ function SurveyPanel() {
     '발 뒤꿈치에 피부 굳음이나 갈라짐이 있습니까?',
   ];
 
-  const handleAnswerChange = (e: any) => {
-    const newAnswers = [...answers];
-    newAnswers[surveyPercent - 1] = e.target.value;
-    setAnswers(newAnswers);
+  const handleNextClick = () => {
+    setSurveyPercent((prev) => prev + 1);
   };
 
   const handlePrevClick = () => {
     setSurveyPercent((prev) => prev - 1);
-  };
-
-  const handleNextClick = () => {
-    setSurveyPercent((prev) => prev + 1);
   };
 
   const handleSubmitClick = () => {
@@ -151,54 +144,80 @@ function SurveyPanel() {
           css={progressCss}
         />
         <div css={questionNumberCss}>{surveyPercent}번문항(전체 24문항)</div>
-        <div css={questionTextCss}>{surveyQuestion[surveyPercent - 1]}</div>
-        <Radio.Group
-          css={radioGroupCss}
-          onChange={handleAnswerChange}
-          value={answers[surveyPercent - 1]}
-        >
-          <Radio.Button value={1} css={radioButtonCss}>
-            전혀 아니다
-          </Radio.Button>
-          <Radio.Button value={2} css={radioButtonCss}>
-            아니다
-          </Radio.Button>
-          <Radio.Button value={3} css={radioButtonCss}>
-            보통이다
-          </Radio.Button>
-          <Radio.Button value={4} css={radioButtonCss}>
-            그렇다
-          </Radio.Button>
-          <Radio.Button value={5} css={radioButtonCss}>
-            매우 그렇다
-          </Radio.Button>
-        </Radio.Group>
-        <div css={buttonContainerCss}>
-          {surveyPercent > 1 && (
-            <DefaultButton isMain={false} width="75px" onClick={handlePrevClick}>
-              이전
-            </DefaultButton>
-          )}
-          {surveyPercent !== 24 ? (
-            <DefaultButton
-              isMain={true}
-              width="75px"
-              onClick={handleNextClick}
-              disabled={!answers[surveyPercent - 1]}
+
+        {surveyPercent === 0 ? (
+          <>
+            <div css={questionTextCss}>
+              오늘의 풋케어 자가진단을 시작합니다.
+              <br />
+              <span
+                style={{ fontSize: '20px', marginTop: '10px', display: 'block', color: '#333333' }}
+              >
+                총 24개의 문항으로 구성되어 있으며, 약 3분 정도 소요됩니다.
+                <br />
+                현재 발 상태에 대해 가장 적절한 답변을 선택해 주세요.
+              </span>
+            </div>
+            <div css={buttonContainerCss}>
+              <DefaultButton isMain={true} width="75px" onClick={handleNextClick}>
+                시작
+              </DefaultButton>
+            </div>
+          </>
+        ) : (
+          <>
+            <div css={questionTextCss}>{surveyQuestion[surveyPercent - 1]}</div>
+            <Radio.Group
+              css={radioGroupCss}
+              onChange={(e) => {
+                const newAnswers = [...answers];
+                newAnswers[surveyPercent - 1] = e.target.value;
+                setAnswers(newAnswers);
+              }}
+              value={answers[surveyPercent - 1]}
             >
-              다음
-            </DefaultButton>
-          ) : (
-            <DefaultButton
-              isMain={true}
-              width="75px"
-              onClick={handleSubmitClick}
-              disabled={!answers[surveyPercent - 1]}
-            >
-              제출
-            </DefaultButton>
-          )}
-        </div>
+              <Radio.Button value={1} css={radioButtonCss}>
+                전혀 아니다
+              </Radio.Button>
+              <Radio.Button value={2} css={radioButtonCss}>
+                아니다
+              </Radio.Button>
+              <Radio.Button value={3} css={radioButtonCss}>
+                보통이다
+              </Radio.Button>
+              <Radio.Button value={4} css={radioButtonCss}>
+                그렇다
+              </Radio.Button>
+              <Radio.Button value={5} css={radioButtonCss}>
+                매우 그렇다
+              </Radio.Button>
+            </Radio.Group>
+            <div css={buttonContainerCss}>
+              <DefaultButton isMain={false} width="75px" onClick={handlePrevClick}>
+                이전
+              </DefaultButton>
+              {surveyPercent !== 24 ? (
+                <DefaultButton
+                  isMain={true}
+                  width="75px"
+                  onClick={handleNextClick}
+                  disabled={!answers[surveyPercent - 1]}
+                >
+                  다음
+                </DefaultButton>
+              ) : (
+                <DefaultButton
+                  isMain={true}
+                  width="75px"
+                  onClick={handleSubmitClick}
+                  disabled={!answers[surveyPercent - 1]}
+                >
+                  제출
+                </DefaultButton>
+              )}
+            </div>
+          </>
+        )}
       </div>
     </ConfigProvider>
   );

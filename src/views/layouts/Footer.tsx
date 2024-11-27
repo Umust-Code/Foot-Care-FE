@@ -30,11 +30,11 @@ const tabs = [
     title: '콘텐츠',
     icon: <IoSearch />,
   },
-  {
-    key: '/shopping',
-    title: '쇼핑',
-    icon: <IoCart />,
-  },
+  // {
+  //   key: '/shopping',
+  //   title: '쇼핑',
+  //   icon: <IoCart />,
+  // },
   {
     key: '/mypage',
     title: '마이페이지',
