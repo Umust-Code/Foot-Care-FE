@@ -4,6 +4,7 @@ export interface Signup {
   name: string;
   phone: string;
   address: string;
+  sex: string;
 }
 
 export interface Signin {

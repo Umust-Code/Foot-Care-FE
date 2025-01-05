@@ -1,7 +1,7 @@
 import { css } from '@emotion/react';
 import { useState } from 'react';
 import { ArrowLeftOutlined } from '@ant-design/icons';
-import { Button, Input, Form, message, Checkbox, Space } from 'antd';
+import { Button, Input, Form, message, Checkbox, Space, Radio } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { postSignup, getCheckId } from 'api/requests/requestUser';
 import { useMutation } from '@tanstack/react-query';
@@ -62,6 +62,7 @@ type FieldType = {
   birth: string;
   phone: string;
   address: string;
+  sex: string;
 };
 
 function SignupPanel() {
@@ -92,7 +93,7 @@ function SignupPanel() {
   const checkIdMutation = useMutation({
     mutationFn: getCheckId,
     onSuccess: (data) => {
-      if (data === 'Y') {
+      if (data === 'N') {
         setIsIdChecked(true);
         messageApi.open({
           type: 'success',
@@ -212,6 +213,16 @@ function SignupPanel() {
         css={formItemCss}
       >
         <Input placeholder="주소" css={inputCss} />
+      </Form.Item>
+      <Form.Item<FieldType>
+        name="sex"
+        rules={[{ required: true, message: '성별을 선택해주세요.' }]}
+        css={formItemCss}
+      >
+        <Radio.Group>
+          <Radio value="M">남성</Radio>
+          <Radio value="F">여성</Radio>
+        </Radio.Group>
       </Form.Item>
       <div css={agreementCss}>
         회원가입을 위해 이용약관 및 개인정보보호정책에 동의합니다
