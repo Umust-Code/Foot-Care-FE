@@ -67,7 +67,8 @@ function PostPanel() {
   const [likeCount, setLikeCount] = useState<number>(0);
 
   const sendComment = useMutation({
-    mutationFn: () => postComment(Number(postId), userInfo.memberId, addComment),
+    mutationFn: () =>
+      postComment(Number(postId), userInfo.memberId, { commentContent: addComment }),
     onSuccess: () => {
       comment.refetch();
       setAddComment('');

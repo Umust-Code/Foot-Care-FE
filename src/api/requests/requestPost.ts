@@ -7,7 +7,7 @@ import {
   API_POSTS_TOP,
 } from 'api/constant';
 import { Post, Comment } from 'api/models/response';
-import { PutPost, AddPost } from 'api/models/request';
+import { AddComment, PutPost, AddPost } from 'api/models/request';
 
 async function getPosts(postId: number) {
   try {
@@ -38,7 +38,7 @@ async function getComment(postId: number) {
   }
 }
 
-async function postComment(postId: number, memberId: number, comment: string) {
+async function postComment(postId: number, memberId: number, comment: AddComment) {
   try {
     const res = await clientApi.post(
       `${API_POSTS_COMMENT}/${postId}?memberId=${memberId}`,

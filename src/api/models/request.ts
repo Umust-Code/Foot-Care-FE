@@ -14,9 +14,10 @@ export interface Signin {
 export interface Category {
   categoryId: number;
 }
-// export interface AddComment {
-//   commentContent: string;
-// }
+
+export interface AddComment {
+  commentContent: string;
+}
 
 export interface Survey {
   memberId: number;
