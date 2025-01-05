@@ -150,7 +150,39 @@ function PostPanel() {
             />
             <Button onClick={() => sendComment.mutate()}>전송</Button>
           </div>
-          {comment.data?.map((comment) => <p key={comment.commentId}>{comment.commentContent}</p>)}
+          {comment.data?.map((comment) => (
+            <div
+              css={css`
+                display: flex;
+                flex-direction: column;
+                align-items: flex-start;
+              `}
+            >
+              <div
+                css={css`
+                  display: flex;
+                  gap: 10px;
+                `}
+              >
+                <div>{comment.name}</div>
+                <div
+                  css={css`
+                    font-size: 10px;
+                    color: #999;
+                  `}
+                >
+                  {comment.commentDate}
+                </div>
+              </div>
+              <div
+                css={css`
+                  font-size: 14px;
+                `}
+              >
+                {comment.commentContent}
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </div>

@@ -17,6 +17,7 @@ export interface Comment {
   postId: number;
   commentContent: string;
   commentDate: string;
+  name: string;
 }
 export interface SigninResponse {
   accessToken: string;
