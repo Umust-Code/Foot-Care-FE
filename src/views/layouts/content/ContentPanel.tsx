@@ -103,6 +103,7 @@ function ContentPanel() {
         <JumboTabs.Tab title="생활 습관" description={null} key="7" />
         <JumboTabs.Tab title="건강 정보" description={null} key="8" />
         <JumboTabs.Tab title="제품 추천" description={null} key="9" />
+        <JumboTabs.Tab title="체험단/리뷰" description={null} key="10" />
       </JumboTabs>
       <div css={cardContainerCss}>
         {categoryPost.isLoading ? (

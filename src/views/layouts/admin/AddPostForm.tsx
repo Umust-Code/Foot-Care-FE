@@ -31,6 +31,7 @@ const CATEGORY_OPTIONS = [
   { value: 7, label: '생활 습관' },
   { value: 8, label: '건강 정보' },
   { value: 9, label: '제품 추천' },
+  { value: 10, label: '체험단/리뷰' },
 ];
 
 function AddPostForm(props: FormModalProps) {

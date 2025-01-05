@@ -25,6 +25,7 @@ const categoryMapping: { [key: number]: string } = {
   7: '생활 습관',
   8: '건강 정보',
   9: '제품 추천',
+  10: '체험단/리뷰',
 };
 
 // categoryName을 추가하는 함수
