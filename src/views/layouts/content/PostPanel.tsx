@@ -156,6 +156,7 @@ function PostPanel() {
                 display: flex;
                 flex-direction: column;
                 align-items: flex-start;
+                margin: 5px 0;
               `}
             >
               <div

@@ -1,8 +1,9 @@
 import { css } from '@emotion/react';
+import { useState } from 'react';
 import { ArrowLeftOutlined } from '@ant-design/icons';
-import { Button, Input, Form, message, Checkbox } from 'antd';
+import { Button, Input, Form, message, Checkbox, Space } from 'antd';
 import { useNavigate } from 'react-router-dom';
-import { postSignup } from 'api/requests/requestUser';
+import { postSignup, getCheckId } from 'api/requests/requestUser';
 import { useMutation } from '@tanstack/react-query';
 import { Signup } from 'api/models/request';
 import { colorLight } from 'styles/colors';
@@ -34,11 +35,12 @@ const titleCss = css`
 const formItemCss = css`
   width: 100%;
   align-content: center;
+  /* display: flex; */
 `;
 
 const inputCss = css`
   width: 100%;
-  height: 56px;
+  height: 46px;
   font-size: 16px;
   border-radius: 12px;
 `;
@@ -65,6 +67,9 @@ type FieldType = {
 function SignupPanel() {
   const [messageApi, contextHolder] = message.useMessage();
   const navigate = useNavigate();
+  const [id, setId] = useState('');
+  const [isIdChecked, setIsIdChecked] = useState(false);
+  const [isAgreementChecked, setIsAgreementChecked] = useState(false);
 
   const signupMutation = useMutation({
     mutationFn: postSignup,
@@ -84,6 +89,30 @@ function SignupPanel() {
     onMutate: () => {},
   });
 
+  const checkIdMutation = useMutation({
+    mutationFn: getCheckId,
+    onSuccess: (data) => {
+      if (data === 'Y') {
+        setIsIdChecked(true);
+        messageApi.open({
+          type: 'success',
+          content: '사용 가능한 이메일 주소입니다.',
+        });
+      } else {
+        messageApi.open({
+          type: 'error',
+          content: '이미 사용 중인 이메일 주소입니다.',
+        });
+      }
+    },
+    onError: (error) => {
+      messageApi.open({
+        type: 'error',
+        content: error.message,
+      });
+    },
+  });
+
   const onFinish = (values: any) => {
     const { pwdConfirm, ...signupData } = values;
     signupMutation.mutate(signupData);
@@ -96,10 +125,37 @@ function SignupPanel() {
       <span css={titleCss}>회원가입 페이지</span>
       <Form.Item<FieldType>
         name="id"
-        rules={[{ required: true, message: '이메일을 입력해주세요.' }]}
+        rules={[
+          { required: true, message: '이메일을 입력해주세요.' },
+          () => ({
+            validator(_, value) {
+              if (!value || isIdChecked) {
+                return Promise.resolve();
+              }
+              return Promise.reject(new Error('이메일 중복 확인이 필요합니다.'));
+            },
+          }),
+        ]}
         css={formItemCss}
       >
-        <Input placeholder="이메일 주소" css={inputCss} />
+        <Space.Compact style={{ width: '100%' }}>
+          <Input
+            placeholder="이메일 주소"
+            css={inputCss}
+            onChange={(e) => {
+              setId(e.target.value);
+              setIsIdChecked(false);
+            }}
+          />
+          <Button
+            onClick={() => checkIdMutation.mutate(id)}
+            css={css`
+              height: 46px;
+            `}
+          >
+            중복확인
+          </Button>
+        </Space.Compact>
       </Form.Item>
       <Form.Item<FieldType>
         name="password"
@@ -159,9 +215,12 @@ function SignupPanel() {
       </Form.Item>
       <div css={agreementCss}>
         회원가입을 위해 이용약관 및 개인정보보호정책에 동의합니다
-        <Checkbox css={CustomCheckbox} />
+        <Checkbox
+          css={CustomCheckbox}
+          onChange={() => setIsAgreementChecked(!isAgreementChecked)}
+        />
       </div>
-      <DefaultButton htmlType="submit" isMain={true}>
+      <DefaultButton htmlType="submit" isMain={true} disabled={!isAgreementChecked}>
         회원가입
       </DefaultButton>
     </Form>

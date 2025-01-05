@@ -1,5 +1,5 @@
 import { clientApi } from 'api/clientApi';
-import { API_SIGNUP, API_SIGNIN, API_USERS } from 'api/constant';
+import { API_SIGNUP, API_SIGNIN, API_USERS, API_CHECK_ID } from 'api/constant';
 import { Signup, Signin, ChangeInfo } from 'api/models/request';
 import { SigninResponse, UserDataResponse } from 'api/models/response';
 
@@ -50,4 +50,13 @@ async function deleteUser(memberId: number) {
   }
 }
 
-export { postSignup, postSignin, getUserData, putChangeInfo, deleteUser };
+async function getCheckId(id: string) {
+  try {
+    const res = await clientApi.get<'Y' | 'N'>(`${API_CHECK_ID}?id=${id}`);
+    return res.data;
+  } catch (error) {
+    throw new Error(error instanceof Error ? error.message : '문제 발생');
+  }
+}
+
+export { postSignup, postSignin, getUserData, putChangeInfo, deleteUser, getCheckId };
