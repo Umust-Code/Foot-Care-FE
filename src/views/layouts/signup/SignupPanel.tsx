@@ -96,7 +96,6 @@ function SignupPanel() {
     onSuccess: (data) => {
       if (data === 'N') {
         setIsIdChecked(true);
-        form.validateFields(['id']);
         messageApi.open({
           type: 'success',
           content: '사용 가능한 이메일 주소입니다.',
@@ -107,6 +106,7 @@ function SignupPanel() {
           content: '이미 사용 중인 이메일 주소입니다.',
         });
       }
+      form.validateFields(['id']);
     },
     onError: (error) => {
       messageApi.open({
@@ -129,16 +129,12 @@ function SignupPanel() {
       <Form.Item<FieldType>
         name="id"
         rules={[
-          { required: true, message: '이메일을 입력해주세요.' },
-          () => ({
+          ({ getFieldValue }) => ({
             validator(_, value) {
-              if (!value) {
-                return Promise.reject(new Error('이메일을 입력해주세요.'));
+              if (isIdChecked) {
+                return Promise.resolve();
               }
-              if (!isIdChecked) {
-                return Promise.reject(new Error('이메일 중복 확인이 필요합니다.'));
-              }
-              return Promise.resolve();
+              return Promise.reject(new Error('이메일 중복 확인이 필요합니다.'));
             },
           }),
         ]}
@@ -154,7 +150,10 @@ function SignupPanel() {
             }}
           />
           <Button
-            onClick={() => checkIdMutation.mutate(id)}
+            onClick={() => {
+              checkIdMutation.mutate(id);
+              form.validateFields(['id']);
+            }}
             css={css`
               height: 46px;
             `}
