@@ -66,6 +66,7 @@ type FieldType = {
 };
 
 function SignupPanel() {
+  const [form] = Form.useForm();
   const [messageApi, contextHolder] = message.useMessage();
   const navigate = useNavigate();
   const [id, setId] = useState('');
@@ -95,6 +96,7 @@ function SignupPanel() {
     onSuccess: (data) => {
       if (data === 'N') {
         setIsIdChecked(true);
+        form.validateFields(['id']);
         messageApi.open({
           type: 'success',
           content: '사용 가능한 이메일 주소입니다.',
@@ -120,7 +122,7 @@ function SignupPanel() {
   };
 
   return (
-    <Form css={containerCss} colon={false} onFinish={onFinish} autoComplete="off">
+    <Form form={form} css={containerCss} colon={false} onFinish={onFinish} autoComplete="off">
       {contextHolder}
       <BackButton />
       <span css={titleCss}>회원가입 페이지</span>
@@ -130,10 +132,13 @@ function SignupPanel() {
           { required: true, message: '이메일을 입력해주세요.' },
           () => ({
             validator(_, value) {
-              if (!value || isIdChecked) {
-                return Promise.resolve();
+              if (!value) {
+                return Promise.reject(new Error('이메일을 입력해주세요.'));
               }
-              return Promise.reject(new Error('이메일 중복 확인이 필요합니다.'));
+              if (!isIdChecked) {
+                return Promise.reject(new Error('이메일 중복 확인이 필요합니다.'));
+              }
+              return Promise.resolve();
             },
           }),
         ]}
@@ -154,7 +159,7 @@ function SignupPanel() {
               height: 46px;
             `}
           >
-            중복확인
+            중복확인{isIdChecked ? 'O' : 'X'}
           </Button>
         </Space.Compact>
       </Form.Item>
