@@ -79,7 +79,7 @@ async function getLikePost(memberId: number) {
 
 async function getIsLiked(postId: number, memberId: number) {
   try {
-    const res = await clientApi.get(`${API_POSTS}/${postId}/is-liked/${memberId}`);
+    const res = await clientApi.get<string>(`${API_POSTS}/${postId}/is-liked/${memberId}`);
     return res.data;
   } catch (error) {
     throw new Error(error instanceof Error ? error.message : '문제 발생');

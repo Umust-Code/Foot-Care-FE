@@ -150,8 +150,8 @@ function SignupPanel() {
             }}
           />
           <Button
-            onClick={() => {
-              checkIdMutation.mutate(id);
+            onClick={async () => {
+              await checkIdMutation.mutateAsync(id);
               form.validateFields(['id']);
             }}
             css={css`

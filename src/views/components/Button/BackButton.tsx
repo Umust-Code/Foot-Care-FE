@@ -8,7 +8,7 @@ const backButtonCss = css`
   position: absolute;
   z-index: 1000;
   top: 40px;
-  left: 20px;
+  left: 10px;
   color: ${colorLight.txtColor};
 `;
 
