@@ -199,9 +199,6 @@ function PostPanel() {
     onSuccess: () => {
       setConfirmModalState(true);
       setDeletePostModal(false);
-      queryClient.invalidateQueries({
-        queryKey: ['comments', postId],
-      });
     },
     onError: () => {
       setErrorModalState(true);
@@ -424,6 +421,7 @@ function PostPanel() {
         confirmText="입력한 값으로 게시글 정보를 수정하시겠습니까?"
       >
         <EditForm
+          isAdminPage={false}
           form={editPostForm}
           previousData={post.data}
           onStatusChange={handleStatusChange}
@@ -443,6 +441,7 @@ function PostPanel() {
         confirmText="게시글을 삭제하시겠습니까?"
       >
         <DeleteForm
+          isAdminPage={false}
           form={deletePostForm}
           previousData={post.data}
           onStatusChange={handleStatusChange}
@@ -499,10 +498,10 @@ function PostPanel() {
             type="primary"
             onClick={() => {
               {
-                setConfirmModalState(false);
                 queryClient.invalidateQueries({
-                  queryKey: ['comments', postId],
+                  queryKey: ['comment', postId],
                 });
+                setConfirmModalState(false);
               }
             }}
           >
@@ -522,10 +521,10 @@ function PostPanel() {
             key="ok"
             type="primary"
             onClick={() => {
-              setErrorModalState(false);
               queryClient.invalidateQueries({
-                queryKey: ['comments', postId],
+                queryKey: ['comment', postId],
               });
+              setErrorModalState(false);
             }}
           >
             확인

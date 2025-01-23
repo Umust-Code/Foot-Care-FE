@@ -28,6 +28,7 @@ const CATEGORY_OPTIONS = [
   { value: 10, label: '체험단/리뷰' },
 ];
 interface FormModalProps {
+  isAdminPage: boolean;
   form: any;
   previousData: any;
   onStatusChange: (status: StatusType) => void;
@@ -43,8 +44,13 @@ function EditForm(props: FormModalProps) {
       props.form.resetFields();
       props.onStatusChange('success');
       props.close();
-      // 게시글 조회로 수정
-      queryClient.invalidateQueries({ queryKey: ['category', 0] });
+      // 관리자 페이지 수정
+      if (props.isAdminPage) {
+        queryClient.invalidateQueries({ queryKey: ['category', 0] });
+      } else {
+        // 일반 페이지 수정
+        queryClient.invalidateQueries({ queryKey: ['post', props.previousData.postId] });
+      }
     },
     onError: () => {
       props.onStatusChange('error');

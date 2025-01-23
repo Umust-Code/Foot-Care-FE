@@ -56,6 +56,7 @@ function ControlBtn({ data }: any) {
         confirmText="입력한 값으로 게시글 정보를 수정하시겠습니까?"
       >
         <EditForm
+          isAdminPage={true}
           form={editPostForm}
           previousData={data}
           onStatusChange={handleStatusChange}
@@ -75,6 +76,7 @@ function ControlBtn({ data }: any) {
         confirmText="게시글을 삭제하시겠습니까?"
       >
         <DeleteForm
+          isAdminPage={true}
           form={deletePostForm}
           previousData={data}
           onStatusChange={handleStatusChange}

@@ -1,9 +1,10 @@
-import { Form, Input, Select } from 'antd';
+import { Form, Input } from 'antd';
 import type { FormProps } from 'antd';
 import { deletePost } from 'api/requests/requestPost';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { css } from '@emotion/react';
 import { StatusType } from 'types/apiStatusTypes';
+import { useNavigate } from 'react-router-dom';
 
 const formCss = css`
   .ant-form-item {
@@ -16,9 +17,11 @@ interface FormModalProps {
   previousData: any;
   onStatusChange: (status: StatusType) => void;
   close: () => void;
+  isAdminPage: boolean;
 }
 
 function DeleteForm(props: FormModalProps) {
+  const navigate = useNavigate();
   const queryClient = useQueryClient();
   const deletePostMutation = useMutation({
     mutationFn: deletePost,
@@ -26,7 +29,11 @@ function DeleteForm(props: FormModalProps) {
       props.form.resetFields();
       props.onStatusChange('success');
       props.close();
-      queryClient.invalidateQueries({ queryKey: ['category', 0] });
+      if (props.isAdminPage) {
+        queryClient.invalidateQueries({ queryKey: ['category', 0] });
+      } else {
+        navigate('/content');
+      }
     },
     onError: () => {
       props.onStatusChange('error');
