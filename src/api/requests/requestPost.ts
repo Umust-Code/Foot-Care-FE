@@ -5,6 +5,8 @@ import {
   API_POSTS_COMMENT,
   API_USERS_LIKE,
   API_POSTS_TOP,
+  API_COMMENTS_SEARCH,
+  API_COMMENTS,
 } from 'api/constant';
 import { Post, Comment } from 'api/models/response';
 import { AddComment, PutPost, AddPost } from 'api/models/request';
@@ -44,6 +46,18 @@ async function postComment(postId: number, memberId: number, comment: AddComment
       `${API_POSTS_COMMENT}/${postId}?memberId=${memberId}`,
       comment,
     );
+    return res.data;
+  } catch (error) {
+    throw new Error(error instanceof Error ? error.message : '문제 발생');
+  }
+}
+
+async function postAllComments(memberId?: number, commentContent?: string) {
+  try {
+    const res = await clientApi.post<Comment[]>(API_COMMENTS_SEARCH, {
+      memberId: memberId === 0 ? undefined : memberId,
+      commentContent: commentContent === '' ? undefined : commentContent,
+    });
     return res.data;
   } catch (error) {
     throw new Error(error instanceof Error ? error.message : '문제 발생');
@@ -122,6 +136,15 @@ async function deletePost(postId: number) {
   }
 }
 
+async function deleteComment(commentId: number) {
+  try {
+    const res = await clientApi.delete(`${API_COMMENTS}/${commentId}`);
+    return res.data;
+  } catch (error) {
+    throw new Error(error instanceof Error ? error.message : '문제 발생');
+  }
+}
+
 export {
   getPosts,
   getPostsByCategory,
@@ -135,4 +158,6 @@ export {
   addPost,
   putPost,
   deletePost,
+  postAllComments,
+  deleteComment,
 };

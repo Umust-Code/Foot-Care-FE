@@ -3,8 +3,10 @@ const BASE_URL = 'http://localhost:8080/api';
 const API_SIGNUP = '/signup';
 const API_SIGNIN = '/login';
 const API_POSTS = '/posts';
+const API_COMMENTS = '/comments';
 const API_POSTS_CATEGORY = '/posts/category';
 const API_POSTS_COMMENT = '/comments/post';
+const API_COMMENTS_SEARCH = '/comments/search';
 const API_SURVEY_SUBMIT = '/disease-survey/submit-scores';
 const API_REFRESH = '/refresh-token';
 const API_USERS = '/users';
@@ -31,4 +33,6 @@ export {
   API_ALREADY_SURVEY,
   API_POSTS_TOP,
   API_CHECK_ID,
+  API_COMMENTS_SEARCH,
+  API_COMMENTS,
 };

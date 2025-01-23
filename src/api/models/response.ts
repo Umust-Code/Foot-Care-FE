@@ -17,6 +17,7 @@ export interface Comment {
   postId: number;
   commentContent: string;
   commentDate: string;
+  memberId: number;
   name: string;
   icon: string;
 }

@@ -2,9 +2,9 @@ import { css } from '@emotion/react';
 import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { AgGridReact } from 'ag-grid-react';
-import { getPostsByCategory } from 'api/requests/requestPost';
-import { Post } from 'api/models/response';
-import { adminColumnDef, adminDefaultColDef } from './AdminColDef';
+import { postAllComments } from 'api/requests/requestPost';
+import { Post, Comment } from 'api/models/response';
+import { commentColumnDef, commentDefaultColDef } from './CommentColDef';
 import { BasicGrid } from 'views/components/grid/BasicGrid';
 import { addCategoryName } from './adminConverter';
 import { Button, Form } from 'antd';
@@ -13,7 +13,12 @@ import { useApiStatus } from 'hooks/useApiStatus';
 import { BasicModal } from 'views/components/Modal/BasicModal';
 import { DownOutlined } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
-import { Dropdown, Space, Typography } from 'antd';
+import { Dropdown, Space, Typography, Input } from 'antd';
+import { debounce } from 'lodash';
+
+const debounceSetSearch = debounce((setter, value) => {
+  setter(value);
+}, 500);
 
 const menuContainerCss = css`
   display: flex;
@@ -41,124 +46,136 @@ const AddPostBtnCss = css`
   font-size: 14px;
 `;
 
+const searchContainerCss = css`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+`;
+
+const searchInputContainerCss = css`
+  display: flex;
+  gap: 20px;
+  align-items: center;
+`;
+
+const inputCss = css`
+  width: 150px;
+  font-size: 14px;
+  margin-left: 10px;
+  height: 24px;
+`;
+
 function AdminCommentPanel() {
-  const categoryPost = useQuery<Post[], Error>({
-    queryKey: ['category', 0],
-    queryFn: () => getPostsByCategory(0),
+  const [memberId, setMemberId] = useState(0);
+  const [commentContent, setCommentContent] = useState('');
+  const allComments = useQuery<Comment[], Error>({
+    queryKey: ['comments', memberId, commentContent],
+    queryFn: () => postAllComments(memberId, commentContent),
   });
-
-  const items = [
-    {
-      key: '1',
-      label: '게시물 관리',
-    },
-    {
-      key: '2',
-      label: '댓글 관리',
-    },
-  ];
-
   //추가 modal + form 상태관리
   const [addPostModal, setAddPostModal] = useState(false);
   const [addPostForm] = Form.useForm();
   const [status, handleStatusChange] = useApiStatus();
 
-  // const samplePost = [
-  //   {
-  //     postId: 18,
-  //     categoryId: 7,
-  //     postName: '좋아1111요 예제',
-  //     postContentName: '이 게시물은 Spring Boot로 만든 CRUD 예제입니다.',
-  //     postDate: '2024-10-10',
-  //     postView: 0,
-  //     likeCount: 0,
-  //   },
-  //   {
-  //     postId: 19,
-  //     categoryId: 7,
-  //     postName: '좋아1111요 예제',
-  //     postContentName: '이 게시물은 Spring Boot로 만든 CRUD 예제입니다.',
-  //     postDate: '2024-10-10',
-  //     postView: 0,
-  //     likeCount: 0,
-  //   },
-  //   {
-  //     postId: 20,
-  //     categoryId: 1,
-  //     postName: '좋아1111요 예제',
-  //     postContentName: '이 게시물은 Spring Boot로 만든 CRUD 예제입니다.',
-  //     postDate: '2024-10-10',
-  //     postView: 0,
-  //     likeCount: 0,
-  //   },
-  //   {
-  //     postId: 21,
-  //     categoryId: 5,
-  //     postName: '임시훈 발냄새 예제',
-  //     postContentName: '이 게시물은 Spring Boot로 만든 CRUD 예제입니다.',
-  //     postDate: '2024-10-10',
-  //     postView: 0,
-  //     likeCount: 0,
-  //   },
-  // ];
+  const debouncedSearch = debounceSetSearch;
+
+  const handleCommentContentSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.value === '') {
+      setCommentContent('');
+    } else {
+      debouncedSearch(setCommentContent, e.target.value);
+    }
+  };
+
+  const handleMemberIdSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.value === '') {
+      setMemberId(0);
+    } else {
+      debouncedSearch(setMemberId, parseInt(e.target.value) || 0);
+    }
+  };
+
+  const sampleComment = [
+    {
+      commentId: 1,
+      postId: 1,
+      commentContent: '댓글이다',
+      commentDate: '2025-01-04',
+      memberId: 1,
+      name: '관리자',
+    },
+    {
+      commentId: 2,
+      postId: 1,
+      commentContent: '댓글이다',
+      commentDate: '2025-01-04',
+      memberId: 1,
+      name: '관리자',
+    },
+    {
+      commentId: 3,
+      postId: 1,
+      commentContent: '댓글이다111111',
+      commentDate: '2025-01-04',
+      memberId: 1,
+      name: '관리자',
+    },
+    {
+      commentId: 4,
+      postId: 1,
+      commentContent: '댓글이다111111',
+      commentDate: '2025-01-04',
+      memberId: 2,
+      name: 'zz',
+    },
+    {
+      commentId: 5,
+      postId: 1,
+      commentContent: '댓글이다11234111',
+      commentDate: '2025-01-05',
+      memberId: 2,
+      name: 'zz',
+    },
+    {
+      commentId: 6,
+      postId: 2,
+      commentContent: '안녕하세요',
+      commentDate: '2025-01-05',
+      memberId: 2,
+      name: 'zz',
+    },
+    {
+      commentId: 7,
+      postId: 1,
+      commentContent: '메롱',
+      commentDate: '2025-01-05',
+      memberId: 2,
+      name: 'zz',
+    },
+  ];
   return (
     <>
-      <Dropdown
-        dropdownRender={(menu) => (
-          <div
-            css={css`
-              .ant-dropdown-menu {
-                border-radius: 0px;
-              }
-              &&& .ant-dropdown-menu-item-selected {
-                background-color: white;
-              }
-            `}
-          >
-            {menu}
+      <div css={searchContainerCss}>
+        <div css={headerContainerCss}>댓글 관리</div>
+        <div css={searchInputContainerCss}>
+          <div>
+            <label htmlFor="commentContent">댓글 내용</label>
+            <Input placeholder="댓글 내용" css={inputCss} onChange={handleCommentContentSearch} />
           </div>
-        )}
-        menu={{
-          items,
-          selectable: true,
-          defaultSelectedKeys: ['1'],
-        }}
-      >
-        <Space>
-          <div css={menuContainerCss}>관리자 메뉴</div>
-          <DownOutlined />
-        </Space>
-      </Dropdown>
-      <div css={headerContainerCss}>
-        댓글 관리
-        <Button css={AddPostBtnCss} onClick={() => setAddPostModal(true)}>
-          댓글 추가
-        </Button>
+          <div>
+            <label htmlFor="memberId">회원 아이디</label>
+            <Input placeholder="회원 아이디" css={inputCss} onChange={handleMemberIdSearch} />
+          </div>
+        </div>
       </div>
       <BasicGrid
-        data={addCategoryName(categoryPost.data || [])}
-        columnDefs={adminColumnDef}
-        defaultColDef={adminDefaultColDef}
+        data={sampleComment}
+        // data={allComments.data || []}
+        columnDefs={commentColumnDef}
+        defaultColDef={commentDefaultColDef}
         pagination={false}
         // isLoading={categoryPost.isLoading}
       />
-      <BasicModal
-        apiStatus={status}
-        onStatusChange={handleStatusChange}
-        form={[addPostForm]}
-        open={addPostModal}
-        close={() => setAddPostModal(false)}
-        title="게시물 추가"
-        okText="추가"
-        cancelText="취소"
-        confirmText="입력한 값으로 게시물을 추가하시겠습니까?"
-      >
-        <AddPostForm
-          form={addPostForm}
-          onStatusChange={handleStatusChange}
-          close={() => setAddPostModal(false)}
-        />
-      </BasicModal>
     </>
   );
 }

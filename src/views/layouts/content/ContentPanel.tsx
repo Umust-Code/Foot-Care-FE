@@ -1,5 +1,5 @@
 import { css } from '@emotion/react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { SearchInput } from 'views/components/Input/SearchInput';
 import { JumboTabs } from 'antd-mobile';
 import { ContentCard } from './ContentCard';
@@ -60,44 +60,68 @@ function ContentPanel() {
   const [addPostForm] = Form.useForm();
   const [status, handleStatusChange] = useApiStatus();
 
-  // const samplePost = [
-  //   {
-  //     postId: 18,
-  //     categoryId: 7,
-  //     postName: '좋아1111요 예제',
-  //     postContentName: '이 게시물은 Spring Boot로 만든 CRUD 예제입니다.',
-  //     postDate: '2024-10-10',
-  //     postView: 0,
-  //     likeCount: 0,
-  //   },
-  //   {
-  //     postId: 19,
-  //     categoryId: 7,
-  //     postName: '좋아1111요 예제',
-  //     postContentName: '이 게시물은 Spring Boot로 만든 CRUD 예제입니다.',
-  //     postDate: '2024-10-10',
-  //     postView: 0,
-  //     likeCount: 0,
-  //   },
-  //   {
-  //     postId: 20,
-  //     categoryId: 1,
-  //     postName: '좋아1111요 예제',
-  //     postContentName: '이 게시물은 Spring Boot로 만든 CRUD 예제입니다.',
-  //     postDate: '2024-10-10',
-  //     postView: 0,
-  //     likeCount: 0,
-  //   },
-  //   {
-  //     postId: 21,
-  //     categoryId: 5,
-  //     postName: '임시훈 발냄새 예제',
-  //     postContentName: '이 게시물은 Spring Boot로 만든 CRUD 예제입니다.',
-  //     postDate: '2024-10-10',
-  //     postView: 0,
-  //     likeCount: 0,
-  //   },
-  // ];
+  const samplePost = [
+    {
+      postId: 18,
+      categoryId: 7,
+      postName: '좋아1111요 예제',
+      postContentName: '이 게시물은 Spring Boot로 만든 CRUD 예제입니다.',
+      postDate: '2024-10-10',
+      postView: 0,
+      likeCount: 0,
+    },
+    {
+      postId: 19,
+      categoryId: 7,
+      postName: '좋아1111요 예제',
+      postContentName: '이 게시물은 Spring Boot로 만든 CRUD 예제입니다.',
+      postDate: '2024-10-10',
+      postView: 0,
+      likeCount: 0,
+    },
+    {
+      postId: 20,
+      categoryId: 1,
+      postName: '좋아1111요 예제',
+      postContentName: '이 게시물은 Spring Boot로 만든 CRUD 예제입니다.',
+      postDate: '2024-10-10',
+      postView: 0,
+      likeCount: 0,
+    },
+    {
+      postId: 21,
+      categoryId: 5,
+      postName: '임시훈 발냄새 예제',
+      postContentName: '이 게시물은 Spring Boot로 만든 CRUD 예제입니다.',
+      postDate: '2024-10-10',
+      postView: 0,
+      likeCount: 0,
+    },
+  ];
+
+  const [showButton, setShowButton] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+
+      // 스크롤 방향 확인
+      if (currentScrollY > lastScrollY) {
+        // 아래로 스크롤
+        setShowButton(false);
+      } else {
+        // 위로 스크롤
+        setShowButton(true);
+      }
+
+      setLastScrollY(currentScrollY);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [lastScrollY]);
 
   return (
     <div css={containerCss}>
@@ -132,16 +156,26 @@ function ContentPanel() {
             />
           ))
         )}
-        {/* {samplePost?.map((item) => (
+        {samplePost?.map((item) => (
           <ContentCard
             title={item.postName}
             like={item.likeCount}
             key={item.postId}
             postId={item.postId}
           />
-        ))} */}
+        ))}
       </div>
-      <Button css={addPostBtnCss} onClick={() => setAddPostModal(true)}>
+      <Button
+        css={[
+          addPostBtnCss,
+          css`
+            transition: opacity 0.3s ease;
+            opacity: ${showButton ? 1 : 0};
+            visibility: ${showButton ? 'visible' : 'hidden'};
+          `,
+        ]}
+        onClick={() => setAddPostModal(true)}
+      >
         새로운 글 작성
       </Button>
       <BasicModal

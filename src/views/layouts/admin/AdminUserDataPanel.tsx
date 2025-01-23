@@ -4,7 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 import { AgGridReact } from 'ag-grid-react';
 import { getPostsByCategory } from 'api/requests/requestPost';
 import { Post } from 'api/models/response';
-import { adminColumnDef, adminDefaultColDef } from './AdminColDef';
+import { adminColumnDef, adminDefaultColDef } from './PostColDef';
 import { BasicGrid } from 'views/components/grid/BasicGrid';
 import { addCategoryName } from './adminConverter';
 import { Button, Form } from 'antd';

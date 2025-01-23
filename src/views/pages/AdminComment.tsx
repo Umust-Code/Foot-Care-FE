@@ -1,9 +1,9 @@
-import { AdminPostPanel } from 'views/layouts/admin/AdminPostPanel';
+import { AdminCommentPanel } from 'views/layouts/admin/AdminCommentPanel';
 
 function AdminCommentPage() {
   return (
     <>
-      <AdminPostPanel />
+      <AdminCommentPanel />
     </>
   );
 }

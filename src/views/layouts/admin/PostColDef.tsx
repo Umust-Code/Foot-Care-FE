@@ -1,4 +1,4 @@
-import { ControlBtn } from './ControlBtn';
+import { ControlBtn } from './PostControlBtn';
 const adminDefaultColDef = {
   cellStyle: {
     textAlign: 'center',
