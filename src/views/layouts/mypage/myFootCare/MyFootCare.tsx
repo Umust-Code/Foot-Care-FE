@@ -97,7 +97,7 @@ function MyFootCare() {
       label: '전체 통계',
       children: (
         <div css={tabContentCss}>
-          <MyRadarChart surveyData={sampleData.data} />
+          <MyRadarChart surveyData={surveyData.data} />
         </div>
       ),
     },
@@ -106,7 +106,7 @@ function MyFootCare() {
       label: '날짜별 통계',
       children: (
         <div css={tabContentCss}>
-          <MyLineChart surveyData={sampleData.data} />
+          <MyLineChart surveyData={surveyData.data} />
         </div>
       ),
     },

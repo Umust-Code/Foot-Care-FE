@@ -33,6 +33,7 @@ interface FormModalProps {
   previousData: any;
   onStatusChange: (status: StatusType) => void;
   close: () => void;
+  refetch?: any;
 }
 
 function EditForm(props: FormModalProps) {
@@ -50,6 +51,7 @@ function EditForm(props: FormModalProps) {
       } else {
         // 일반 페이지 수정
         queryClient.invalidateQueries({ queryKey: ['post', props.previousData.postId] });
+        props.refetch.refetch();
       }
     },
     onError: () => {

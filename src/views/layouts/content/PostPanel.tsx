@@ -422,6 +422,7 @@ function PostPanel() {
       >
         <EditForm
           isAdminPage={false}
+          refetch={post}
           form={editPostForm}
           previousData={post.data}
           onStatusChange={handleStatusChange}
