@@ -10,6 +10,7 @@ export interface Post {
   postDate: string;
   postView: number;
   likeCount: number;
+  memberId: number;
 }
 
 export interface Comment {

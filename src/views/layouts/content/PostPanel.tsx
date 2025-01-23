@@ -14,13 +14,15 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { HeartOutlined, HeartFilled, CommentOutlined } from '@ant-design/icons';
 import { css } from '@emotion/react';
 import { colorLight } from 'styles/colors';
-import { Button, Input } from 'antd';
+import { Button, Input, Form, Modal } from 'antd';
 import { BackButton } from 'views/components/Button/BackButton';
 import { useUserInfoStore } from 'stores/userStore';
 import { getImageSrcByValue } from 'views/components/IconConverter';
-import { Modal } from 'antd';
 import { deleteComment } from 'api/requests/requestPost';
-
+import { useApiStatus } from 'hooks/useApiStatus';
+import { BasicModal } from 'views/components/Modal/BasicModal';
+import { EditForm } from 'views/layouts/admin/post/EditPostForm';
+import { DeleteForm } from 'views/layouts/admin/post/DeletePostForm';
 const containerCss = css`
   width: 100%;
   height: calc(100% - 52px);
@@ -93,6 +95,7 @@ const commentControlCss = css`
 function PostPanel() {
   const queryClient = useQueryClient();
 
+  // 게시물
   const { userInfo } = useUserInfoStore();
   const [searchParams] = useSearchParams();
   const postId = searchParams.get('postId');
@@ -113,6 +116,7 @@ function PostPanel() {
   //     postDate: '2024-03-20',
   //     postView: 128,
   //     likeCount: 15,
+  //     memberId: 2,
   //   },
   // };
   const isLikedQuery = useQuery({
@@ -134,12 +138,23 @@ function PostPanel() {
     },
   });
 
-  // 댓글
+  //수정 modal + form 상태관리
+  const [editPostModal, setEditPostModal] = useState(false);
+  const [editPostForm] = Form.useForm();
+
+  //삭제 modal + form 상태관리
+  const [deletePostModal, setDeletePostModal] = useState(false);
+  const [deletePostForm] = Form.useForm();
+
+  //api 상태 관리
+  const [status, handleStatusChange] = useApiStatus();
+
+  // ----------------댓글---------------
   const [addComment, setAddComment] = useState('');
 
   const [controlCommentId, setControlCommentId] = useState(0);
-  const [deletePostModal, setDeletePostModal] = useState(false);
-  const [putPostModal, setPutPostModal] = useState(false);
+  const [deleteCommentModal, setDeleteCommentModal] = useState(false);
+  const [putCommentModal, setPutCommentModal] = useState(false);
   const [editComment, setEditComment] = useState<string>('');
   const [confirmModalState, setConfirmModalState] = useState(false);
   const [errorModalState, setErrorModalState] = useState(false);
@@ -197,7 +212,7 @@ function PostPanel() {
     mutationFn: () => putComment(controlCommentId, { commentContent: editComment }),
     onSuccess: () => {
       setConfirmModalState(true);
-      setPutPostModal(false);
+      setPutCommentModal(false);
       setEditComment('');
     },
     onError: () => {
@@ -234,6 +249,35 @@ function PostPanel() {
           <span> {post.data?.postDate}</span>
           <span> 조회수 {post.data?.postView}</span>
         </div>
+        {userInfo.memberId === post.data?.memberId || userInfo.memberId === 1 ? (
+          <div
+            css={css`
+              display: flex;
+              flex-direction: row-reverse;
+              gap: 5px;
+              margin-left: 5px;
+            `}
+          >
+            <div
+              css={commentControlCss}
+              onClick={() => {
+                setDeletePostModal(true);
+              }}
+            >
+              삭제
+            </div>
+            <div
+              css={commentControlCss}
+              onClick={() => {
+                setEditPostModal(true);
+              }}
+            >
+              수정
+            </div>
+          </div>
+        ) : (
+          <div />
+        )}
         <div
           css={css`
             width: 100%;
@@ -247,34 +291,44 @@ function PostPanel() {
             `}
           ></div>
           <div css={contentCss}>{post.data?.postContentName}</div>
-
           <div
             css={css`
               display: flex;
               align-items: center;
-              gap: 6px;
               margin-top: 10px;
+              justify-content: space-between;
             `}
           >
-            {isLikedQuery.data === 'Y' ? (
-              <HeartFilled css={likeCss(isLikedQuery.data)} onClick={() => likeMutation.mutate()} />
-            ) : (
-              <HeartOutlined
-                css={likeCss(isLikedQuery.data)}
-                onClick={() => likeMutation.mutate()}
-              />
-            )}
-            <div css={likeCountCss}>{likeCount.toLocaleString('ko-KR')}</div>
             <div
               css={css`
                 display: flex;
                 align-items: center;
                 gap: 6px;
-                margin-left: 8px;
               `}
             >
-              <CommentOutlined css={commentCss} />
-              <div css={likeCountCss}>{comment.data?.length}</div>
+              {isLikedQuery.data === 'Y' ? (
+                <HeartFilled
+                  css={likeCss(isLikedQuery.data)}
+                  onClick={() => likeMutation.mutate()}
+                />
+              ) : (
+                <HeartOutlined
+                  css={likeCss(isLikedQuery.data)}
+                  onClick={() => likeMutation.mutate()}
+                />
+              )}
+              <div css={likeCountCss}>{likeCount.toLocaleString('ko-KR')}</div>
+              <div
+                css={css`
+                  display: flex;
+                  align-items: center;
+                  gap: 6px;
+                  margin-left: 8px;
+                `}
+              >
+                <CommentOutlined css={commentCss} />
+                <div css={likeCountCss}>{comment.data?.length}</div>
+              </div>
             </div>
           </div>
 
@@ -296,8 +350,8 @@ function PostPanel() {
             />
             <Button onClick={() => sendComment.mutate()}>입력</Button>
           </div>
-          {sampleComment.map((comment) => (
-            // {comment.data?.map((comment) => (
+          {/* {sampleComment.map((comment) => ( */}
+          {comment.data?.map((comment) => (
             <div>
               <div css={commentInfoCss}>
                 <img
@@ -330,7 +384,7 @@ function PostPanel() {
                         <div
                           css={commentControlCss}
                           onClick={() => {
-                            setPutPostModal(true);
+                            setPutCommentModal(true);
                             setControlCommentId(comment.commentId);
                           }}
                         >
@@ -339,7 +393,7 @@ function PostPanel() {
                         <div
                           css={commentControlCss}
                           onClick={() => {
-                            setDeletePostModal(true);
+                            setDeleteCommentModal(true);
                             setControlCommentId(comment.commentId);
                           }}
                         >
@@ -358,11 +412,49 @@ function PostPanel() {
         </div>
       </div>
 
+      <BasicModal
+        apiStatus={status}
+        onStatusChange={handleStatusChange}
+        form={[editPostForm]}
+        open={editPostModal}
+        close={() => setEditPostModal(false)}
+        title="게시글 수정"
+        okText="수정"
+        cancelText="취소"
+        confirmText="입력한 값으로 게시글 정보를 수정하시겠습니까?"
+      >
+        <EditForm
+          form={editPostForm}
+          previousData={post.data}
+          onStatusChange={handleStatusChange}
+          close={() => setEditPostModal(false)}
+        />
+      </BasicModal>
+
+      <BasicModal
+        apiStatus={status}
+        onStatusChange={handleStatusChange}
+        form={[deletePostForm]}
+        open={deletePostModal}
+        close={() => setDeletePostModal(false)}
+        title="게시글 삭제"
+        okText="삭제"
+        cancelText="취소"
+        confirmText="게시글을 삭제하시겠습니까?"
+      >
+        <DeleteForm
+          form={deletePostForm}
+          previousData={post.data}
+          onStatusChange={handleStatusChange}
+          close={() => setDeletePostModal(false)}
+        />
+      </BasicModal>
+
       <Modal
         title={'설정 확인'}
-        open={deletePostModal}
+        open={deleteCommentModal}
         onOk={() => deleteCommentMutation.mutate()}
-        onCancel={() => setDeletePostModal(false)}
+        onCancel={() => setDeleteCommentModal(false)}
         width={400}
         centered={true}
         okText="확인"
@@ -375,10 +467,10 @@ function PostPanel() {
 
       <Modal
         title={'댓글 수정'}
-        open={putPostModal}
+        open={putCommentModal}
         onOk={() => putCommentMutation.mutate()}
         onCancel={() => {
-          setPutPostModal(false);
+          setPutCommentModal(false);
           setEditComment('');
         }}
         width={400}
