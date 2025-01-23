@@ -1,4 +1,4 @@
-import { AdminCommentPanel } from 'views/layouts/admin/AdminCommentPanel';
+import { AdminCommentPanel } from 'views/layouts/admin/comment/AdminCommentPanel';
 
 function AdminCommentPage() {
   return (

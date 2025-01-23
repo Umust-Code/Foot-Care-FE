@@ -52,6 +52,15 @@ async function postComment(postId: number, memberId: number, comment: AddComment
   }
 }
 
+async function putComment(commentId: number, comment: AddComment) {
+  try {
+    const res = await clientApi.put(`${API_COMMENTS}/${commentId}`, comment);
+    return res.data;
+  } catch (error) {
+    throw new Error(error instanceof Error ? error.message : '문제 발생');
+  }
+}
+
 async function postAllComments(memberName?: string, commentContent?: string) {
   try {
     const res = await clientApi.post<Comment[]>(API_COMMENTS_SEARCH, {
@@ -160,4 +169,5 @@ export {
   deletePost,
   postAllComments,
   deleteComment,
+  putComment,
 };

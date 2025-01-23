@@ -7,7 +7,7 @@ import { getPosts, getPostsByCategory } from 'api/requests/requestPost';
 import { useQuery } from '@tanstack/react-query';
 import { Skeleton, Button, Form } from 'antd';
 import { Post } from 'api/models/response';
-import { AddPostForm } from 'views/layouts/admin/AddPostForm';
+import { AddPostForm } from 'views/layouts/admin/post/AddPostForm';
 import { useApiStatus } from 'hooks/useApiStatus';
 import { BasicModal } from 'views/components/Modal/BasicModal';
 

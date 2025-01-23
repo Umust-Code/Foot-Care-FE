@@ -1,4 +1,4 @@
-import { AdminPostPanel } from 'views/layouts/admin/AdminPostPanel';
+import { AdminPostPanel } from 'views/layouts/admin/post/AdminPostPanel';
 
 function AdminPostPage() {
   return (

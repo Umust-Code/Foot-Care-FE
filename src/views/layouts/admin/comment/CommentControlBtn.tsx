@@ -28,7 +28,6 @@ interface CommentControlBtnProps {
 
 function CommentControlBtn(props: CommentControlBtnProps) {
   const queryClient = useQueryClient();
-  //삭제 modal + form 상태관리
   const [deletePostModal, setDeletePostModal] = useState(false);
   const [confirmModalState, setConfirmModalState] = useState(false);
   const [errorModalState, setErrorModalState] = useState(false);
@@ -36,8 +35,8 @@ function CommentControlBtn(props: CommentControlBtnProps) {
   const deleteCommentMutation = useMutation({
     mutationFn: deleteComment,
     onSuccess: () => {
-      setDeletePostModal(false);
       setConfirmModalState(true);
+      setDeletePostModal(false);
       queryClient.invalidateQueries({
         queryKey: ['comments', props.memberName, props.commentContent],
       });

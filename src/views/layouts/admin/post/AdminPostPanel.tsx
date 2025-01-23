@@ -6,7 +6,7 @@ import { getPostsByCategory } from 'api/requests/requestPost';
 import { Post } from 'api/models/response';
 import { adminColumnDef, adminDefaultColDef } from './PostColDef';
 import { BasicGrid } from 'views/components/grid/BasicGrid';
-import { addCategoryName } from './adminConverter';
+import { addCategoryName } from '../adminConverter';
 import { Button, Form } from 'antd';
 import { AddPostForm } from './AddPostForm';
 import { useApiStatus } from 'hooks/useApiStatus';
