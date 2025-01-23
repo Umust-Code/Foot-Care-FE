@@ -18,6 +18,7 @@ export interface Comment {
   commentContent: string;
   commentDate: string;
   name: string;
+  icon: string;
 }
 export interface SigninResponse {
   accessToken: string;

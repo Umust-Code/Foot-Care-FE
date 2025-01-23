@@ -44,7 +44,7 @@ const tabs = [
 
 const adminTabs = [
   {
-    key: '/admin',
+    key: '/admin/post',
     title: '관리자페이지',
     icon: <IoAccessibility />,
   },

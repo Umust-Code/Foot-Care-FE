@@ -47,4 +47,5 @@ export interface AddPost {
   postDate: string;
   postView: number;
   likeCount: number;
+  memberId: number;
 }

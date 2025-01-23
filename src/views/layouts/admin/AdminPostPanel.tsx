@@ -15,7 +15,7 @@ import { BasicModal } from 'views/components/Modal/BasicModal';
 const headerContainerCss = css`
   display: flex;
   font-size: 16px;
-  height: 30px;
+  height: 26px;
   margin-left: 5px;
   align-items: center;
   margin-bottom: 5px;
@@ -28,7 +28,7 @@ const AddPostBtnCss = css`
   font-size: 14px;
 `;
 
-function AdminPanel() {
+function AdminPostPanel() {
   const categoryPost = useQuery<Post[], Error>({
     queryKey: ['category', 0],
     queryFn: () => getPostsByCategory(0),
@@ -113,4 +113,4 @@ function AdminPanel() {
   );
 }
 
-export { AdminPanel };
+export { AdminPostPanel };

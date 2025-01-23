@@ -11,9 +11,12 @@ import { Post } from 'views/pages/Post';
 import { Mypage } from 'views/pages/Mypage';
 import { ChangeInfo } from 'views/pages/ChangeInfo';
 import { LikePanel } from 'views/layouts/mypage/LikePanel';
-import { MyChart } from 'views/layouts/mypage/MyChart';
-import { AdminPage } from 'views/pages/AdminPage';
+import { MyFootCare } from 'views/layouts/mypage/myFootCare/MyFootCare';
+import { AdminPostPage } from 'views/pages/AdminPost';
+import { AdminCommentPage } from 'views/pages/AdminComment';
+import { AdminUserData } from 'views/pages/AdminUserData';
 import { AdminRoute } from 'views/components/PrivateRoute';
+import { AdminPanel } from 'views/layouts/AdminPanel';
 
 const AppRouter = createBrowserRouter([
   {
@@ -30,13 +33,21 @@ const AppRouter = createBrowserRouter([
     path: '/admin',
     element: (
       <AdminRoute>
-        <MainPanel />
+        <AdminPanel />
       </AdminRoute>
     ),
     children: [
       {
-        path: '/admin',
-        element: <AdminPage />,
+        path: '/admin/post',
+        element: <AdminPostPage />,
+      },
+      {
+        path: '/admin/comment',
+        element: <AdminCommentPage />,
+      },
+      {
+        path: '/admin/userdata',
+        element: <AdminUserData />,
       },
     ],
   },
@@ -78,12 +89,12 @@ const AppRouter = createBrowserRouter([
       },
       {
         path: '/line-chart',
-        element: <MyChart />,
+        element: <MyFootCare />,
       },
-      {
-        path: '/admin',
-        element: <AdminPage />,
-      },
+      // {
+      //   path: '/admin',
+      //   element: <AdminPage />,
+      // },
     ],
     errorElement: <ErrorPage />,
   },

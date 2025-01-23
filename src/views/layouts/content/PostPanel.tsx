@@ -16,6 +16,7 @@ import { colorLight } from 'styles/colors';
 import { Button, Input } from 'antd';
 import { BackButton } from 'views/components/Button/BackButton';
 import { useUserInfoStore } from 'stores/userStore';
+import { getImageSrcByValue } from 'views/components/IconConverter';
 
 const containerCss = css`
   width: 100%;
@@ -46,15 +47,38 @@ const contentCss = css`
 
 const likeCss = (isLiked: string | undefined) => css`
   color: ${isLiked === 'Y' ? '#ff5e5e' : 'black'};
-  font-size: 26px;
+  font-size: 30px;
 `;
 
 const commentCss = css`
-  font-size: 26px;
+  font-size: 30px;
 `;
 
 const likeCountCss = css`
   font-size: 18px;
+`;
+
+const commentInfoCss = css`
+  display: flex;
+  gap: 5px;
+  flex-direction: row;
+  align-items: flex-start;
+  margin: 10px 0;
+`;
+
+const nameCss = css`
+  font-size: 16px;
+  font-family: 'Pretendard-Bold';
+`;
+
+const emailCss = css`
+  font-size: 14px;
+  color: grey;
+`;
+
+const commentContentCss = css`
+  font-size: 14px;
+  margin-top: 3px;
 `;
 
 function PostPanel() {
@@ -89,6 +113,25 @@ function PostPanel() {
     queryKey: ['comment', postId],
     queryFn: () => getComment(Number(postId)),
   });
+
+  // const sampleComment = [
+  //   {
+  //     commentId: 1,
+  //     postId: 12,
+  //     commentContent: '댓글이다',
+  //     commentDate: '2024-10-10',
+  //     name: '사용자',
+  //     icon: '01',
+  //   },
+  //   {
+  //     commentId: 2,
+  //     postId: 12,
+  //     commentContent: '댓글이에요',
+  //     commentDate: '2024-10-10',
+  //     name: '사용자2',
+  //     icon: '02',
+  //   },
+  // ];
 
   const [addComment, setAddComment] = useState('');
   const [likeCount, setLikeCount] = useState<number>(0);
@@ -162,19 +205,9 @@ function PostPanel() {
               display: flex;
               align-items: center;
               gap: 6px;
+              margin-top: 10px;
             `}
           >
-            <div
-              css={css`
-                display: flex;
-                align-items: center;
-                gap: 6px;
-                margin-right: 8px;
-              `}
-            >
-              <CommentOutlined css={commentCss} />
-              <div css={likeCountCss}>{comment.data?.length}</div>
-            </div>
             {isLikedQuery.data === 'Y' ? (
               <HeartFilled css={likeCss(isLikedQuery.data)} onClick={() => likeMutation.mutate()} />
             ) : (
@@ -184,56 +217,62 @@ function PostPanel() {
               />
             )}
             <div css={likeCountCss}>{likeCount.toLocaleString('ko-KR')}</div>
+            <div
+              css={css`
+                display: flex;
+                align-items: center;
+                gap: 6px;
+                margin-left: 8px;
+              `}
+            >
+              <CommentOutlined css={commentCss} />
+              <div css={likeCountCss}>{comment.data?.length}</div>
+            </div>
           </div>
 
           <div
             css={css`
               display: flex;
               justify-content: space-between;
+              margin-top: 10px;
               gap: 10px;
             `}
           >
             <Input
               css={css`
-                width: 80%;
+                width: 90%;
               `}
               placeholder="댓글을 입력하세요"
               value={addComment}
               onChange={(e) => setAddComment(e.target.value)}
             />
-            <Button onClick={() => sendComment.mutate()}>전송</Button>
+            <Button onClick={() => sendComment.mutate()}>입력</Button>
           </div>
+          {/* {sampleComment.map((comment) => ( */}
           {comment.data?.map((comment) => (
-            <div
-              css={css`
-                display: flex;
-                flex-direction: column;
-                align-items: flex-start;
-                margin: 5px 0;
-              `}
-            >
-              <div
-                css={css`
-                  display: flex;
-                  gap: 10px;
-                `}
-              >
-                <div>{comment.name}</div>
-                <div
-                  css={css`
-                    font-size: 10px;
-                    color: #999;
-                  `}
-                >
-                  {comment.commentDate}
+            <div>
+              <div css={commentInfoCss}>
+                <img
+                  src={getImageSrcByValue(comment.icon)}
+                  alt={'user icon'}
+                  style={{
+                    width: '45px',
+                    height: '45px',
+                    borderRadius: '30px',
+                  }}
+                />
+                <div>
+                  <div
+                    css={css`
+                      display: flex;
+                      gap: 5px;
+                    `}
+                  >
+                    <div css={nameCss}>{comment.name}</div>
+                    <div css={emailCss}>{comment.commentDate}</div>
+                  </div>
+                  <div css={commentContentCss}>{comment.commentContent}</div>
                 </div>
-              </div>
-              <div
-                css={css`
-                  font-size: 14px;
-                `}
-              >
-                {comment.commentContent}
               </div>
             </div>
           ))}

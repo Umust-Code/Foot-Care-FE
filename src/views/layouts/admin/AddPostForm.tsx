@@ -5,6 +5,7 @@ import { css } from '@emotion/react';
 import { AddPost } from 'api/models/request';
 import { addPost } from 'api/requests/requestPost';
 import { StatusType } from 'types/apiStatusTypes';
+import { useUserInfoStore } from 'stores/userStore';
 
 const formCss = css`
   .ant-form-item {
@@ -44,6 +45,7 @@ function AddPostForm(props: FormModalProps) {
     return `${year}-${month}-${day}`;
   }
   const queryClient = useQueryClient();
+  const memberId = useUserInfoStore((state) => state.userInfo.memberId);
 
   const addPostMutation = useMutation({
     mutationFn: (data: AddPost) => addPost(data),
@@ -63,7 +65,7 @@ function AddPostForm(props: FormModalProps) {
   });
 
   const onFinish: FormProps<FieldType>['onFinish'] = (values) => {
-    addPostMutation.mutate(values);
+    addPostMutation.mutate({ ...values, memberId: memberId });
   };
 
   return (
@@ -109,7 +111,14 @@ function AddPostForm(props: FormModalProps) {
         <Input disabled />
       </Form.Item>
 
-      <Form.Item<FieldType> label="게시글 조회수" name="postView" initialValue={0}>
+      <Form.Item<FieldType>
+        label="게시글 조회수"
+        name="postView"
+        initialValue={0}
+        css={css`
+          display: none;
+        `}
+      >
         <Input disabled />
       </Form.Item>
     </Form>
