@@ -52,10 +52,10 @@ async function postComment(postId: number, memberId: number, comment: AddComment
   }
 }
 
-async function postAllComments(memberId?: number, commentContent?: string) {
+async function postAllComments(memberName?: string, commentContent?: string) {
   try {
     const res = await clientApi.post<Comment[]>(API_COMMENTS_SEARCH, {
-      memberId: memberId === 0 ? undefined : memberId,
+      memberName: memberName === '' ? undefined : memberName,
       commentContent: commentContent === '' ? undefined : commentContent,
     });
     return res.data;
