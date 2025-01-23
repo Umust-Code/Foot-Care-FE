@@ -171,7 +171,6 @@ function SignupPanel() {
         content: '이미 사용 중인 이메일 주소입니다.',
       });
     }
-    form.validateFields(['id']);
   };
 
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -276,8 +275,12 @@ function SignupPanel() {
                 });
                 return;
               }
-              await checkIdMutation.mutateAsync(id);
-              form.validateFields(['id']);
+              try {
+                await checkIdMutation.mutateAsync(id);
+                await form.validateFields(['id']);
+              } catch (error) {
+                console.error('Error checking ID:', error);
+              }
             }}
             css={css`
               height: 46px;
