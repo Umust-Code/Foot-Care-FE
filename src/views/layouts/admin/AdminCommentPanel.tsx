@@ -66,11 +66,11 @@ const inputCss = css`
 `;
 
 function AdminCommentPanel() {
-  const [memberId, setMemberId] = useState(0);
+  const [memberName, setMemberName] = useState('');
   const [commentContent, setCommentContent] = useState('');
   const { data } = useQuery<Comment[], Error>({
-    queryKey: ['comments', memberId, commentContent],
-    queryFn: () => postAllComments(memberId, commentContent),
+    queryKey: ['comments', memberName, commentContent],
+    queryFn: () => postAllComments(memberName, commentContent),
   });
 
   const debouncedSearch = debounceSetSearch;
@@ -83,11 +83,11 @@ function AdminCommentPanel() {
     }
   };
 
-  const handleMemberIdSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleMemberNameSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.value === '') {
-      setMemberId(0);
+      setMemberName('');
     } else {
-      debouncedSearch(setMemberId, parseInt(e.target.value) || 0);
+      debouncedSearch(setMemberName, e.target.value);
     }
   };
 
@@ -156,18 +156,18 @@ function AdminCommentPanel() {
         <div css={searchInputContainerCss}>
           <div>
             <label htmlFor="commentContent">댓글 내용</label>
-            <Input placeholder="댓글 내용" css={inputCss} onChange={handleCommentContentSearch} />
+            <Input css={inputCss} onChange={handleCommentContentSearch} />
           </div>
           <div>
-            <label htmlFor="memberId">회원 아이디</label>
-            <Input placeholder="회원 아이디" css={inputCss} onChange={handleMemberIdSearch} />
+            <label htmlFor="memberId">유저 이름</label>
+            <Input css={inputCss} onChange={handleMemberNameSearch} />
           </div>
         </div>
       </div>
       <BasicGrid
         // data={sampleComment}
         data={data || []}
-        columnDefs={getCommentColumnDef(memberId, commentContent)}
+        columnDefs={getCommentColumnDef(memberName, commentContent)}
         defaultColDef={commentDefaultColDef}
         pagination={false}
         // isLoading={categoryPost.isLoading}

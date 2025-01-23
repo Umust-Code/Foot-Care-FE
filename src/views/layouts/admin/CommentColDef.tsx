@@ -7,7 +7,7 @@ const commentDefaultColDef = {
   },
 };
 
-const getCommentColumnDef = (memberId: number, commentContent: string) => [
+const getCommentColumnDef = (memberName: string, commentContent: string) => [
   {
     field: 'commentId',
     headerName: '댓글번호',
@@ -50,7 +50,11 @@ const getCommentColumnDef = (memberId: number, commentContent: string) => [
     flex: 0.7,
     autoHeight: true,
     cellRenderer: (params: any) => (
-      <CommentControlBtn data={params.data} memberId={memberId} commentContent={commentContent} />
+      <CommentControlBtn
+        data={params.data}
+        memberName={memberName}
+        commentContent={commentContent}
+      />
     ),
   },
 ];

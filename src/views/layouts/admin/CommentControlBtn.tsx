@@ -22,7 +22,7 @@ const buttonCss = css`
 
 interface CommentControlBtnProps {
   data: Comment;
-  memberId: number;
+  memberName: string;
   commentContent: string;
 }
 
@@ -39,7 +39,7 @@ function CommentControlBtn(props: CommentControlBtnProps) {
       setDeletePostModal(false);
       setConfirmModalState(true);
       queryClient.invalidateQueries({
-        queryKey: ['comments', props.memberId, props.commentContent],
+        queryKey: ['comments', props.memberName, props.commentContent],
       });
     },
     onError: () => {
