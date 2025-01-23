@@ -60,44 +60,44 @@ function ContentPanel() {
   const [addPostForm] = Form.useForm();
   const [status, handleStatusChange] = useApiStatus();
 
-  const samplePost = [
-    {
-      postId: 18,
-      categoryId: 7,
-      postName: '좋아1111요 예제',
-      postContentName: '이 게시물은 Spring Boot로 만든 CRUD 예제입니다.',
-      postDate: '2024-10-10',
-      postView: 0,
-      likeCount: 0,
-    },
-    {
-      postId: 19,
-      categoryId: 7,
-      postName: '좋아1111요 예제',
-      postContentName: '이 게시물은 Spring Boot로 만든 CRUD 예제입니다.',
-      postDate: '2024-10-10',
-      postView: 0,
-      likeCount: 0,
-    },
-    {
-      postId: 20,
-      categoryId: 1,
-      postName: '좋아1111요 예제',
-      postContentName: '이 게시물은 Spring Boot로 만든 CRUD 예제입니다.',
-      postDate: '2024-10-10',
-      postView: 0,
-      likeCount: 0,
-    },
-    {
-      postId: 21,
-      categoryId: 5,
-      postName: '임시훈 발냄새 예제',
-      postContentName: '이 게시물은 Spring Boot로 만든 CRUD 예제입니다.',
-      postDate: '2024-10-10',
-      postView: 0,
-      likeCount: 0,
-    },
-  ];
+  // const samplePost = [
+  //   {
+  //     postId: 18,
+  //     categoryId: 7,
+  //     postName: '좋아1111요 예제',
+  //     postContentName: '이 게시물은 Spring Boot로 만든 CRUD 예제입니다.',
+  //     postDate: '2024-10-10',
+  //     postView: 0,
+  //     likeCount: 0,
+  //   },
+  //   {
+  //     postId: 19,
+  //     categoryId: 7,
+  //     postName: '좋아1111요 예제',
+  //     postContentName: '이 게시물은 Spring Boot로 만든 CRUD 예제입니다.',
+  //     postDate: '2024-10-10',
+  //     postView: 0,
+  //     likeCount: 0,
+  //   },
+  //   {
+  //     postId: 20,
+  //     categoryId: 1,
+  //     postName: '좋아1111요 예제',
+  //     postContentName: '이 게시물은 Spring Boot로 만든 CRUD 예제입니다.',
+  //     postDate: '2024-10-10',
+  //     postView: 0,
+  //     likeCount: 0,
+  //   },
+  //   {
+  //     postId: 21,
+  //     categoryId: 5,
+  //     postName: '임시훈 발냄새 예제',
+  //     postContentName: '이 게시물은 Spring Boot로 만든 CRUD 예제입니다.',
+  //     postDate: '2024-10-10',
+  //     postView: 0,
+  //     likeCount: 0,
+  //   },
+  // ];
 
   const [showButton, setShowButton] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
@@ -156,14 +156,14 @@ function ContentPanel() {
             />
           ))
         )}
-        {samplePost?.map((item) => (
+        {/* {samplePost?.map((item) => (
           <ContentCard
             title={item.postName}
             like={item.likeCount}
             key={item.postId}
             postId={item.postId}
           />
-        ))}
+        ))} */}
       </div>
       <Button
         css={[
