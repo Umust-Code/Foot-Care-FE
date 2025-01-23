@@ -253,16 +253,16 @@ function SignupPanel() {
       </div>
       <Form.Item<FieldType>
         name="id"
-        // rules={[
-        //   ({ getFieldValue }) => ({
-        //     validator(_, value) {
-        //       if (isIdChecked) {
-        //         return Promise.resolve();
-        //       }
-        //       return Promise.reject(new Error('이메일 중복 확인이 필요합니다.'));
-        //     },
-        //   }),
-        // ]}
+        rules={[
+          ({ getFieldValue }) => ({
+            validator(_, value) {
+              if (isIdChecked) {
+                return Promise.resolve();
+              }
+              return Promise.reject(new Error('이메일 중복 확인이 필요합니다.'));
+            },
+          }),
+        ]}
         css={formItemCss}
       >
         <Space.Compact style={{ width: '100%' }}>
