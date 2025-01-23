@@ -199,9 +199,6 @@ function PostPanel() {
       setConfirmModalState(true);
       setPutPostModal(false);
       setEditComment('');
-      queryClient.invalidateQueries({
-        queryKey: ['comments', postId],
-      });
     },
     onError: () => {
       setErrorModalState(true);
@@ -299,8 +296,8 @@ function PostPanel() {
             />
             <Button onClick={() => sendComment.mutate()}>입력</Button>
           </div>
-          {/* {sampleComment.map((comment) => ( */}
-          {comment.data?.map((comment) => (
+          {sampleComment.map((comment) => (
+            // {comment.data?.map((comment) => (
             <div>
               <div css={commentInfoCss}>
                 <img
@@ -322,7 +319,7 @@ function PostPanel() {
                   >
                     <div css={nameCss}>{comment.name}</div>
                     <div css={commentDateCss}>{comment.commentDate}</div>
-                    {userInfo.memberId === comment.memberId ? (
+                    {userInfo.memberId === comment.memberId || userInfo.memberId === 1 ? (
                       <div
                         css={css`
                           display: flex;
@@ -405,7 +402,18 @@ function PostPanel() {
         width={400}
         centered={true}
         footer={[
-          <Button key="ok" type="primary" onClick={() => setConfirmModalState(false)}>
+          <Button
+            key="ok"
+            type="primary"
+            onClick={() => {
+              {
+                setConfirmModalState(false);
+                queryClient.invalidateQueries({
+                  queryKey: ['comments', postId],
+                });
+              }
+            }}
+          >
             확인
           </Button>,
         ]}
@@ -418,7 +426,16 @@ function PostPanel() {
         width={400}
         centered={true}
         footer={[
-          <Button key="ok" type="primary" onClick={() => setErrorModalState(false)}>
+          <Button
+            key="ok"
+            type="primary"
+            onClick={() => {
+              setErrorModalState(false);
+              queryClient.invalidateQueries({
+                queryKey: ['comments', postId],
+              });
+            }}
+          >
             확인
           </Button>,
         ]}
