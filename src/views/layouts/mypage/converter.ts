@@ -104,4 +104,14 @@ const calculateDiseaseAverages = (data: any) => {
   ];
 };
 
-export { transformChartData, calculateDiseaseAverages };
+const convertToNameValue = (data: any) => {
+  if (!data || data.length === 0) return [];
+
+  const firstEntry = data[0];
+  return Object.entries(diseaseMap).map(([key, name]) => ({
+    name,
+    value: firstEntry[key],
+  }));
+};
+
+export { transformChartData, calculateDiseaseAverages, convertToNameValue };

@@ -158,36 +158,39 @@ function SignupPanel() {
     onMutate: () => {},
   });
 
-  const handleCheckIdSuccess = (data: string) => {
-    if (data === 'N') {
-      setIsIdChecked(true);
-      messageApi.open({
-        type: 'success',
-        content: '사용 가능한 이메일 주소입니다.',
-      });
-    } else {
-      messageApi.open({
-        type: 'error',
-        content: '이미 사용 중인 이메일 주소입니다.',
-      });
-    }
-  };
-
-  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setId(e.target.value.trim()); // 공백 제거
-    setIsIdChecked(false); // 상태 초기화
-  };
-
   const checkIdMutation = useMutation({
     mutationFn: getCheckId,
-    onSuccess: handleCheckIdSuccess,
+    onSuccess: (data) => {
+      if (data === 'N') {
+        setIsIdChecked(true);
+        messageApi.open({
+          type: 'success',
+          content: '사용 가능한 이메일 주소입니다.',
+        });
+        form.validateFields(['id']).catch((err) => {
+          console.log('validation error:', err);
+        });
+      } else {
+        setIsIdChecked(false);
+        messageApi.open({
+          type: 'error',
+          content: '이미 사용 중인 이메일 주소입니다.',
+        });
+      }
+    },
     onError: (error) => {
+      setIsIdChecked(false);
       messageApi.open({
         type: 'error',
         content: error.message,
       });
     },
   });
+
+  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setId(e.target.value.trim()); // 공백 제거
+    setIsIdChecked(false); // 상태 초기화
+  };
 
   const onFinish = (values: any) => {
     const { pwdConfirm, ...signupData } = values;
@@ -267,7 +270,7 @@ function SignupPanel() {
         <Space.Compact style={{ width: '100%' }}>
           <Input placeholder="이메일 주소" css={inputCss} onChange={handleEmailChange} />
           <Button
-            onClick={async () => {
+            onClick={() => {
               if (!id) {
                 messageApi.open({
                   type: 'warning',
@@ -275,12 +278,7 @@ function SignupPanel() {
                 });
                 return;
               }
-              try {
-                await checkIdMutation.mutateAsync(id);
-                await form.validateFields(['id']);
-              } catch (error) {
-                console.error('Error checking ID:', error);
-              }
+              checkIdMutation.mutate(id);
             }}
             css={css`
               height: 46px;
