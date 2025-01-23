@@ -4,7 +4,7 @@ import icon3 from 'assets/icon3.png';
 import icon4 from 'assets/icon4.png';
 import icon5 from 'assets/icon5.png';
 
-function getImageSrcByValue(value: string): string | undefined {
+function getImageSrcByValue(value: string | undefined): string | undefined {
   const options = [
     {
       label: 'rabbit',

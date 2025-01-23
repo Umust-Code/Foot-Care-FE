@@ -34,6 +34,7 @@ export interface UserDataResponse {
   name: string;
   address: string;
   phone: string;
+  icon: string;
 }
 
 export interface SurveyScore {

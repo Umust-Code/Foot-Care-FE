@@ -9,6 +9,7 @@ import { useState } from 'react';
 import { deleteUser } from 'api/requests/requestUser';
 import { requestSignout } from 'api/requests/requestAuth';
 import { getUserAlreadySurvey } from 'api/requests/requestSurvey';
+import { getImageSrcByValue } from 'views/components/IconConverter';
 
 const containerCss = css`
   width: 100%;
@@ -138,7 +139,15 @@ function MypagePanel() {
   return (
     <div css={containerCss}>
       <div css={myInfoCardCss}>
-        <IoPersonCircleSharp size={50} />
+        <img
+          src={getImageSrcByValue(userData.data?.icon)}
+          alt="user-icon"
+          style={{
+            width: '45px',
+            height: '45px',
+            borderRadius: '30px',
+          }}
+        />
         <div>
           <div css={nameCss}>{userData.data?.name}님</div>
           <div css={emailCss}>{userData.data?.id}</div>
