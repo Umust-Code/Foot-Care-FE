@@ -110,7 +110,7 @@ const convertToNameValue = (data: any) => {
   const firstEntry = data[0];
   return Object.entries(diseaseMap).map(([key, name]) => ({
     name,
-    value: firstEntry[key],
+    점수: firstEntry[key],
   }));
 };
 

@@ -19,7 +19,7 @@ function LineChart(props: LineChartProps) {
       <ResponsiveLine
         data={data}
         colors={chartColors}
-        margin={{ top: 30, right: 30, bottom: 30, left: 30 }}
+        margin={{ top: 10, right: 30, bottom: 30, left: 30 }}
         xScale={{ type: 'point' }}
         yScale={{
           type: 'linear',
