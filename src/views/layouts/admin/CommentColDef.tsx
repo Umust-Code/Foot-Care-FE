@@ -7,14 +7,13 @@ const commentDefaultColDef = {
   },
 };
 
-const commentColumnDef = [
+const getCommentColumnDef = (memberId: number, commentContent: string) => [
   {
     field: 'commentId',
-    headerName: '게시글번호',
+    headerName: '댓글번호',
     minWidth: 80,
     flex: 1,
   },
-
   {
     field: 'postId',
     headerName: '게시글번호',
@@ -50,8 +49,10 @@ const commentColumnDef = [
     minWidth: 70,
     flex: 0.7,
     autoHeight: true,
-    cellRenderer: (params: any) => <CommentControlBtn data={params.data} />,
+    cellRenderer: (params: any) => (
+      <CommentControlBtn data={params.data} memberId={memberId} commentContent={commentContent} />
+    ),
   },
 ];
 
-export { commentDefaultColDef, commentColumnDef };
+export { commentDefaultColDef, getCommentColumnDef };

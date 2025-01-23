@@ -1,8 +1,9 @@
 import { css } from '@emotion/react';
 import { Button, Form, Modal } from 'antd';
 import { useState } from 'react';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { deleteComment } from 'api/requests/requestPost';
+import { Comment } from 'api/models/response';
 
 const containerCss = css`
   display: flex;
@@ -19,7 +20,14 @@ const buttonCss = css`
   margin: 5;
 `;
 
-function CommentControlBtn({ data }: any) {
+interface CommentControlBtnProps {
+  data: Comment;
+  memberId: number;
+  commentContent: string;
+}
+
+function CommentControlBtn(props: CommentControlBtnProps) {
+  const queryClient = useQueryClient();
   //삭제 modal + form 상태관리
   const [deletePostModal, setDeletePostModal] = useState(false);
   const [confirmModalState, setConfirmModalState] = useState(false);
@@ -30,6 +38,9 @@ function CommentControlBtn({ data }: any) {
     onSuccess: () => {
       setDeletePostModal(false);
       setConfirmModalState(true);
+      queryClient.invalidateQueries({
+        queryKey: ['comments', props.memberId, props.commentContent],
+      });
     },
     onError: () => {
       setErrorModalState(true);
@@ -47,7 +58,7 @@ function CommentControlBtn({ data }: any) {
       <Modal
         title={'설정 확인'}
         open={deletePostModal}
-        onOk={() => deleteCommentMutation.mutate(data.commentId)}
+        onOk={() => deleteCommentMutation.mutate(props.data.commentId)}
         onCancel={() => setDeletePostModal(false)}
         width={400}
         centered={true}

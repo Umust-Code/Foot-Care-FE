@@ -4,7 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 import { AgGridReact } from 'ag-grid-react';
 import { postAllComments } from 'api/requests/requestPost';
 import { Post, Comment } from 'api/models/response';
-import { commentColumnDef, commentDefaultColDef } from './CommentColDef';
+import { getCommentColumnDef, commentDefaultColDef } from './CommentColDef';
 import { BasicGrid } from 'views/components/grid/BasicGrid';
 import { addCategoryName } from './adminConverter';
 import { Button, Form } from 'antd';
@@ -68,14 +68,10 @@ const inputCss = css`
 function AdminCommentPanel() {
   const [memberId, setMemberId] = useState(0);
   const [commentContent, setCommentContent] = useState('');
-  const allComments = useQuery<Comment[], Error>({
+  const { data } = useQuery<Comment[], Error>({
     queryKey: ['comments', memberId, commentContent],
     queryFn: () => postAllComments(memberId, commentContent),
   });
-  //추가 modal + form 상태관리
-  const [addPostModal, setAddPostModal] = useState(false);
-  const [addPostForm] = Form.useForm();
-  const [status, handleStatusChange] = useApiStatus();
 
   const debouncedSearch = debounceSetSearch;
 
@@ -169,9 +165,9 @@ function AdminCommentPanel() {
         </div>
       </div>
       <BasicGrid
-        data={sampleComment}
-        // data={allComments.data || []}
-        columnDefs={commentColumnDef}
+        // data={sampleComment}
+        data={data || []}
+        columnDefs={getCommentColumnDef(memberId, commentContent)}
         defaultColDef={commentDefaultColDef}
         pagination={false}
         // isLoading={categoryPost.isLoading}
