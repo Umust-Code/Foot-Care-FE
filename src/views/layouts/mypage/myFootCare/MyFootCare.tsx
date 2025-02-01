@@ -6,6 +6,7 @@ import { BackButton } from 'views/components/Button/BackButton';
 import { useQuery } from '@tanstack/react-query';
 import { getSurveyData } from 'api/requests/requestSurvey';
 import { useUserInfoStore } from 'stores/userStore';
+import { Header } from 'views/layouts/Header';
 
 const containerCss = css`
   width: 100%;
@@ -114,8 +115,7 @@ function MyFootCare() {
 
   return (
     <div css={containerCss}>
-      <BackButton />
-      <div css={titleCss}>나의 풋케어</div>
+      <Header title="나의 풋케어" />
       <Tabs defaultActiveKey="1" items={items} style={{ width: '100%' }} />
     </div>
   );

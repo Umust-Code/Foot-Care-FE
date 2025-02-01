@@ -9,6 +9,7 @@ import { Skeleton } from 'antd';
 import { Post } from 'api/models/response';
 import { BackButton } from 'views/components/Button/BackButton';
 import { useUserInfoStore } from 'stores/userStore';
+import { Header } from 'views/layouts/Header';
 
 const containerCss = css`
   width: 100%;
@@ -98,8 +99,7 @@ function LikePanel() {
 
   return (
     <div css={containerCss}>
-      <BackButton />
-      <div css={titleCss}>좋아요 목록</div>
+      <Header title="좋아요 목록" />
 
       <SearchInput
         placeholder="게시물 검색"

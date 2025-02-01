@@ -23,6 +23,7 @@ import { useApiStatus } from 'hooks/useApiStatus';
 import { BasicModal } from 'views/components/Modal/BasicModal';
 import { EditForm } from 'views/layouts/admin/post/EditPostForm';
 import { DeleteForm } from 'views/layouts/admin/post/DeletePostForm';
+import { Header } from 'views/layouts/Header';
 const containerCss = css`
   width: 100%;
   height: calc(100% - 52px);
@@ -225,7 +226,7 @@ function PostPanel() {
 
   return (
     <div css={containerCss}>
-      <BackButton />
+      <Header title="" />
       <div
         css={css`
           width: 100%;

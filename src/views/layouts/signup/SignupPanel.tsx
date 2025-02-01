@@ -15,14 +15,14 @@ import icon2 from 'assets/icon2.png';
 import icon3 from 'assets/icon3.png';
 import icon4 from 'assets/icon4.png';
 import icon5 from 'assets/icon5.png';
-
+import { Header } from 'views/layouts/Header';
 const containerCss = css`
   position: relative;
   width: 100%;
   height: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   gap: 10px;
   overflow: auto;
@@ -200,8 +200,7 @@ function SignupPanel() {
   return (
     <Form form={form} css={containerCss} colon={false} onFinish={onFinish} autoComplete="off">
       {contextHolder}
-      <BackButton />
-      <span css={titleCss}>회원가입 페이지</span>
+      <Header title="회원가입" />
       <div css={myInfoCardCss}>
         <img
           src={options.find((opt) => opt.value === selectedValue)?.image}

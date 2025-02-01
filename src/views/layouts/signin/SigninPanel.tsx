@@ -110,7 +110,6 @@ function SigninPanel() {
 
   return (
     <Form css={containerCss} colon={false} labelAlign="left" onFinish={onFinish}>
-      <BackButton />
       {contextHolder}
       <span css={titleCss}>로그인</span>
       <Form.Item<FieldType>

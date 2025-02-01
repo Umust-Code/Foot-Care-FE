@@ -9,6 +9,7 @@ import { getUserData, putChangeInfo } from 'api/requests/requestUser';
 import { ChangeInfo } from 'api/models/request';
 import { ConfirmModal } from 'views/components/Modal/ConfirmModal';
 import { useNavigate } from 'react-router-dom';
+import { Header } from 'views/layouts/Header';
 const containerCss = css`
   width: 100%;
   height: calc(100% - 52px);
@@ -31,7 +32,7 @@ const titleCss = css`
 
 const formCss = css`
   width: 100%;
-  padding: 20px;
+  padding: 10px;
   display: flex;
   flex-direction: column;
   gap: 15px;
@@ -89,8 +90,7 @@ function ChangeInfoPanel() {
 
   return (
     <div css={containerCss}>
-      <BackButton />
-      <div css={titleCss}>내 정보 수정</div>
+      <Header title="내 정보 수정" />
       <Form
         layout="vertical"
         css={formCss}

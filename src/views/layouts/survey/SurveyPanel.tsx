@@ -10,6 +10,8 @@ import { useMutation } from '@tanstack/react-query';
 import { submitSurvey, completeSurvey } from 'api/requests/requestSurvey';
 import { calculateScores } from './surveyConverter';
 import { useSearchParams, useNavigate } from 'react-router-dom';
+import { Header } from 'views/layouts/Header';
+
 const progressCss = css`
   margin-top: 50px;
   width: 100%;
@@ -136,7 +138,6 @@ function SurveyPanel() {
   return (
     <ConfigProvider theme={antdRadioTheme}>
       <div css={containerCss}>
-        <BackButton />
         <Progress
           showInfo={false}
           percent={(surveyPercent / 24) * 100}
