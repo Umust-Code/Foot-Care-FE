@@ -260,7 +260,7 @@ function SignupPanel() {
         rules={[
           ({ getFieldValue }) => ({
             validator(_, value) {
-              if (checkEmailValidation.data === 'N' || isClickCheck) {
+              if (checkEmailValidation.data === 'N' && isClickCheck) {
                 return Promise.resolve();
               }
               return Promise.reject(new Error('이메일 중복 확인이 필요합니다.'));

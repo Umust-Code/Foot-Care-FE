@@ -1,4 +1,4 @@
-import { AdminUserDataPanel } from 'views/layouts/admin/AdminUserDataPanel';
+import { AdminUserDataPanel } from 'views/layouts/admin/userData/AdminUserDataPanel';
 
 function AdminUserData() {
   return (

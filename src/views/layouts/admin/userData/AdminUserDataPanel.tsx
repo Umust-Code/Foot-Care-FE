@@ -4,11 +4,11 @@ import { useQuery } from '@tanstack/react-query';
 import { AgGridReact } from 'ag-grid-react';
 import { getPostsByCategory } from 'api/requests/requestPost';
 import { Post } from 'api/models/response';
-import { adminColumnDef, adminDefaultColDef } from './post/PostColDef';
+import { adminColumnDef, adminDefaultColDef } from '../post/PostColDef';
 import { BasicGrid } from 'views/components/grid/BasicGrid';
-import { addCategoryName } from './adminConverter';
+import { addCategoryName } from '../adminConverter';
 import { Button, Form } from 'antd';
-import { AddPostForm } from './post/AddPostForm';
+import { AddPostForm } from '../post/AddPostForm';
 import { useApiStatus } from 'hooks/useApiStatus';
 import { BasicModal } from 'views/components/Modal/BasicModal';
 
