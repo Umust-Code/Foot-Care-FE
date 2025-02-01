@@ -6,14 +6,7 @@ import { postAllComments } from 'api/requests/requestPost';
 import { Post, Comment } from 'api/models/response';
 import { getCommentColumnDef, commentDefaultColDef } from './CommentColDef';
 import { BasicGrid } from 'views/components/grid/BasicGrid';
-import { addCategoryName } from '../adminConverter';
-import { Button, Form } from 'antd';
-import { AddPostForm } from '../post/AddPostForm';
-import { useApiStatus } from 'hooks/useApiStatus';
-import { BasicModal } from 'views/components/Modal/BasicModal';
-import { DownOutlined } from '@ant-design/icons';
-import type { MenuProps } from 'antd';
-import { Dropdown, Space, Typography, Input } from 'antd';
+import { Input } from 'antd';
 import { debounce } from 'lodash';
 
 const debounceSetSearch = debounce((setter, value) => {

@@ -4,11 +4,12 @@ import { ArrowLeftOutlined } from '@ant-design/icons';
 import { Button, Input, Form, message, Checkbox, Space, Radio } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { postSignup, getCheckId } from 'api/requests/requestUser';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import { Signup } from 'api/models/request';
 import { colorLight } from 'styles/colors';
 import { BackButton } from 'views/components/Button/BackButton';
 import { DefaultButton } from 'views/components/Button/DefaultButton';
+import { debounce } from 'lodash';
 import icon1 from 'assets/icon1.png';
 import icon2 from 'assets/icon2.png';
 import icon3 from 'assets/icon3.png';
@@ -95,6 +96,10 @@ type FieldType = {
   sex: string;
 };
 
+const debounceSetSearch = debounce((setter, value) => {
+  setter(value);
+}, 300);
+
 function SignupPanel() {
   const [form] = Form.useForm();
   const [messageApi, contextHolder] = message.useMessage();
@@ -106,6 +111,7 @@ function SignupPanel() {
   const [userName, setUserName] = useState('');
 
   const [selectedValue, setSelectedValue] = useState('01');
+  const debouncedSearch = debounceSetSearch;
 
   const handleChange = (e: any) => {
     setSelectedValue(e.target.value);
@@ -158,38 +164,32 @@ function SignupPanel() {
     onMutate: () => {},
   });
 
-  const checkIdMutation = useMutation({
-    mutationFn: getCheckId,
-    onSuccess: (data) => {
-      if (data === 'N') {
-        setIsIdChecked(true);
-        messageApi.open({
-          type: 'success',
-          content: '사용 가능한 이메일 주소입니다.',
-        });
-        form.validateFields(['id']).catch((err) => {
-          console.log('validation error:', err);
-        });
-      } else {
-        setIsIdChecked(false);
-        messageApi.open({
-          type: 'error',
-          content: '이미 사용 중인 이메일 주소입니다.',
-        });
-      }
-    },
-    onError: (error) => {
-      setIsIdChecked(false);
-      messageApi.open({
-        type: 'error',
-        content: error.message,
-      });
-    },
+  const checkEmailValidation = useQuery({
+    queryKey: ['checkEmailValidation', id],
+    queryFn: () => getCheckId(id),
   });
 
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setId(e.target.value.trim()); // 공백 제거
-    setIsIdChecked(false); // 상태 초기화
+    if (e.target.value === '') {
+      setId('');
+    } else {
+      debouncedSearch(setId, e.target.value);
+    }
+  };
+
+  const checkEmailHandler = () => {
+    form.validateFields(['id']);
+    if (checkEmailValidation.data === 'N') {
+      messageApi.open({
+        type: 'success',
+        content: '사용 가능한 이메일 주소입니다.',
+      });
+    } else {
+      messageApi.open({
+        type: 'error',
+        content: '이미 사용 중인 이메일 주소입니다.',
+      });
+    }
   };
 
   const onFinish = (values: any) => {
@@ -270,16 +270,7 @@ function SignupPanel() {
         <Space.Compact style={{ width: '100%' }}>
           <Input placeholder="이메일 주소" css={inputCss} onChange={handleEmailChange} />
           <Button
-            onClick={() => {
-              if (!id) {
-                messageApi.open({
-                  type: 'warning',
-                  content: '이메일 주소를 입력해주세요.',
-                });
-                return;
-              }
-              checkIdMutation.mutate(id);
-            }}
+            onClick={checkEmailHandler}
             css={css`
               height: 46px;
             `}
