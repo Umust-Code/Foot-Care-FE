@@ -177,7 +177,10 @@ function SignupPanel() {
     }
   };
 
+  const [isClickCheck, setIsClickCheck] = useState(false);
+
   const checkEmailHandler = () => {
+    setIsClickCheck(true);
     form.validateFields(['id']);
     if (checkEmailValidation.data === 'N') {
       messageApi.open({
@@ -257,7 +260,7 @@ function SignupPanel() {
         rules={[
           ({ getFieldValue }) => ({
             validator(_, value) {
-              if (checkEmailValidation.data === 'N') {
+              if (checkEmailValidation.data === 'N' || isClickCheck) {
                 return Promise.resolve();
               }
               return Promise.reject(new Error('이메일 중복 확인이 필요합니다.'));
