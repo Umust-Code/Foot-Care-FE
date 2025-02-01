@@ -17,6 +17,7 @@ import { AdminCommentPage } from 'views/pages/AdminComment';
 import { AdminUserData } from 'views/pages/AdminUserData';
 import { AdminRoute } from 'views/components/PrivateRoute';
 import { AdminPanel } from 'views/layouts/AdminPanel';
+import { Shopping } from 'views/pages/Shopping';
 
 const AppRouter = createBrowserRouter([
   {
@@ -66,6 +67,10 @@ const AppRouter = createBrowserRouter([
       {
         path: '/survey',
         element: <Survey />,
+      },
+      {
+        path: '/shopping',
+        element: <Shopping />,
       },
       {
         path: '/content',

@@ -18,6 +18,7 @@ const API_CHECK_ID = '/users/check-id';
 const API_USER_GENDER = '/users/users-by-gender';
 const API_USER_TOTAL = '/users/total-users';
 const API_USER_MONTHLY_SIGNUP = '/users/monthly-signups';
+const API_PRODUCT = '/posts/products';
 
 // 토큰이 필요없는 API 경로들
 export const PUBLIC_PATHS = [API_SIGNUP, API_SIGNIN];
@@ -42,4 +43,5 @@ export {
   API_USER_GENDER,
   API_USER_TOTAL,
   API_USER_MONTHLY_SIGNUP,
+  API_PRODUCT,
 };
