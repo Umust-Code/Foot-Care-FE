@@ -258,7 +258,7 @@ function SignupPanel() {
         rules={[
           ({ getFieldValue }) => ({
             validator(_, value) {
-              if (isIdChecked) {
+              if (checkEmailValidation.data === 'N') {
                 return Promise.resolve();
               }
               return Promise.reject(new Error('이메일 중복 확인이 필요합니다.'));
