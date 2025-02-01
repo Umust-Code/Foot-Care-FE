@@ -170,6 +170,7 @@ function SignupPanel() {
   });
 
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setIsClickCheck(false);
     if (e.target.value === '') {
       setId('');
     } else {

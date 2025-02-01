@@ -49,3 +49,8 @@ export interface SurveyScore {
     d6: number;
   }[];
 }
+
+export interface UserGender {
+  F: number;
+  M: number;
+}

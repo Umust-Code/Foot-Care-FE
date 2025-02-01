@@ -15,6 +15,10 @@ const API_SURVEYS = '/disease-survey/all-surveys';
 const API_ALREADY_SURVEY = '/disease-survey/member';
 const API_POSTS_TOP = '/posts/top-liked';
 const API_CHECK_ID = '/users/check-id';
+const API_USER_GENDER = '/users/users-by-gender';
+const API_USER_TOTAL = '/users/total-users';
+const API_USER_MONTHLY_SIGNUP = '/users/monthly-signups';
+
 // 토큰이 필요없는 API 경로들
 export const PUBLIC_PATHS = [API_SIGNUP, API_SIGNIN];
 
@@ -35,4 +39,7 @@ export {
   API_CHECK_ID,
   API_COMMENTS_SEARCH,
   API_COMMENTS,
+  API_USER_GENDER,
+  API_USER_TOTAL,
+  API_USER_MONTHLY_SIGNUP,
 };
