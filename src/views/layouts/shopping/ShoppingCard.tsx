@@ -96,7 +96,15 @@ const ShoppingCard = (props: ShoppingCardProps) => {
     product.immediateDiscountPolicy?.discountMethod?.value,
   );
   return (
-    <div css={containerCss}>
+    <div
+      css={containerCss}
+      onClick={() => {
+        window.open(
+          `https://smartstore.naver.com/umustcode/products/${product.smartstoreChannelProduct.channelProductNo}`,
+          '_blank',
+        );
+      }}
+    >
       <img
         src={product.images.representativeImage.url}
         alt={product.productName}

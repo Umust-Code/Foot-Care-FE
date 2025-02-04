@@ -68,6 +68,9 @@ export interface Product {
       value: number;
     };
   };
+  smartstoreChannelProduct: {
+    channelProductNo: number;
+  };
 }
 
 export interface GroupProduct {
