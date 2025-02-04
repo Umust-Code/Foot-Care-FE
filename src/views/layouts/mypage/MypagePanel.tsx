@@ -129,7 +129,7 @@ function MypagePanel() {
       const hasTodaySurvey = alreadySurvey.data.includes(today);
 
       if (!hasTodaySurvey) {
-        navigate('/survey');
+        navigate(`/survey?memberId=${userInfo.memberId}`);
       } else {
         setSurveyCancelModalOpen(true);
       }

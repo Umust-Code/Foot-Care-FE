@@ -7,12 +7,13 @@ const containerCss = css`
   justify-content: flex-start;
   align-items: flex-start;
   width: 120px;
-  height: 210px;
-  background-color: #ff9b9b;
+  height: 205px;
+  background-color: #e9f3ea;
+  border-radius: 5px;
 `;
 
 const titleCss = css`
-  padding: 4px 2px;
+  padding: 4px 4px;
 
   font-family: 'Pretendard-Medium';
   font-size: 14px;
@@ -20,7 +21,7 @@ const titleCss = css`
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   white-space: pre-wrap;
-  word-break: keep-all;
+  word-break: break-all;
   overflow-wrap: break-word;
   text-overflow: ellipsis;
   line-height: 16px;
@@ -43,6 +44,14 @@ const priceCss = css`
   color: #e61328;
 `;
 
+const originalPriceCss = css`
+  font-family: 'Pretendard-Medium';
+  font-size: 12px;
+  color: #919191;
+  text-decoration: line-through;
+  padding: 0 2px;
+`;
+
 const discountCss = css`
   font-family: 'Pretendard-Bold';
   color: #000000;
@@ -61,27 +70,49 @@ interface ShoppingCardProps {
 }
 
 const ShoppingCard = (props: ShoppingCardProps) => {
+  function calculateDiscount(
+    originalPrice: number,
+    discountAmount: number,
+  ): { discountRate: number; finalPrice: number } {
+    // 최종 가격 계산 (원래 가격 - 할인 금액)
+    const finalPrice = originalPrice - discountAmount;
+
+    // 할인율 계산 (할인금액 / 원래가격 * 100)
+    const discountRate = Math.round((discountAmount / originalPrice) * 100);
+
+    return {
+      discountRate, // 할인율 (%)
+      finalPrice, // 최종 가격
+    };
+  }
+
   const { product } = props;
+  const { discountRate, finalPrice } = calculateDiscount(
+    product.originProduct.salePrice,
+    product.originProduct.customerBenefit.immediateDiscountPolicy.discountMethod.value,
+  );
   return (
     <div css={containerCss}>
-      <div
+      <img
+        src={product.originProduct.images.representativeImage.url}
+        alt={product.originProduct.name}
         css={css`
-          background-color: #9bffbc;
           width: 120px;
           height: 120px;
         `}
       />
       <div css={titleCss}>{product.originProduct.name}</div>
+      <div css={originalPriceCss}>{product.originProduct.salePrice.toLocaleString()}원</div>
       <div css={bodyCss}>
-        <div css={priceCss}>20%</div>
-        <div css={discountCss}>{product.originProduct.salePrice}원 </div>
+        <div css={priceCss}>{discountRate}%</div>
+        <div css={discountCss}>{finalPrice.toLocaleString()}원 </div>
       </div>
-      <div css={bodyCss}>
+      {/* <div css={bodyCss}>
         <div>
           <StarFilled css={starCss} />
         </div>
         <div css={starRateCss}>4.5(120) </div>
-      </div>
+      </div> */}
     </div>
   );
 };

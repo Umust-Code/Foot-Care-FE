@@ -50,38 +50,9 @@ const titleCss = css`
 
 const UserRecommend = ({ name }: { name: string | undefined }) => {
   const { data } = useQuery({
-    queryKey: ['product'],
+    queryKey: ['groupProduct'],
     queryFn: () => getProduct(),
   });
-  const [product, setProduct] = useState<Product>({
-    originProduct: {
-      statusType: 'WAIT',
-      leafCategoryId: '',
-      name: '',
-      detailContent: '',
-      images: {},
-      salePrice: 0,
-      detailAttribute: {},
-    },
-    smartstoreChannelProduct: {
-      naverShoppingRegistration: false,
-      channelProductDisplayStatusType: 'WAIT',
-    },
-    windowChannelProduct: {
-      naverShoppingRegistration: false,
-      channelNo: 0,
-    },
-  });
-  // const reqProduct = useMutation({
-  //   mutationFn: () => getProduct(),
-  //   onSuccess: (data) => {
-  //     console.log('상품 요청 성공:', data);
-  //     setProduct(data);
-  //   },
-  //   onError: (error) => {
-  //     console.error('상품 요청 실패:', error);
-  //   },
-  // });
 
   const reqToken = useMutation({
     mutationFn: () => getToken(),
@@ -121,7 +92,7 @@ const UserRecommend = ({ name }: { name: string | undefined }) => {
 
       <div css={recommendCss}>
         <div css={titleCss}>{name}님을 위한 인기상품</div>
-        <ShoppingCard product={data || product} />
+        {data?.groupProduct?.specificProducts.map((product) => <ShoppingCard product={product} />)}
       </div>
       {/* <button onClick={getTokenHandler}>토큰발급</button>
       <button onClick={getProductHandler}>상품 요청</button> */}

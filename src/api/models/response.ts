@@ -62,48 +62,18 @@ export interface Product {
     groupProductName: string;
   };
   originProduct: {
-    statusType:
-      | 'WAIT'
-      | 'SALE'
-      | 'OUTOFSTOCK'
-      | 'UNADMISSION'
-      | 'REJECTION'
-      | 'SUSPENSION'
-      | 'CLOSE'
-      | 'PROHIBITION'
-      | 'DELETE';
-    saleType?: 'NEW' | 'OLD';
-    leafCategoryId: string;
-    name: string;
-    detailContent: string;
-    images: {
-      [key: string]: string; // 이미지 URL 맵핑
-    };
-    saleStartDate?: string;
-    saleEndDate?: string;
+    productName: string;
     salePrice: number;
-    stockQuantity?: number;
-    deliveryInfo?: {
-      [key: string]: any; // 배송 정보 상세 스펙
-    };
-    detailAttribute: {
-      [key: string]: any; // 상품 상세 속성
+    images: {
+      representativeImage: {
+        url: string;
+      };
     };
   };
-  smartstoreChannelProduct?: {
-    channelProductName?: string;
-    bbsSeq?: number;
-    storeKeepExclusiveProduct?: boolean;
-    naverShoppingRegistration: boolean;
-    channelProductDisplayStatusType: 'WAIT' | 'ON' | 'SUSPENSION';
-  };
-  windowChannelProduct?: {
-    channelProductName?: string;
-    bbsSeq?: number;
-    storeKeepExclusiveProduct?: boolean;
-    naverShoppingRegistration: boolean;
-    channelNo: number;
-    best?: boolean;
-    channelProductDisplayStatusType?: 'WAIT' | 'ON' | 'SUSPENSION';
+}
+
+export interface GroupProduct {
+  groupProduct: {
+    specificProducts: Product[];
   };
 }
