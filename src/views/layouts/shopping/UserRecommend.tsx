@@ -2,6 +2,11 @@ import { css } from '@emotion/react';
 import { Carousel } from 'antd';
 import { colorLight } from 'styles/colors';
 import { ShoppingCard } from './ShoppingCard';
+import { getProduct } from 'api/requests/requestShopping';
+import { getToken } from 'api/requests/requestPost';
+import { useMutation, useQuery } from '@tanstack/react-query';
+import { useState } from 'react';
+import { Product } from 'api/models/response';
 
 const containerCss = css`
   width: 100%;
@@ -44,6 +49,59 @@ const titleCss = css`
 `;
 
 const UserRecommend = ({ name }: { name: string | undefined }) => {
+  const { data } = useQuery({
+    queryKey: ['product'],
+    queryFn: () => getProduct(),
+  });
+  const [product, setProduct] = useState<Product>({
+    originProduct: {
+      statusType: 'WAIT',
+      leafCategoryId: '',
+      name: '',
+      detailContent: '',
+      images: {},
+      salePrice: 0,
+      detailAttribute: {},
+    },
+    smartstoreChannelProduct: {
+      naverShoppingRegistration: false,
+      channelProductDisplayStatusType: 'WAIT',
+    },
+    windowChannelProduct: {
+      naverShoppingRegistration: false,
+      channelNo: 0,
+    },
+  });
+  // const reqProduct = useMutation({
+  //   mutationFn: () => getProduct(),
+  //   onSuccess: (data) => {
+  //     console.log('상품 요청 성공:', data);
+  //     setProduct(data);
+  //   },
+  //   onError: (error) => {
+  //     console.error('상품 요청 실패:', error);
+  //   },
+  // });
+
+  const reqToken = useMutation({
+    mutationFn: () => getToken(),
+  });
+
+  const getProductHandler = () => {
+    console.log('상품 요청');
+    // reqProduct.mutate();
+  };
+  const getTokenHandler = () => {
+    console.log('토큰 발급 요청 시작');
+    reqToken.mutate(undefined, {
+      onSuccess: (data) => {
+        console.log('토큰 발급 성공:', data);
+      },
+      onError: (error) => {
+        console.error('토큰 발급 실패:', error);
+      },
+    });
+  };
   return (
     <div css={containerCss}>
       <Carousel draggable css={carouselCss}>
@@ -63,8 +121,10 @@ const UserRecommend = ({ name }: { name: string | undefined }) => {
 
       <div css={recommendCss}>
         <div css={titleCss}>{name}님을 위한 인기상품</div>
-        <ShoppingCard />
+        <ShoppingCard product={data || product} />
       </div>
+      {/* <button onClick={getTokenHandler}>토큰발급</button>
+      <button onClick={getProductHandler}>상품 요청</button> */}
     </div>
   );
 };

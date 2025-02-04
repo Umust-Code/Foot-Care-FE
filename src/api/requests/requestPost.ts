@@ -7,7 +7,6 @@ import {
   API_POSTS_TOP,
   API_COMMENTS_SEARCH,
   API_COMMENTS,
-  API_PRODUCT,
   API_TOKEN_TEST,
 } from 'api/constant';
 import { Post, Comment } from 'api/models/response';
@@ -156,15 +155,6 @@ async function deleteComment(commentId: number) {
   }
 }
 
-async function getProduct() {
-  try {
-    const res = await clientApi.get(API_PRODUCT);
-    return res.data;
-  } catch (error) {
-    throw new Error(error instanceof Error ? error.message : '문제 발생');
-  }
-}
-
 async function getToken() {
   try {
     const res = await clientApi.get(API_TOKEN_TEST);
@@ -190,6 +180,5 @@ export {
   postAllComments,
   deleteComment,
   putComment,
-  getProduct,
   getToken,
 };

@@ -1,7 +1,6 @@
 import { css } from '@emotion/react';
 import { StarFilled } from '@ant-design/icons';
-import { getProduct, getToken } from 'api/requests/requestPost';
-import { useMutation } from '@tanstack/react-query';
+
 const containerCss = css`
   display: flex;
   flex-direction: column;
@@ -57,30 +56,12 @@ const starRateCss = css`
   color: #83848b;
 `;
 
-const ShoppingCard = () => {
-  const reqProduct = useMutation({
-    mutationFn: () => getProduct(),
-  });
+interface ShoppingCardProps {
+  product: any;
+}
 
-  const reqToken = useMutation({
-    mutationFn: () => getToken(),
-  });
-
-  const getProductHandler = () => {
-    console.log('상품 요청');
-    reqProduct.mutate();
-  };
-  const getTokenHandler = () => {
-    console.log('토큰 발급 요청 시작');
-    reqToken.mutate(undefined, {
-      onSuccess: (data) => {
-        console.log('토큰 발급 성공:', data);
-      },
-      onError: (error) => {
-        console.error('토큰 발급 실패:', error);
-      },
-    });
-  };
+const ShoppingCard = (props: ShoppingCardProps) => {
+  const { product } = props;
   return (
     <div css={containerCss}>
       <div
@@ -90,10 +71,10 @@ const ShoppingCard = () => {
           height: 120px;
         `}
       />
-      <div css={titleCss}>온더바디 발을 씻자 프레쉬 레몬 민트 코튼 풋샴푸</div>
+      <div css={titleCss}>{product.originProduct.name}</div>
       <div css={bodyCss}>
         <div css={priceCss}>20%</div>
-        <div css={discountCss}>12500원 </div>
+        <div css={discountCss}>{product.originProduct.salePrice}원 </div>
       </div>
       <div css={bodyCss}>
         <div>
@@ -101,8 +82,6 @@ const ShoppingCard = () => {
         </div>
         <div css={starRateCss}>4.5(120) </div>
       </div>
-      <button onClick={getTokenHandler}>토큰발급</button>
-      <button onClick={getProductHandler}>상품 요청</button>
     </div>
   );
 };
