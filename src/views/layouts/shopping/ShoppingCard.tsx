@@ -92,21 +92,21 @@ const ShoppingCard = (props: ShoppingCardProps) => {
 
   const { product } = props;
   const { discountRate, finalPrice } = calculateDiscount(
-    product.originProduct.salePrice,
-    product.originProduct.customerBenefit?.immediateDiscountPolicy?.discountMethod?.value || 0,
+    product.salePrice,
+    product.immediateDiscountPolicy?.discountMethod?.value || 0,
   );
   return (
     <div css={containerCss}>
       <img
-        src={product.originProduct.images.representativeImage.url}
-        alt={product.originProduct.productName}
+        src={product.images.representativeImage.url}
+        alt={product.productName}
         css={css`
           width: 120px;
           height: 120px;
         `}
       />
-      <div css={titleCss}>{product.originProduct.productName}</div>
-      <div css={originalPriceCss}>{product.originProduct.salePrice.toLocaleString()}원</div>
+      <div css={titleCss}>{product.productName}</div>
+      <div css={originalPriceCss}>{product.salePrice.toLocaleString()}원</div>
       <div css={bodyCss}>
         <div css={priceCss}>{discountRate}%</div>
         <div css={discountCss}>{finalPrice.toLocaleString()}원 </div>

@@ -56,25 +56,16 @@ export interface UserGender {
 }
 
 export interface Product {
-  groupProduct?: {
-    groupProductNo: number;
-    leafCategoryId: string;
-    groupProductName: string;
-  };
-  originProduct: {
-    productName: string;
-    salePrice: number;
-    images: {
-      representativeImage: {
-        url: string;
-      };
+  productName: string;
+  salePrice: number;
+  images: {
+    representativeImage: {
+      url: string;
     };
-    customerBenefit?: {
-      immediateDiscountPolicy: {
-        discountMethod: {
-          value: number;
-        };
-      };
+  };
+  immediateDiscountPolicy: {
+    discountMethod: {
+      value: number;
     };
   };
 }
