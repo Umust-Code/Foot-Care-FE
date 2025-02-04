@@ -75,9 +75,6 @@ const ShoppingCard = (props: ShoppingCardProps) => {
     originalPrice: number,
     discountAmount: number,
   ): { discountRate: number; finalPrice: number } {
-    if (originalPrice || discountAmount) {
-      return { discountRate: 0, finalPrice: 0 };
-    }
     // 최종 가격 계산 (원래 가격 - 할인 금액)
     const finalPrice = originalPrice - discountAmount;
 
@@ -93,7 +90,7 @@ const ShoppingCard = (props: ShoppingCardProps) => {
   const { product } = props;
   const { discountRate, finalPrice } = calculateDiscount(
     product.salePrice,
-    product.immediateDiscountPolicy?.discountMethod?.value || 0,
+    product.immediateDiscountPolicy?.discountMethod?.value,
   );
   return (
     <div css={containerCss}>

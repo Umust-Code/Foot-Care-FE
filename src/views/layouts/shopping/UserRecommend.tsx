@@ -92,11 +92,21 @@ const UserRecommend = ({ name }: { name: string | undefined }) => {
 
       <div css={recommendCss}>
         <div css={titleCss}>{name}님을 위한 인기상품</div>
-        {isLoading ? (
-          <div>로딩중...</div>
-        ) : (
-          data?.groupProduct?.specificProducts.map((product) => <ShoppingCard product={product} />)
-        )}
+        <div
+          css={css`
+            display: flex;
+            flex-direction: row;
+            gap: 10px;
+          `}
+        >
+          {isLoading ? (
+            <div>로딩중...</div>
+          ) : (
+            data?.groupProduct?.specificProducts.map((product) => (
+              <ShoppingCard product={product} />
+            ))
+          )}
+        </div>
       </div>
       {/* <button onClick={getTokenHandler}>토큰발급</button>
       <button onClick={getProductHandler}>상품 요청</button> */}
