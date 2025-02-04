@@ -73,8 +73,11 @@ interface ShoppingCardProps {
 const ShoppingCard = (props: ShoppingCardProps) => {
   function calculateDiscount(
     originalPrice: number,
-    discountAmount: number,
+    discountAmount: number | undefined,
   ): { discountRate: number; finalPrice: number } {
+    if (discountAmount === undefined) {
+      return { discountRate: 0, finalPrice: originalPrice };
+    }
     // 최종 가격 계산 (원래 가격 - 할인 금액)
     const finalPrice = originalPrice - discountAmount;
 
