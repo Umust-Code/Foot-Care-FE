@@ -1,5 +1,6 @@
 import { css } from '@emotion/react';
 import { StarFilled } from '@ant-design/icons';
+import { Product } from 'api/models/response';
 
 const containerCss = css`
   display: flex;
@@ -66,7 +67,7 @@ const starRateCss = css`
 `;
 
 interface ShoppingCardProps {
-  product: any;
+  product: Product;
 }
 
 const ShoppingCard = (props: ShoppingCardProps) => {
@@ -74,6 +75,9 @@ const ShoppingCard = (props: ShoppingCardProps) => {
     originalPrice: number,
     discountAmount: number,
   ): { discountRate: number; finalPrice: number } {
+    if (originalPrice || discountAmount) {
+      return { discountRate: 0, finalPrice: 0 };
+    }
     // 최종 가격 계산 (원래 가격 - 할인 금액)
     const finalPrice = originalPrice - discountAmount;
 
@@ -89,19 +93,19 @@ const ShoppingCard = (props: ShoppingCardProps) => {
   const { product } = props;
   const { discountRate, finalPrice } = calculateDiscount(
     product.originProduct.salePrice,
-    product.originProduct.customerBenefit.immediateDiscountPolicy.discountMethod.value,
+    product.originProduct.customerBenefit?.immediateDiscountPolicy?.discountMethod?.value || 0,
   );
   return (
     <div css={containerCss}>
       <img
         src={product.originProduct.images.representativeImage.url}
-        alt={product.originProduct.name}
+        alt={product.originProduct.productName}
         css={css`
           width: 120px;
           height: 120px;
         `}
       />
-      <div css={titleCss}>{product.originProduct.name}</div>
+      <div css={titleCss}>{product.originProduct.productName}</div>
       <div css={originalPriceCss}>{product.originProduct.salePrice.toLocaleString()}원</div>
       <div css={bodyCss}>
         <div css={priceCss}>{discountRate}%</div>

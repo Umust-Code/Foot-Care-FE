@@ -69,6 +69,13 @@ export interface Product {
         url: string;
       };
     };
+    customerBenefit?: {
+      immediateDiscountPolicy: {
+        discountMethod: {
+          value: number;
+        };
+      };
+    };
   };
 }
 

@@ -49,7 +49,7 @@ const titleCss = css`
 `;
 
 const UserRecommend = ({ name }: { name: string | undefined }) => {
-  const { data } = useQuery({
+  const { data, isLoading } = useQuery({
     queryKey: ['groupProduct'],
     queryFn: () => getProduct(),
   });
@@ -92,7 +92,11 @@ const UserRecommend = ({ name }: { name: string | undefined }) => {
 
       <div css={recommendCss}>
         <div css={titleCss}>{name}님을 위한 인기상품</div>
-        {data?.groupProduct?.specificProducts.map((product) => <ShoppingCard product={product} />)}
+        {isLoading ? (
+          <div>로딩중...</div>
+        ) : (
+          data?.groupProduct?.specificProducts.map((product) => <ShoppingCard product={product} />)
+        )}
       </div>
       {/* <button onClick={getTokenHandler}>토큰발급</button>
       <button onClick={getProductHandler}>상품 요청</button> */}
