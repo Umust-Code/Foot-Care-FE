@@ -8,6 +8,7 @@ import {
   API_COMMENTS_SEARCH,
   API_COMMENTS,
   API_PRODUCT,
+  API_TOKEN_TEST,
 } from 'api/constant';
 import { Post, Comment } from 'api/models/response';
 import { AddComment, PutPost, AddPost } from 'api/models/request';
@@ -164,6 +165,15 @@ async function getProduct() {
   }
 }
 
+async function getToken() {
+  try {
+    const res = await clientApi.get(API_TOKEN_TEST);
+    return res.data;
+  } catch (error) {
+    throw new Error(error instanceof Error ? error.message : '문제 발생');
+  }
+}
+
 export {
   getPosts,
   getPostsByCategory,
@@ -181,4 +191,5 @@ export {
   deleteComment,
   putComment,
   getProduct,
+  getToken,
 };

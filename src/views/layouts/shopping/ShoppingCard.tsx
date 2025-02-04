@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
 import { StarFilled } from '@ant-design/icons';
-import { getProduct } from 'api/requests/requestPost';
+import { getProduct, getToken } from 'api/requests/requestPost';
 import { useMutation } from '@tanstack/react-query';
 const containerCss = css`
   display: flex;
@@ -61,9 +61,25 @@ const ShoppingCard = () => {
   const reqProduct = useMutation({
     mutationFn: () => getProduct(),
   });
+
+  const reqToken = useMutation({
+    mutationFn: () => getToken(),
+  });
+
   const getProductHandler = () => {
     console.log('상품 요청');
     reqProduct.mutate();
+  };
+  const getTokenHandler = () => {
+    console.log('토큰 발급 요청 시작');
+    reqToken.mutate(undefined, {
+      onSuccess: (data) => {
+        console.log('토큰 발급 성공:', data);
+      },
+      onError: (error) => {
+        console.error('토큰 발급 실패:', error);
+      },
+    });
   };
   return (
     <div css={containerCss}>
@@ -85,6 +101,7 @@ const ShoppingCard = () => {
         </div>
         <div css={starRateCss}>4.5(120) </div>
       </div>
+      <button onClick={getTokenHandler}>토큰발급</button>
       <button onClick={getProductHandler}>상품 요청</button>
     </div>
   );
