@@ -11,6 +11,7 @@ const containerCss = css`
   height: 205px;
   background-color: #e9f3ea;
   border-radius: 5px;
+  cursor: pointer;
 `;
 
 const titleCss = css`

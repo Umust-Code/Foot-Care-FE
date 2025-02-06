@@ -1,4 +1,9 @@
+const KAKAO_RESTAPI_KEY = import.meta.env.VITE_KAKAO_RESTAPI_KEY;
+const KAKAO_REDIRECT_URI = import.meta.env.VITE_KAKAO_REDIRECT_URI;
+
 const BASE_URL = 'http://localhost:8080/api';
+
+export const KAKAO_LINK = `https://kauth.kakao.com/oauth/authorize?client_id=${KAKAO_RESTAPI_KEY}&redirect_uri=${KAKAO_REDIRECT_URI}&response_type=code`;
 
 const API_SIGNUP = '/signup';
 const API_SIGNIN = '/login';
@@ -20,6 +25,7 @@ const API_USER_TOTAL = '/users/total-users';
 const API_USER_MONTHLY_SIGNUP = '/users/monthly-signups';
 const API_PRODUCT = '/shopping/products';
 const API_TOKEN_TEST = '/posts/token/test';
+const API_KAKAO_CALLBACK = '/kakao/callback';
 
 // 토큰이 필요없는 API 경로들
 export const PUBLIC_PATHS = [API_SIGNUP, API_SIGNIN];
@@ -46,4 +52,5 @@ export {
   API_USER_MONTHLY_SIGNUP,
   API_PRODUCT,
   API_TOKEN_TEST,
+  API_KAKAO_CALLBACK,
 };

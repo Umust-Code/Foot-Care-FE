@@ -11,6 +11,8 @@ export interface Post {
   postView: number;
   likeCount: number;
   memberId: number;
+  icon: string;
+  name: string;
 }
 
 export interface Comment {

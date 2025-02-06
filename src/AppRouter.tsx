@@ -18,8 +18,14 @@ import { AdminUserData } from 'views/pages/AdminUserData';
 import { AdminRoute } from 'views/components/PrivateRoute';
 import { AdminPanel } from 'views/layouts/AdminPanel';
 import { Shopping } from 'views/pages/Shopping';
+import { KakaoRedirection } from 'views/layouts/redirection/KakaoRedirection';
 
 const AppRouter = createBrowserRouter([
+  {
+    path: '/kakao/callback',
+    element: <KakaoRedirection />,
+    errorElement: <ErrorPage />,
+  },
   {
     path: '/signin',
     element: <Signin />,

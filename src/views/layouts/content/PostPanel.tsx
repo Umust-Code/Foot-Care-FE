@@ -118,6 +118,8 @@ function PostPanel() {
   //     postView: 128,
   //     likeCount: 15,
   //     memberId: 2,
+  //     icon: '01',
+  //     name: '사용자',
   //   },
   // };
   const isLikedQuery = useQuery({
@@ -165,26 +167,26 @@ function PostPanel() {
     queryFn: () => getComment(Number(postId)),
   });
 
-  const sampleComment = [
-    {
-      commentId: 1,
-      postId: 12,
-      commentContent: '댓글이다',
-      commentDate: '2024-10-10',
-      name: '사용자',
-      icon: '01',
-      memberId: 1,
-    },
-    {
-      commentId: 2,
-      postId: 12,
-      commentContent: '댓글이에요',
-      commentDate: '2024-10-10',
-      name: '사용자2',
-      icon: '02',
-      memberId: 2,
-    },
-  ];
+  // const sampleComment = [
+  //   {
+  //     commentId: 1,
+  //     postId: 12,
+  //     commentContent: '댓글이다',
+  //     commentDate: '2024-10-10',
+  //     name: '사용자',
+  //     icon: '01',
+  //     memberId: 1,
+  //   },
+  //   {
+  //     commentId: 2,
+  //     postId: 12,
+  //     commentContent: '댓글이에요',
+  //     commentDate: '2024-10-10',
+  //     name: '사용자2',
+  //     icon: '02',
+  //     memberId: 2,
+  //   },
+  // ];
 
   const sendComment = useMutation({
     mutationFn: () =>
@@ -241,10 +243,41 @@ function PostPanel() {
           css={css`
             display: flex;
             justify-content: space-between;
+            align-items: flex-end;
             font-size: 14px;
           `}
         >
-          <span> {post.data?.postDate}</span>
+          <div
+            css={css`
+              display: flex;
+            `}
+          >
+            <div css={commentInfoCss}>
+              <img
+                src={getImageSrcByValue(post.data?.icon)}
+                alt={'user icon'}
+                style={{
+                  width: '45px',
+                  height: '45px',
+                  borderRadius: '30px',
+                }}
+              />
+              <div>
+                <div
+                  css={css`
+                    display: flex;
+                    flex-direction: column;
+                    gap: 10px;
+                    align-items: flex-start;
+                    margin-left: 5px;
+                  `}
+                >
+                  <div css={nameCss}>{post.data?.name}</div>
+                  <div css={commentDateCss}>{post.data?.postDate}</div>
+                </div>
+              </div>
+            </div>
+          </div>
           <span> 조회수 {post.data?.postView}</span>
         </div>
         {userInfo.memberId === post.data?.memberId || userInfo.memberId === 1 ? (

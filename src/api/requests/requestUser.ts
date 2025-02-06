@@ -1,5 +1,5 @@
 import { clientApi } from 'api/clientApi';
-import { API_SIGNUP, API_SIGNIN, API_USERS, API_CHECK_ID } from 'api/constant';
+import { API_SIGNUP, API_SIGNIN, API_USERS, API_CHECK_ID, API_KAKAO_CALLBACK } from 'api/constant';
 import { Signup, Signin, ChangeInfo } from 'api/models/request';
 import { SigninResponse, UserDataResponse } from 'api/models/response';
 
@@ -59,4 +59,25 @@ async function getCheckId(id: string) {
   }
 }
 
-export { postSignup, postSignin, getUserData, putChangeInfo, deleteUser, getCheckId };
+async function kakaoLoginReq(code: string | null) {
+  try {
+    const res = await clientApi.post(API_KAKAO_CALLBACK, null, {
+      params: {
+        code,
+      },
+    });
+    return res.data;
+  } catch (error) {
+    throw new Error(error instanceof Error ? error.message : '문제 발생');
+  }
+}
+
+export {
+  postSignup,
+  postSignin,
+  getUserData,
+  putChangeInfo,
+  deleteUser,
+  getCheckId,
+  kakaoLoginReq,
+};

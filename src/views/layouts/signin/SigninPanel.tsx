@@ -10,6 +10,12 @@ import { DefaultButton } from 'views/components/Button/DefaultButton';
 import { BackButton } from 'views/components/Button/BackButton';
 import { useUserInfoStore } from 'stores/userStore';
 import { useAdminStore } from 'stores/authStore';
+import { KAKAO_LINK } from 'api/constant';
+
+//img
+import kakao from 'assets/kakao.png';
+import google from 'assets/google.png';
+
 const containerCss = css`
   position: relative;
   width: 100%;
@@ -53,6 +59,22 @@ const forgotPasswordCss = css`
 const authTextCss = css`
   font-size: 16px;
   color: ${colorLight.txtColor};
+`;
+
+const snsLoginCss = css`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 5px;
+`;
+
+const snsIconCss = css`
+  width: 50px;
+  height: 50px;
+  border-radius: 15px;
+  box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 0.25);
+  cursor: pointer;
 `;
 
 type FieldType = {
@@ -108,6 +130,10 @@ function SigninPanel() {
     navigate('/signup');
   };
 
+  const kakaoLoginHandler = () => {
+    window.location.href = KAKAO_LINK;
+  };
+
   return (
     <Form css={containerCss} colon={false} labelAlign="left" onFinish={onFinish}>
       {contextHolder}
@@ -134,6 +160,10 @@ function SigninPanel() {
         회원가입
       </DefaultButton>
       <span css={authTextCss}>또는, 간편 로그인 하기</span>
+      <div css={snsLoginCss}>
+        <img css={snsIconCss} src={kakao} alt="kakao" onClick={kakaoLoginHandler} />
+        <img css={snsIconCss} src={google} alt="google" onClick={() => navigate('/chatroom')} />
+      </div>
     </Form>
   );
 }
