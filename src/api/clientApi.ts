@@ -124,7 +124,7 @@ const clientApi = new Api({
     'content-type': 'application/json',
   },
   timeout: 60000,
-  withCredentials: true,
+  // withCredentials: true,
 });
 
 export { clientApi };
